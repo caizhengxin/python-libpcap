@@ -5,7 +5,7 @@ python-libpcap
 .. image:: https://img.shields.io/pypi/v/python-libpcap.svg
         :target: https://pypi.python.org/pypi/python-libpcap
 
-.. image:: https://img.shields.io/travis/JanKinCai/python-libpcap.svg
+.. image:: https://api.travis-ci.com/caizhengxin/python-libpcap.svg
         :target: https://travis-ci.org/JanKinCai/python-libpcap
 
 .. image:: https://readthedocs.org/projects/python-libpcap/badge/?version=latest
