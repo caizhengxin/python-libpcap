@@ -1,0 +1,7 @@
+-r bast.txt
+flake8
+
+sphinx
+sphinx_rtd_theme
+mock
+sphinxcontrib.napoleon
