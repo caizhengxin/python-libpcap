@@ -4,6 +4,12 @@
 {
     "distutils": {
         "depends": [],
+        "extra_compile_args": [
+            "-lpcap"
+        ],
+        "extra_link_args": [
+            "-lpcap"
+        ],
         "libraries": [
             "m"
         ],

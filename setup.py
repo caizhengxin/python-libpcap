@@ -18,8 +18,8 @@ ext_modules = [
         sources=["{}/{}".format(directory, file)],
         libraries=["m"],
         # include_dirs=["src"],
-        # extra_compile_args=[],
-        # extra_link_args=[],
+        extra_compile_args=["-lpcap"],
+        extra_link_args=["-lpcap"],
     )
     for directory, dirs, files in os.walk("pylibpcap")
     for file in files if ".pyx" in file
@@ -41,6 +41,9 @@ setup(
     keywords=[
         "python-libpcap",
         "pylibpcap",
+        "libpcap",
+        "pcap",
+        "python",
     ],
     zip_safe=False,
     packages=find_packages(),
