@@ -14,7 +14,7 @@ python-libpcap
 
 Cython libpcap
 
-* Free software: {{ cookiecutter.open_source_license }}
+* Free software: BSD
 * Documentation: https://python-libpcap.readthedocs.io.
 
 Features

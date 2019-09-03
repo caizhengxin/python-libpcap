@@ -16,8 +16,6 @@ sys.path.insert(0, os.path.abspath('.'))
 
 # import sphinx_rtd_theme
 
-import pylibpcap
-
 
 # -- Project information -----------------------------------------------------
 
@@ -26,8 +24,8 @@ copyright = "2019, JanKinCai"
 author = 'JanKinCai'
 
 # The full version, including alpha/beta/rc tags
-version = pylibpcap.__version__
-release = pylibpcap.__version__
+version = "0.1.0"
+release = "0.1.0"
 
 
 # -- General configuration ---------------------------------------------------
