@@ -1,5 +1,4 @@
--r bast.txt
-flake8
+-r base.txt
 
 sphinx
 sphinx_rtd_theme

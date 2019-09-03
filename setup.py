@@ -54,6 +54,7 @@ setup(
     ext_modules=cythonize(ext_modules),
 
     install_requires=[
+        "Cython",
     ],
 
     entry_points={

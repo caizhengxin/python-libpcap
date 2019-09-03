@@ -7,5 +7,6 @@ python:
 
 install:
   - pip install -U tox-travis
+  - apt-get install libpcap-dev
 
 script: tox
