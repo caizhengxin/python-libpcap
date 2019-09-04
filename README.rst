@@ -41,25 +41,25 @@ Demo
 
 Console:
 
--- code-block:: console
+.. code-block:: console
 
     $ pylibpcap -i pcap/ -o pcap.pcap port 502
 
 Read pcap:
 
--- literalinclude:: demo/read_pcap.py
+.. literalinclude:: ../../demo/read_pcap.py
 
 Write pcap:
 
--- literalinclude:: demo/write_pcap.py
+.. literalinclude:: ../../demo/write_pcap.py
 
 Merge pcap:
 
--- literalinclude:: demo/merge_pcap.py
+.. literalinclude:: ../../demo/merge_pcap.py
 
 Get first iface:
 
--- code-block:: python
+.. code-block:: python
 
     from pylibpcap.pcap import get_first_iface
 
@@ -67,7 +67,7 @@ Get first iface:
 
 Capture data:
 
--- literalinclude:: demo/sniff.py
+.. literalinclude:: ../../demo/sniff.py
 
 
 * TODO
