@@ -39,25 +39,25 @@ To install python-libpcap, run this command in your terminal:
 Demo
 ----
 
-Console::
+Console
 
 -- code-block:: console
 
     $ pylibpcap -i pcap/ -o pcap.pcap port 502
 
-Read pcap::
+Read pcap
 
 -- literalinclude:: demo/read_pcap.py
 
-Write pcap::
+Write pcap
 
 -- literalinclude:: demo/write_pcap.py
 
-Merge pcap::
+Merge pcap
 
 -- literalinclude:: demo/merge_pcap.py
 
-Get first iface::
+Get first iface
 
 -- code-block:: python
 
@@ -65,7 +65,7 @@ Get first iface::
 
     print(get_first_iface())
 
-Capture data::
+Capture data
 
 -- literalinclude:: demo/sniff.py
 
