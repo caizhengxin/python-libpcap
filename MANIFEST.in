@@ -1,4 +1,4 @@
 include README.rst
 include requirements.txt
 include MANIFEST.in
-# recursive-include path *
+recursive-include pylibpcap/ *.pyx

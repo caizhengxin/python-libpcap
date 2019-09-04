@@ -1,18 +1,11 @@
 # -*- coding: utf-8 -*-
 # @Author: JanKinCai
 # @Date:   2019-09-03 13:48:13
-# @Last Modified by:   caizhengxin16@163.com
-# @Last Modified time: 2019-09-03 23:40:40
-import os
-import sys
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, BASE_DIR)
+# @Last Modified by:   caizhengxin@bolean.com.cn
+# @Last Modified time: 2019-09-04 12:22:59
+from __future__ import print_function
 
 from pylibpcap.pcap import rpcap
-
-
-PCAP_PATH = os.path.join(BASE_DIR, "tests/dns.pcap")
 
 
 rpcap_buf = b'\x00\xc0\x9f2A\x8c\x00\xe0\x18\xb1\x0c\xad\x08\x00E\x00\x008' \
@@ -25,7 +18,7 @@ def test_rpcap():
     """
     """
 
-    for len, t, pkt in rpcap(PCAP_PATH):
+    for len, t, pkt in rpcap("tests/dns.pcap"):
         print("字节流长度：", len)
         print("捕获时间：", t)
         print("字节流：", pkt)

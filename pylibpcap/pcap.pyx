@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-05-10 11:46:33
 # @Last Modified by:   caizhengxin@bolean.com.cn
-# @Last Modified time: 2019-09-03 13:49:24
+# @Last Modified time: 2019-09-04 12:29:50
 # from libc.stdlib cimport free
 # from libc.string cimport strdup, memcpy
 
@@ -17,17 +17,17 @@ DEF MODE_CAPT = 0  # 捕捉模式，在调用pcap_setmode()时被使用
 DEF MODE_STAT = 1  # 统计模式，在调用pcap_setmode()时被使用
 
 
-cdef void set_filter(pcap_t* p, char* strs):
+cdef void set_filter(pcap_t* p, char* filters):
     """
     设置过滤规则(BPF)
 
     :param p: pcap_t结构体
-    :param strs: BPF过滤规则
+    :param filters: BPF过滤规则
     """
 
     cdef bpf_program fp
 
-    pcap_compile(p, &fp, strs, 1, 0)
+    pcap_compile(p, &fp, filters, 1, 0)
     pcap_setfilter(p, &fp)
     pcap_freecode(&fp)
 
@@ -42,14 +42,14 @@ cdef void py_pcap_dump(pcap_pkthdr pkt_header, bytes buf, pcap_dumper_t *out_pca
     pcap_dump(<u_char*>out_pcap, &pkt_header, buf)
 
 
-cdef void py_pcap_rw(str file, pcap_pkthdr pkt_header, pcap_dumper_t *out_pcap, str strs=""):
+cdef void py_pcap_rw(str file, pcap_pkthdr pkt_header, pcap_dumper_t *out_pcap, str filters=""):
     """
     读取文件并写入
 
     :param file: 文件
     :param pkt_header: pkt header
     :param out_pcap: 输出文件
-    :param strs: BPF过滤规则
+    :param filters: BPF过滤规则
     """
 
     cdef char errbuf[PCAP_ERRBUF_SIZE]
@@ -59,8 +59,8 @@ cdef void py_pcap_rw(str file, pcap_pkthdr pkt_header, pcap_dumper_t *out_pcap, 
     if in_pcap == NULL:
         raise ValueError(errbuf.decode("utf-8"))
 
-    if strs:
-        set_filter(in_pcap, strs.encode("utf-8"))
+    if filters:
+        set_filter(in_pcap, filters.encode("utf-8"))
 
     while 1:
         pkt = <u_char*>pcap_next(in_pcap, &pkt_header)
@@ -86,12 +86,12 @@ cpdef str get_first_iface():
     return iface.decode("utf-8") if iface else ""
 
 
-def rpcap(str file, str strs=""):
+def rpcap(str file, str filters=""):
     """
     读取pcap
 
     :param file: 文件.
-    :param strs: 过滤规则
+    :param filters: 过滤规则
 
     return tuple: (字节流长度，捕获时间，字节流)
     """
@@ -107,8 +107,8 @@ def rpcap(str file, str strs=""):
     if in_pcap == NULL:
         raise ValueError(errbuf.decode("utf-8"))
 
-    if strs:
-        set_filter(in_pcap, strs.encode("utf-8"))
+    if filters:
+        set_filter(in_pcap, filters.encode("utf-8"))
 
     while 1:
 
@@ -148,13 +148,13 @@ cpdef void wpcap(object pkt, str out_file):
     pcap_close(in_pcap)
 
 
-cpdef void mpcap(str sfile, str dfile, str strs=""):
+cpdef void mpcap(str sfile, str dfile, str filters=""):
     """
     合并pcap文件
 
     :param sfile: 源文件
     :param dfile: 目的文件
-    :param strs: BPF过滤规则
+    :param filters: BPF过滤规则
     """
 
     cdef char errbuf[PCAP_ERRBUF_SIZE]
@@ -179,29 +179,29 @@ cpdef void mpcap(str sfile, str dfile, str strs=""):
 
     pcap_close(in_pcap)
 
-    py_pcap_rw(sfile, pkt_header, out_pcap, strs)
+    py_pcap_rw(sfile, pkt_header, out_pcap, filters)
 
     pcap_dump_flush(out_pcap)
     pcap_dump_close(out_pcap)
 
 
-cpdef void mpcaps(object file_obj, str out_file, str strs=""):
+cpdef void mpcaps(object file_obj, str out_file, str filters=""):
     """
     提取文件共同内容并存入pcap文件
 
     :param file_obj: 文件对象.
     :param out_file: 输出文件.
-    :param strs: 过滤规则.
+    :param filters: 过滤规则.
     """
 
     cdef pcap_pkthdr pkt_header
     cdef pcap_dumper_t *out_pcap = pcap_dump_open(pcap_open_dead(1, BUFSIZ), out_file.encode("utf-8"))
 
     if isinstance(file_obj, str):
-        py_pcap_rw(file_obj, pkt_header, out_pcap, strs)
+        py_pcap_rw(file_obj, pkt_header, out_pcap, filters)
     else:
         for f in file_obj:
-            py_pcap_rw(f, pkt_header, out_pcap, strs)
+            py_pcap_rw(f, pkt_header, out_pcap, filters)
 
     pcap_dump_flush(out_pcap)
     pcap_dump_close(out_pcap)
@@ -216,12 +216,12 @@ cpdef void mpcaps(object file_obj, str out_file, str strs=""):
 #         pcap_dump(user, pkt_header, pkt_data)
 
 
-def sniff(str iface, str strs="", int count=-1, str out_file=""):
+def sniff(str iface, str filters="", int count=-1, str out_file=""):
     """
     捕获数据包
 
     :param iface: 网卡
-    :param strs: BPF过滤规则, 默认 `strs`
+    :param filters: BPF过滤规则, 默认 `""`
     :param count: 捕获数据包数量, 默认 `-1`
     :param out_file: 输出文件，默认 `""`
     """
@@ -237,8 +237,8 @@ def sniff(str iface, str strs="", int count=-1, str out_file=""):
     if out_file:
         out_pcap = pcap_dump_open(handler, out_file.encode("utf-8"))
 
-    if strs:
-        set_filter(handler, strs.encode("utf-8"))
+    if filters:
+        set_filter(handler, filters.encode("utf-8"))
 
     # pcap_loop(handler, count, sniff_callback, <u_char*>out_pcap)
 

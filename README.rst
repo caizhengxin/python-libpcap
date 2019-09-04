@@ -20,6 +20,56 @@ Cython libpcap
 Features
 --------
 
+* Read pcap file
+* Write pcap file
+* Merge pcap file
+* Get first iface
+* Capture data
+
+Installation
+------------
+
+To install python-libpcap, run this command in your terminal:
+
+.. code-block:: console
+
+    $ sudo apt-get install libpcap-dev
+    $ pip install python-libpcap
+
+Demo
+----
+
+Console::
+
+-- code-block:: console
+
+    $ pylibpcap -i pcap/ -o pcap.pcap port 502
+
+Read pcap::
+
+-- literalinclude:: demo/read_pcap.py
+
+Write pcap::
+
+-- literalinclude:: demo/write_pcap.py
+
+Merge pcap::
+
+-- literalinclude:: demo/merge_pcap.py
+
+Get first iface::
+
+-- code-block:: python
+
+    from pylibpcap.pcap import get_first_iface
+
+    print(get_first_iface())
+
+Capture data::
+
+-- literalinclude:: demo/sniff.py
+
+
 * TODO
 
 Credits
