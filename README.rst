@@ -14,7 +14,7 @@ python-libpcap
 
 Cython libpcap
 
-* Documentation: https://python-libpcap.readthedocs.io.
+* Documentation: https://python-libpcap.readthedocs.io
 
 Features
 --------
@@ -46,15 +46,44 @@ Console:
 
 Read pcap:
 
-.. include:: ../../demo/read_pcap.py
+.. code-block:: python
+
+    from pylibpcap.pcap import rpcap
+
+
+    for len, t, pkt in rpcap("tests/dns.pcap"):
+        print("字节流长度：", len)
+        print("捕获时间：", t)
+        print("字节流：", pkt)
 
 Write pcap:
 
-.. include:: ../../demo/write_pcap.py
+.. code-block:: python
+
+    from pylibpcap.pcap import wpcap
+
+
+    buf = b'\x00\xc0\x9f2A\x8c\x00\xe0\x18\xb1\x0c\xad\x08\x00E\x00\x008' \
+          b'\x00\x00@\x00@\x11eG\xc0\xa8\xaa\x08\xc0\xa8\xaa\x14\x80\x1b' \
+          b'\x005\x00$\x85\xed\x102\x01\x00\x00\x01\x00\x00\x00\x00\x00' \
+          b'\x00\x06google\x03com\x00\x00\x10\x00\x01'
+
+
+    wpcap(buf, "pcap.pcap")
 
 Merge pcap:
 
-.. include:: ../../demo/merge_pcap.py
+.. code-block:: python
+
+    from pylibpcap.pcap import mpcaps, mpcap
+
+
+    # mpcap(file1，file2)
+    # file1合并到file2
+    mpcap("demo.pcap", "demo2.pcap")
+
+    # 根据BPF规则提取数据，并输出到output.pcap
+    mpcaps("pcap/", "output.pcap", "port 502")
 
 Get first iface:
 
@@ -66,7 +95,15 @@ Get first iface:
 
 Capture data:
 
-.. include:: ../../demo/sniff.py
+.. code-block:: python
+
+    from pylibpcap.pcap import sniff
+
+
+    for lens, t, buf in sniff("enp2s0", strs="port 53", count=3, out_file="pcap.pcap"):
+        print("字节流长度：", lens)
+        print("捕获时间：", t)
+        print("字节流：", buf)
 
 
 * TODO
