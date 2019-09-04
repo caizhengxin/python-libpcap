@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 # @Author: JanKinCai
 # @Date:   2019-05-10 11:46:33
-# @Last Modified by:   caizhengxin@bolean.com.cn
+# @Last Modified by:   jankincai12@gmail.com
 # @Last Modified time: 2019-09-04 12:29:50
+import os
 # from libc.stdlib cimport free
 # from libc.string cimport strdup, memcpy
+
+from pylibpcap.utils import get_pcap_file, to_c_name
 
 
 # 宏定义
@@ -185,22 +188,22 @@ cpdef void mpcap(str sfile, str dfile, str filters=""):
     pcap_dump_close(out_pcap)
 
 
-cpdef void mpcaps(object file_obj, str out_file, str filters=""):
+cpdef void mpcaps(str path, str out_file, str filters=""):
     """
-    提取文件共同内容并存入pcap文件
+    根据BPF规则提取pcap内容并写入pcap文件
 
-    :param file_obj: 文件对象.
+    :param path: 目录或者文件.
     :param out_file: 输出文件.
-    :param filters: 过滤规则.
+    :param filters: 过滤规则，默认 ``""``.
     """
 
     cdef pcap_pkthdr pkt_header
-    cdef pcap_dumper_t *out_pcap = pcap_dump_open(pcap_open_dead(1, BUFSIZ), out_file.encode("utf-8"))
+    cdef pcap_dumper_t *out_pcap = pcap_dump_open(pcap_open_dead(1, BUFSIZ), to_c_name(out_file))
 
-    if isinstance(file_obj, str):
-        py_pcap_rw(file_obj, pkt_header, out_pcap, filters)
-    else:
-        for f in file_obj:
+    if os.path.isfile(path):
+        py_pcap_rw(path, pkt_header, out_pcap, filters)
+    elif os.path.isdir(path):
+        for f in get_pcap_file(path):
             py_pcap_rw(f, pkt_header, out_pcap, filters)
 
     pcap_dump_flush(out_pcap)
