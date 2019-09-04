@@ -865,43 +865,43 @@ typedef void (*__pyx_t_9pylibpcap_4pcap_pcap_handler)(__pyx_t_9pylibpcap_4pcap_u
 /* "pylibpcap/pcap.pyx":45
  * 
  * 
- * cdef void py_pcap_rw(str file, pcap_pkthdr pkt_header, pcap_dumper_t *out_pcap, str strs=""):             # <<<<<<<<<<<<<<
+ * cdef void py_pcap_rw(str file, pcap_pkthdr pkt_header, pcap_dumper_t *out_pcap, str filters=""):             # <<<<<<<<<<<<<<
  *     """
  * 
  */
 struct __pyx_opt_args_9pylibpcap_4pcap_py_pcap_rw {
   int __pyx_n;
-  PyObject *strs;
+  PyObject *filters;
 };
 
 /* "pylibpcap/pcap.pyx":151
  * 
  * 
- * cpdef void mpcap(str sfile, str dfile, str strs=""):             # <<<<<<<<<<<<<<
+ * cpdef void mpcap(str sfile, str dfile, str filters=""):             # <<<<<<<<<<<<<<
  *     """
  *     pcap
  */
 struct __pyx_opt_args_9pylibpcap_4pcap_mpcap {
   int __pyx_n;
-  PyObject *strs;
+  PyObject *filters;
 };
 
 /* "pylibpcap/pcap.pyx":188
  * 
  * 
- * cpdef void mpcaps(object file_obj, str out_file, str strs=""):             # <<<<<<<<<<<<<<
+ * cpdef void mpcaps(object file_obj, str out_file, str filters=""):             # <<<<<<<<<<<<<<
  *     """
  *     pcap
  */
 struct __pyx_opt_args_9pylibpcap_4pcap_mpcaps {
   int __pyx_n;
-  PyObject *strs;
+  PyObject *filters;
 };
 
 /* "pylibpcap/pcap.pyx":89
  * 
  * 
- * def rpcap(str file, str strs=""):             # <<<<<<<<<<<<<<
+ * def rpcap(str file, str filters=""):             # <<<<<<<<<<<<<<
  *     """
  *     pcap
  */
@@ -909,17 +909,17 @@ struct __pyx_obj_9pylibpcap_4pcap___pyx_scope_struct__rpcap {
   PyObject_HEAD
   char __pyx_v_errbuf[0x100];
   PyObject *__pyx_v_file;
+  PyObject *__pyx_v_filters;
   pcap_t *__pyx_v_in_pcap;
   __pyx_t_9pylibpcap_4pcap_u_char *__pyx_v_pkt;
   struct pcap_pkthdr __pyx_v_pkt_header;
-  PyObject *__pyx_v_strs;
 };
 
 
 /* "pylibpcap/pcap.pyx":219
  * 
  * 
- * def sniff(str iface, str strs="", int count=-1, str out_file=""):             # <<<<<<<<<<<<<<
+ * def sniff(str iface, str filters="", int count=-1, str out_file=""):             # <<<<<<<<<<<<<<
  *     """
  * 
  */
@@ -927,13 +927,13 @@ struct __pyx_obj_9pylibpcap_4pcap___pyx_scope_struct_1_sniff {
   PyObject_HEAD
   int __pyx_v_count;
   char __pyx_v_errbuf[0x100];
+  PyObject *__pyx_v_filters;
   pcap_t *__pyx_v_handler;
   PyObject *__pyx_v_iface;
   PyObject *__pyx_v_out_file;
   pcap_dumper_t *__pyx_v_out_pcap;
   __pyx_t_9pylibpcap_4pcap_u_char *__pyx_v_pkt;
   struct pcap_pkthdr __pyx_v_pkt_header;
-  PyObject *__pyx_v_strs;
 };
 
 
@@ -1383,7 +1383,6 @@ static const char __pyx_k_file[] = "file";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_name[] = "__name__";
 static const char __pyx_k_send[] = "send";
-static const char __pyx_k_strs[] = "strs";
 static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_close[] = "close";
 static const char __pyx_k_count[] = "count";
@@ -1396,6 +1395,7 @@ static const char __pyx_k_throw[] = "throw";
 static const char __pyx_k_utf_8[] = "utf-8";
 static const char __pyx_k_encode[] = "encode";
 static const char __pyx_k_errbuf[] = "errbuf";
+static const char __pyx_k_filters[] = "filters";
 static const char __pyx_k_handler[] = "handler";
 static const char __pyx_k_in_pcap[] = "in_pcap";
 static const char __pyx_k_file_obj[] = "file_obj";
@@ -1417,6 +1417,7 @@ static PyObject *__pyx_n_s_encode;
 static PyObject *__pyx_n_s_errbuf;
 static PyObject *__pyx_n_s_file;
 static PyObject *__pyx_n_s_file_obj;
+static PyObject *__pyx_n_s_filters;
 static PyObject *__pyx_n_s_handler;
 static PyObject *__pyx_n_s_iface;
 static PyObject *__pyx_n_s_in_pcap;
@@ -1432,16 +1433,15 @@ static PyObject *__pyx_n_s_rpcap;
 static PyObject *__pyx_n_s_send;
 static PyObject *__pyx_n_s_sfile;
 static PyObject *__pyx_n_s_sniff;
-static PyObject *__pyx_n_s_strs;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_throw;
 static PyObject *__pyx_kp_s_utf_8;
 static PyObject *__pyx_pf_9pylibpcap_4pcap_get_first_iface(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
-static PyObject *__pyx_pf_9pylibpcap_4pcap_2rpcap(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_file, PyObject *__pyx_v_strs); /* proto */
+static PyObject *__pyx_pf_9pylibpcap_4pcap_2rpcap(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_file, PyObject *__pyx_v_filters); /* proto */
 static PyObject *__pyx_pf_9pylibpcap_4pcap_5wpcap(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_pkt, PyObject *__pyx_v_out_file); /* proto */
-static PyObject *__pyx_pf_9pylibpcap_4pcap_7mpcap(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_sfile, PyObject *__pyx_v_dfile, PyObject *__pyx_v_strs); /* proto */
-static PyObject *__pyx_pf_9pylibpcap_4pcap_9mpcaps(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_file_obj, PyObject *__pyx_v_out_file, PyObject *__pyx_v_strs); /* proto */
-static PyObject *__pyx_pf_9pylibpcap_4pcap_11sniff(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_iface, PyObject *__pyx_v_strs, int __pyx_v_count, PyObject *__pyx_v_out_file); /* proto */
+static PyObject *__pyx_pf_9pylibpcap_4pcap_7mpcap(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_sfile, PyObject *__pyx_v_dfile, PyObject *__pyx_v_filters); /* proto */
+static PyObject *__pyx_pf_9pylibpcap_4pcap_9mpcaps(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_file_obj, PyObject *__pyx_v_out_file, PyObject *__pyx_v_filters); /* proto */
+static PyObject *__pyx_pf_9pylibpcap_4pcap_11sniff(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_iface, PyObject *__pyx_v_filters, int __pyx_v_count, PyObject *__pyx_v_out_file); /* proto */
 static PyObject *__pyx_tp_new_9pylibpcap_4pcap___pyx_scope_struct__rpcap(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_9pylibpcap_4pcap___pyx_scope_struct_1_sniff(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static __Pyx_CachedCFunction __pyx_umethod_PyString_Type_encode = {0, &__pyx_n_s_encode, 0, 0, 0};
@@ -1454,12 +1454,12 @@ static PyObject *__pyx_codeobj__3;
 /* "pylibpcap/pcap.pyx":20
  * 
  * 
- * cdef void set_filter(pcap_t* p, char* strs):             # <<<<<<<<<<<<<<
+ * cdef void set_filter(pcap_t* p, char* filters):             # <<<<<<<<<<<<<<
  *     """
  *     (BPF)
  */
 
-static void __pyx_f_9pylibpcap_4pcap_set_filter(pcap_t *__pyx_v_p, char *__pyx_v_strs) {
+static void __pyx_f_9pylibpcap_4pcap_set_filter(pcap_t *__pyx_v_p, char *__pyx_v_filters) {
   struct bpf_program __pyx_v_fp;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("set_filter", 0);
@@ -1467,15 +1467,15 @@ static void __pyx_f_9pylibpcap_4pcap_set_filter(pcap_t *__pyx_v_p, char *__pyx_v
   /* "pylibpcap/pcap.pyx":30
  *     cdef bpf_program fp
  * 
- *     pcap_compile(p, &fp, strs, 1, 0)             # <<<<<<<<<<<<<<
+ *     pcap_compile(p, &fp, filters, 1, 0)             # <<<<<<<<<<<<<<
  *     pcap_setfilter(p, &fp)
  *     pcap_freecode(&fp)
  */
-  (void)(pcap_compile(__pyx_v_p, (&__pyx_v_fp), __pyx_v_strs, 1, 0));
+  (void)(pcap_compile(__pyx_v_p, (&__pyx_v_fp), __pyx_v_filters, 1, 0));
 
   /* "pylibpcap/pcap.pyx":31
  * 
- *     pcap_compile(p, &fp, strs, 1, 0)
+ *     pcap_compile(p, &fp, filters, 1, 0)
  *     pcap_setfilter(p, &fp)             # <<<<<<<<<<<<<<
  *     pcap_freecode(&fp)
  * 
@@ -1483,7 +1483,7 @@ static void __pyx_f_9pylibpcap_4pcap_set_filter(pcap_t *__pyx_v_p, char *__pyx_v
   (void)(pcap_setfilter(__pyx_v_p, (&__pyx_v_fp)));
 
   /* "pylibpcap/pcap.pyx":32
- *     pcap_compile(p, &fp, strs, 1, 0)
+ *     pcap_compile(p, &fp, filters, 1, 0)
  *     pcap_setfilter(p, &fp)
  *     pcap_freecode(&fp)             # <<<<<<<<<<<<<<
  * 
@@ -1494,7 +1494,7 @@ static void __pyx_f_9pylibpcap_4pcap_set_filter(pcap_t *__pyx_v_p, char *__pyx_v
   /* "pylibpcap/pcap.pyx":20
  * 
  * 
- * cdef void set_filter(pcap_t* p, char* strs):             # <<<<<<<<<<<<<<
+ * cdef void set_filter(pcap_t* p, char* filters):             # <<<<<<<<<<<<<<
  *     """
  *     (BPF)
  */
@@ -1578,13 +1578,13 @@ static void __pyx_f_9pylibpcap_4pcap_py_pcap_dump(struct pcap_pkthdr __pyx_v_pkt
 /* "pylibpcap/pcap.pyx":45
  * 
  * 
- * cdef void py_pcap_rw(str file, pcap_pkthdr pkt_header, pcap_dumper_t *out_pcap, str strs=""):             # <<<<<<<<<<<<<<
+ * cdef void py_pcap_rw(str file, pcap_pkthdr pkt_header, pcap_dumper_t *out_pcap, str filters=""):             # <<<<<<<<<<<<<<
  *     """
  * 
  */
 
 static void __pyx_f_9pylibpcap_4pcap_py_pcap_rw(PyObject *__pyx_v_file, struct pcap_pkthdr __pyx_v_pkt_header, pcap_dumper_t *__pyx_v_out_pcap, struct __pyx_opt_args_9pylibpcap_4pcap_py_pcap_rw *__pyx_optional_args) {
-  PyObject *__pyx_v_strs = ((PyObject*)__pyx_kp_s_);
+  PyObject *__pyx_v_filters = ((PyObject*)__pyx_kp_s_);
   char __pyx_v_errbuf[0x100];
   __pyx_t_9pylibpcap_4pcap_u_char *__pyx_v_pkt;
   pcap_t *__pyx_v_in_pcap;
@@ -1597,7 +1597,7 @@ static void __pyx_f_9pylibpcap_4pcap_py_pcap_rw(PyObject *__pyx_v_file, struct p
   __Pyx_RefNannySetupContext("py_pcap_rw", 0);
   if (__pyx_optional_args) {
     if (__pyx_optional_args->__pyx_n > 0) {
-      __pyx_v_strs = __pyx_optional_args->strs;
+      __pyx_v_filters = __pyx_optional_args->filters;
     }
   }
 
@@ -1629,7 +1629,7 @@ static void __pyx_f_9pylibpcap_4pcap_py_pcap_rw(PyObject *__pyx_v_file, struct p
  *     if in_pcap == NULL:
  *         raise ValueError(errbuf.decode("utf-8"))             # <<<<<<<<<<<<<<
  * 
- *     if strs:
+ *     if filters:
  */
     __pyx_t_1 = __Pyx_decode_c_string(__pyx_v_errbuf, 0, strlen(__pyx_v_errbuf), NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 60, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
@@ -1652,21 +1652,21 @@ static void __pyx_f_9pylibpcap_4pcap_py_pcap_rw(PyObject *__pyx_v_file, struct p
   /* "pylibpcap/pcap.pyx":62
  *         raise ValueError(errbuf.decode("utf-8"))
  * 
- *     if strs:             # <<<<<<<<<<<<<<
- *         set_filter(in_pcap, strs.encode("utf-8"))
+ *     if filters:             # <<<<<<<<<<<<<<
+ *         set_filter(in_pcap, filters.encode("utf-8"))
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_strs); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_v_filters); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 62, __pyx_L1_error)
   if (__pyx_t_3) {
 
     /* "pylibpcap/pcap.pyx":63
  * 
- *     if strs:
- *         set_filter(in_pcap, strs.encode("utf-8"))             # <<<<<<<<<<<<<<
+ *     if filters:
+ *         set_filter(in_pcap, filters.encode("utf-8"))             # <<<<<<<<<<<<<<
  * 
  *     while 1:
  */
-    __pyx_t_4 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_v_strs, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 63, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_v_filters, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 63, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = __Pyx_PyObject_AsWritableString(__pyx_t_4); if (unlikely((!__pyx_t_5) && PyErr_Occurred())) __PYX_ERR(0, 63, __pyx_L1_error)
     __pyx_f_9pylibpcap_4pcap_set_filter(__pyx_v_in_pcap, __pyx_t_5);
@@ -1675,14 +1675,14 @@ static void __pyx_f_9pylibpcap_4pcap_py_pcap_rw(PyObject *__pyx_v_file, struct p
     /* "pylibpcap/pcap.pyx":62
  *         raise ValueError(errbuf.decode("utf-8"))
  * 
- *     if strs:             # <<<<<<<<<<<<<<
- *         set_filter(in_pcap, strs.encode("utf-8"))
+ *     if filters:             # <<<<<<<<<<<<<<
+ *         set_filter(in_pcap, filters.encode("utf-8"))
  * 
  */
   }
 
   /* "pylibpcap/pcap.pyx":65
- *         set_filter(in_pcap, strs.encode("utf-8"))
+ *         set_filter(in_pcap, filters.encode("utf-8"))
  * 
  *     while 1:             # <<<<<<<<<<<<<<
  *         pkt = <u_char*>pcap_next(in_pcap, &pkt_header)
@@ -1750,7 +1750,7 @@ static void __pyx_f_9pylibpcap_4pcap_py_pcap_rw(PyObject *__pyx_v_file, struct p
   /* "pylibpcap/pcap.pyx":45
  * 
  * 
- * cdef void py_pcap_rw(str file, pcap_pkthdr pkt_header, pcap_dumper_t *out_pcap, str strs=""):             # <<<<<<<<<<<<<<
+ * cdef void py_pcap_rw(str file, pcap_pkthdr pkt_header, pcap_dumper_t *out_pcap, str filters=""):             # <<<<<<<<<<<<<<
  *     """
  * 
  */
@@ -1875,23 +1875,23 @@ static PyObject *__pyx_gb_9pylibpcap_4pcap_4generator(__pyx_CoroutineObject *__p
 /* "pylibpcap/pcap.pyx":89
  * 
  * 
- * def rpcap(str file, str strs=""):             # <<<<<<<<<<<<<<
+ * def rpcap(str file, str filters=""):             # <<<<<<<<<<<<<<
  *     """
  *     pcap
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_9pylibpcap_4pcap_3rpcap(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_9pylibpcap_4pcap_2rpcap[] = "\n    \350\257\273\345\217\226pcap\n\n    :param file: \346\226\207\344\273\266.\n    :param strs: \350\277\207\346\273\244\350\247\204\345\210\231\n\n    return tuple: (\345\255\227\350\212\202\346\265\201\351\225\277\345\272\246\357\274\214\346\215\225\350\216\267\346\227\266\351\227\264\357\274\214\345\255\227\350\212\202\346\265\201)\n    ";
+static char __pyx_doc_9pylibpcap_4pcap_2rpcap[] = "\n    \350\257\273\345\217\226pcap\n\n    :param file: \346\226\207\344\273\266.\n    :param filters: \350\277\207\346\273\244\350\247\204\345\210\231\n\n    return tuple: (\345\255\227\350\212\202\346\265\201\351\225\277\345\272\246\357\274\214\346\215\225\350\216\267\346\227\266\351\227\264\357\274\214\345\255\227\350\212\202\346\265\201)\n    ";
 static PyMethodDef __pyx_mdef_9pylibpcap_4pcap_3rpcap = {"rpcap", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_9pylibpcap_4pcap_3rpcap, METH_VARARGS|METH_KEYWORDS, __pyx_doc_9pylibpcap_4pcap_2rpcap};
 static PyObject *__pyx_pw_9pylibpcap_4pcap_3rpcap(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_file = 0;
-  PyObject *__pyx_v_strs = 0;
+  PyObject *__pyx_v_filters = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("rpcap (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_file,&__pyx_n_s_strs,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_file,&__pyx_n_s_filters,0};
     PyObject* values[2] = {0,0};
     values[1] = ((PyObject*)__pyx_kp_s_);
     if (unlikely(__pyx_kwds)) {
@@ -1913,7 +1913,7 @@ static PyObject *__pyx_pw_9pylibpcap_4pcap_3rpcap(PyObject *__pyx_self, PyObject
         CYTHON_FALLTHROUGH;
         case  1:
         if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_strs);
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_filters);
           if (value) { values[1] = value; kw_args--; }
         }
       }
@@ -1930,7 +1930,7 @@ static PyObject *__pyx_pw_9pylibpcap_4pcap_3rpcap(PyObject *__pyx_self, PyObject
       }
     }
     __pyx_v_file = ((PyObject*)values[0]);
-    __pyx_v_strs = ((PyObject*)values[1]);
+    __pyx_v_filters = ((PyObject*)values[1]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
@@ -1941,8 +1941,8 @@ static PyObject *__pyx_pw_9pylibpcap_4pcap_3rpcap(PyObject *__pyx_self, PyObject
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_file), (&PyString_Type), 1, "file", 1))) __PYX_ERR(0, 89, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_strs), (&PyString_Type), 1, "strs", 1))) __PYX_ERR(0, 89, __pyx_L1_error)
-  __pyx_r = __pyx_pf_9pylibpcap_4pcap_2rpcap(__pyx_self, __pyx_v_file, __pyx_v_strs);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_filters), (&PyString_Type), 1, "filters", 1))) __PYX_ERR(0, 89, __pyx_L1_error)
+  __pyx_r = __pyx_pf_9pylibpcap_4pcap_2rpcap(__pyx_self, __pyx_v_file, __pyx_v_filters);
 
   /* function exit code */
   goto __pyx_L0;
@@ -1953,7 +1953,7 @@ static PyObject *__pyx_pw_9pylibpcap_4pcap_3rpcap(PyObject *__pyx_self, PyObject
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_9pylibpcap_4pcap_2rpcap(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_file, PyObject *__pyx_v_strs) {
+static PyObject *__pyx_pf_9pylibpcap_4pcap_2rpcap(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_file, PyObject *__pyx_v_filters) {
   struct __pyx_obj_9pylibpcap_4pcap___pyx_scope_struct__rpcap *__pyx_cur_scope;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -1969,9 +1969,9 @@ static PyObject *__pyx_pf_9pylibpcap_4pcap_2rpcap(CYTHON_UNUSED PyObject *__pyx_
   __pyx_cur_scope->__pyx_v_file = __pyx_v_file;
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_file);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_file);
-  __pyx_cur_scope->__pyx_v_strs = __pyx_v_strs;
-  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_strs);
-  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_strs);
+  __pyx_cur_scope->__pyx_v_filters = __pyx_v_filters;
+  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_filters);
+  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_filters);
   {
     __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_9pylibpcap_4pcap_4generator, __pyx_codeobj__2, (PyObject *) __pyx_cur_scope, __pyx_n_s_rpcap, __pyx_n_s_rpcap, __pyx_n_s_pylibpcap_pcap); if (unlikely(!gen)) __PYX_ERR(0, 89, __pyx_L1_error)
     __Pyx_DECREF(__pyx_cur_scope);
@@ -2040,7 +2040,7 @@ static PyObject *__pyx_gb_9pylibpcap_4pcap_4generator(__pyx_CoroutineObject *__p
  *     if in_pcap == NULL:
  *         raise ValueError(errbuf.decode("utf-8"))             # <<<<<<<<<<<<<<
  * 
- *     if strs:
+ *     if filters:
  */
     __pyx_t_1 = __Pyx_decode_c_string(__pyx_cur_scope->__pyx_v_errbuf, 0, strlen(__pyx_cur_scope->__pyx_v_errbuf), NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
@@ -2063,21 +2063,21 @@ static PyObject *__pyx_gb_9pylibpcap_4pcap_4generator(__pyx_CoroutineObject *__p
   /* "pylibpcap/pcap.pyx":110
  *         raise ValueError(errbuf.decode("utf-8"))
  * 
- *     if strs:             # <<<<<<<<<<<<<<
- *         set_filter(in_pcap, strs.encode("utf-8"))
+ *     if filters:             # <<<<<<<<<<<<<<
+ *         set_filter(in_pcap, filters.encode("utf-8"))
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_cur_scope->__pyx_v_strs); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 110, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_cur_scope->__pyx_v_filters); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 110, __pyx_L1_error)
   if (__pyx_t_3) {
 
     /* "pylibpcap/pcap.pyx":111
  * 
- *     if strs:
- *         set_filter(in_pcap, strs.encode("utf-8"))             # <<<<<<<<<<<<<<
+ *     if filters:
+ *         set_filter(in_pcap, filters.encode("utf-8"))             # <<<<<<<<<<<<<<
  * 
  *     while 1:
  */
-    __pyx_t_4 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_cur_scope->__pyx_v_strs, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 111, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_cur_scope->__pyx_v_filters, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 111, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = __Pyx_PyObject_AsWritableString(__pyx_t_4); if (unlikely((!__pyx_t_5) && PyErr_Occurred())) __PYX_ERR(0, 111, __pyx_L1_error)
     __pyx_f_9pylibpcap_4pcap_set_filter(__pyx_cur_scope->__pyx_v_in_pcap, __pyx_t_5);
@@ -2086,14 +2086,14 @@ static PyObject *__pyx_gb_9pylibpcap_4pcap_4generator(__pyx_CoroutineObject *__p
     /* "pylibpcap/pcap.pyx":110
  *         raise ValueError(errbuf.decode("utf-8"))
  * 
- *     if strs:             # <<<<<<<<<<<<<<
- *         set_filter(in_pcap, strs.encode("utf-8"))
+ *     if filters:             # <<<<<<<<<<<<<<
+ *         set_filter(in_pcap, filters.encode("utf-8"))
  * 
  */
   }
 
   /* "pylibpcap/pcap.pyx":113
- *         set_filter(in_pcap, strs.encode("utf-8"))
+ *         set_filter(in_pcap, filters.encode("utf-8"))
  * 
  *     while 1:             # <<<<<<<<<<<<<<
  * 
@@ -2188,7 +2188,7 @@ static PyObject *__pyx_gb_9pylibpcap_4pcap_4generator(__pyx_CoroutineObject *__p
   /* "pylibpcap/pcap.pyx":89
  * 
  * 
- * def rpcap(str file, str strs=""):             # <<<<<<<<<<<<<<
+ * def rpcap(str file, str filters=""):             # <<<<<<<<<<<<<<
  *     """
  *     pcap
  */
@@ -2550,14 +2550,14 @@ static PyObject *__pyx_pf_9pylibpcap_4pcap_5wpcap(CYTHON_UNUSED PyObject *__pyx_
 /* "pylibpcap/pcap.pyx":151
  * 
  * 
- * cpdef void mpcap(str sfile, str dfile, str strs=""):             # <<<<<<<<<<<<<<
+ * cpdef void mpcap(str sfile, str dfile, str filters=""):             # <<<<<<<<<<<<<<
  *     """
  *     pcap
  */
 
 static PyObject *__pyx_pw_9pylibpcap_4pcap_8mpcap(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static void __pyx_f_9pylibpcap_4pcap_mpcap(PyObject *__pyx_v_sfile, PyObject *__pyx_v_dfile, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_9pylibpcap_4pcap_mpcap *__pyx_optional_args) {
-  PyObject *__pyx_v_strs = ((PyObject*)__pyx_kp_s_);
+  PyObject *__pyx_v_filters = ((PyObject*)__pyx_kp_s_);
   char __pyx_v_errbuf[0x100];
   struct pcap_pkthdr __pyx_v_pkt_header;
   __pyx_t_9pylibpcap_4pcap_u_char *__pyx_v_pkt;
@@ -2573,7 +2573,7 @@ static void __pyx_f_9pylibpcap_4pcap_mpcap(PyObject *__pyx_v_sfile, PyObject *__
   __Pyx_RefNannySetupContext("mpcap", 0);
   if (__pyx_optional_args) {
     if (__pyx_optional_args->__pyx_n > 0) {
-      __pyx_v_strs = __pyx_optional_args->strs;
+      __pyx_v_filters = __pyx_optional_args->filters;
     }
   }
 
@@ -2700,23 +2700,23 @@ static void __pyx_f_9pylibpcap_4pcap_mpcap(PyObject *__pyx_v_sfile, PyObject *__
  * 
  *     pcap_close(in_pcap)             # <<<<<<<<<<<<<<
  * 
- *     py_pcap_rw(sfile, pkt_header, out_pcap, strs)
+ *     py_pcap_rw(sfile, pkt_header, out_pcap, filters)
  */
   pcap_close(__pyx_v_in_pcap);
 
   /* "pylibpcap/pcap.pyx":182
  *     pcap_close(in_pcap)
  * 
- *     py_pcap_rw(sfile, pkt_header, out_pcap, strs)             # <<<<<<<<<<<<<<
+ *     py_pcap_rw(sfile, pkt_header, out_pcap, filters)             # <<<<<<<<<<<<<<
  * 
  *     pcap_dump_flush(out_pcap)
  */
   __pyx_t_6.__pyx_n = 1;
-  __pyx_t_6.strs = __pyx_v_strs;
+  __pyx_t_6.filters = __pyx_v_filters;
   __pyx_f_9pylibpcap_4pcap_py_pcap_rw(__pyx_v_sfile, __pyx_v_pkt_header, __pyx_v_out_pcap, &__pyx_t_6); 
 
   /* "pylibpcap/pcap.pyx":184
- *     py_pcap_rw(sfile, pkt_header, out_pcap, strs)
+ *     py_pcap_rw(sfile, pkt_header, out_pcap, filters)
  * 
  *     pcap_dump_flush(out_pcap)             # <<<<<<<<<<<<<<
  *     pcap_dump_close(out_pcap)
@@ -2736,7 +2736,7 @@ static void __pyx_f_9pylibpcap_4pcap_mpcap(PyObject *__pyx_v_sfile, PyObject *__
   /* "pylibpcap/pcap.pyx":151
  * 
  * 
- * cpdef void mpcap(str sfile, str dfile, str strs=""):             # <<<<<<<<<<<<<<
+ * cpdef void mpcap(str sfile, str dfile, str filters=""):             # <<<<<<<<<<<<<<
  *     """
  *     pcap
  */
@@ -2753,16 +2753,16 @@ static void __pyx_f_9pylibpcap_4pcap_mpcap(PyObject *__pyx_v_sfile, PyObject *__
 
 /* Python wrapper */
 static PyObject *__pyx_pw_9pylibpcap_4pcap_8mpcap(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_9pylibpcap_4pcap_7mpcap[] = "\n    \345\220\210\345\271\266pcap\346\226\207\344\273\266\n\n    :param sfile: \346\272\220\346\226\207\344\273\266\n    :param dfile: \347\233\256\347\232\204\346\226\207\344\273\266\n    :param strs: BPF\350\277\207\346\273\244\350\247\204\345\210\231\n    ";
+static char __pyx_doc_9pylibpcap_4pcap_7mpcap[] = "\n    \345\220\210\345\271\266pcap\346\226\207\344\273\266\n\n    :param sfile: \346\272\220\346\226\207\344\273\266\n    :param dfile: \347\233\256\347\232\204\346\226\207\344\273\266\n    :param filters: BPF\350\277\207\346\273\244\350\247\204\345\210\231\n    ";
 static PyObject *__pyx_pw_9pylibpcap_4pcap_8mpcap(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_sfile = 0;
   PyObject *__pyx_v_dfile = 0;
-  PyObject *__pyx_v_strs = 0;
+  PyObject *__pyx_v_filters = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("mpcap (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_sfile,&__pyx_n_s_dfile,&__pyx_n_s_strs,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_sfile,&__pyx_n_s_dfile,&__pyx_n_s_filters,0};
     PyObject* values[3] = {0,0,0};
     values[2] = ((PyObject*)__pyx_kp_s_);
     if (unlikely(__pyx_kwds)) {
@@ -2792,7 +2792,7 @@ static PyObject *__pyx_pw_9pylibpcap_4pcap_8mpcap(PyObject *__pyx_self, PyObject
         CYTHON_FALLTHROUGH;
         case  2:
         if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_strs);
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_filters);
           if (value) { values[2] = value; kw_args--; }
         }
       }
@@ -2811,7 +2811,7 @@ static PyObject *__pyx_pw_9pylibpcap_4pcap_8mpcap(PyObject *__pyx_self, PyObject
     }
     __pyx_v_sfile = ((PyObject*)values[0]);
     __pyx_v_dfile = ((PyObject*)values[1]);
-    __pyx_v_strs = ((PyObject*)values[2]);
+    __pyx_v_filters = ((PyObject*)values[2]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
@@ -2823,8 +2823,8 @@ static PyObject *__pyx_pw_9pylibpcap_4pcap_8mpcap(PyObject *__pyx_self, PyObject
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sfile), (&PyString_Type), 1, "sfile", 1))) __PYX_ERR(0, 151, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dfile), (&PyString_Type), 1, "dfile", 1))) __PYX_ERR(0, 151, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_strs), (&PyString_Type), 1, "strs", 1))) __PYX_ERR(0, 151, __pyx_L1_error)
-  __pyx_r = __pyx_pf_9pylibpcap_4pcap_7mpcap(__pyx_self, __pyx_v_sfile, __pyx_v_dfile, __pyx_v_strs);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_filters), (&PyString_Type), 1, "filters", 1))) __PYX_ERR(0, 151, __pyx_L1_error)
+  __pyx_r = __pyx_pf_9pylibpcap_4pcap_7mpcap(__pyx_self, __pyx_v_sfile, __pyx_v_dfile, __pyx_v_filters);
 
   /* function exit code */
   goto __pyx_L0;
@@ -2835,7 +2835,7 @@ static PyObject *__pyx_pw_9pylibpcap_4pcap_8mpcap(PyObject *__pyx_self, PyObject
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_9pylibpcap_4pcap_7mpcap(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_sfile, PyObject *__pyx_v_dfile, PyObject *__pyx_v_strs) {
+static PyObject *__pyx_pf_9pylibpcap_4pcap_7mpcap(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_sfile, PyObject *__pyx_v_dfile, PyObject *__pyx_v_filters) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   struct __pyx_opt_args_9pylibpcap_4pcap_mpcap __pyx_t_1;
@@ -2843,7 +2843,7 @@ static PyObject *__pyx_pf_9pylibpcap_4pcap_7mpcap(CYTHON_UNUSED PyObject *__pyx_
   __Pyx_RefNannySetupContext("mpcap", 0);
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1.__pyx_n = 1;
-  __pyx_t_1.strs = __pyx_v_strs;
+  __pyx_t_1.filters = __pyx_v_filters;
   __pyx_f_9pylibpcap_4pcap_mpcap(__pyx_v_sfile, __pyx_v_dfile, 0, &__pyx_t_1); 
   __pyx_t_2 = __Pyx_void_to_None(NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 151, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -2865,14 +2865,14 @@ static PyObject *__pyx_pf_9pylibpcap_4pcap_7mpcap(CYTHON_UNUSED PyObject *__pyx_
 /* "pylibpcap/pcap.pyx":188
  * 
  * 
- * cpdef void mpcaps(object file_obj, str out_file, str strs=""):             # <<<<<<<<<<<<<<
+ * cpdef void mpcaps(object file_obj, str out_file, str filters=""):             # <<<<<<<<<<<<<<
  *     """
  *     pcap
  */
 
 static PyObject *__pyx_pw_9pylibpcap_4pcap_10mpcaps(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static void __pyx_f_9pylibpcap_4pcap_mpcaps(PyObject *__pyx_v_file_obj, PyObject *__pyx_v_out_file, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_9pylibpcap_4pcap_mpcaps *__pyx_optional_args) {
-  PyObject *__pyx_v_strs = ((PyObject*)__pyx_kp_s_);
+  PyObject *__pyx_v_filters = ((PyObject*)__pyx_kp_s_);
   struct pcap_pkthdr __pyx_v_pkt_header;
   pcap_dumper_t *__pyx_v_out_pcap;
   PyObject *__pyx_v_f = NULL;
@@ -2888,7 +2888,7 @@ static void __pyx_f_9pylibpcap_4pcap_mpcaps(PyObject *__pyx_v_file_obj, PyObject
   __Pyx_RefNannySetupContext("mpcaps", 0);
   if (__pyx_optional_args) {
     if (__pyx_optional_args->__pyx_n > 0) {
-      __pyx_v_strs = __pyx_optional_args->strs;
+      __pyx_v_filters = __pyx_optional_args->filters;
     }
   }
 
@@ -2909,7 +2909,7 @@ static void __pyx_f_9pylibpcap_4pcap_mpcaps(PyObject *__pyx_v_file_obj, PyObject
  *     cdef pcap_dumper_t *out_pcap = pcap_dump_open(pcap_open_dead(1, BUFSIZ), out_file.encode("utf-8"))
  * 
  *     if isinstance(file_obj, str):             # <<<<<<<<<<<<<<
- *         py_pcap_rw(file_obj, pkt_header, out_pcap, strs)
+ *         py_pcap_rw(file_obj, pkt_header, out_pcap, filters)
  *     else:
  */
   __pyx_t_3 = PyString_Check(__pyx_v_file_obj); 
@@ -2919,30 +2919,30 @@ static void __pyx_f_9pylibpcap_4pcap_mpcaps(PyObject *__pyx_v_file_obj, PyObject
     /* "pylibpcap/pcap.pyx":201
  * 
  *     if isinstance(file_obj, str):
- *         py_pcap_rw(file_obj, pkt_header, out_pcap, strs)             # <<<<<<<<<<<<<<
+ *         py_pcap_rw(file_obj, pkt_header, out_pcap, filters)             # <<<<<<<<<<<<<<
  *     else:
  *         for f in file_obj:
  */
     if (!(likely(PyString_CheckExact(__pyx_v_file_obj))||((__pyx_v_file_obj) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_v_file_obj)->tp_name), 0))) __PYX_ERR(0, 201, __pyx_L1_error)
     __pyx_t_5.__pyx_n = 1;
-    __pyx_t_5.strs = __pyx_v_strs;
+    __pyx_t_5.filters = __pyx_v_filters;
     __pyx_f_9pylibpcap_4pcap_py_pcap_rw(((PyObject*)__pyx_v_file_obj), __pyx_v_pkt_header, __pyx_v_out_pcap, &__pyx_t_5); 
 
     /* "pylibpcap/pcap.pyx":200
  *     cdef pcap_dumper_t *out_pcap = pcap_dump_open(pcap_open_dead(1, BUFSIZ), out_file.encode("utf-8"))
  * 
  *     if isinstance(file_obj, str):             # <<<<<<<<<<<<<<
- *         py_pcap_rw(file_obj, pkt_header, out_pcap, strs)
+ *         py_pcap_rw(file_obj, pkt_header, out_pcap, filters)
  *     else:
  */
     goto __pyx_L3;
   }
 
   /* "pylibpcap/pcap.pyx":203
- *         py_pcap_rw(file_obj, pkt_header, out_pcap, strs)
+ *         py_pcap_rw(file_obj, pkt_header, out_pcap, filters)
  *     else:
  *         for f in file_obj:             # <<<<<<<<<<<<<<
- *             py_pcap_rw(f, pkt_header, out_pcap, strs)
+ *             py_pcap_rw(f, pkt_header, out_pcap, filters)
  * 
  */
   /*else*/ {
@@ -2991,20 +2991,20 @@ static void __pyx_f_9pylibpcap_4pcap_mpcaps(PyObject *__pyx_v_file_obj, PyObject
       /* "pylibpcap/pcap.pyx":204
  *     else:
  *         for f in file_obj:
- *             py_pcap_rw(f, pkt_header, out_pcap, strs)             # <<<<<<<<<<<<<<
+ *             py_pcap_rw(f, pkt_header, out_pcap, filters)             # <<<<<<<<<<<<<<
  * 
  *     pcap_dump_flush(out_pcap)
  */
       if (!(likely(PyString_CheckExact(__pyx_v_f))||((__pyx_v_f) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_v_f)->tp_name), 0))) __PYX_ERR(0, 204, __pyx_L1_error)
       __pyx_t_5.__pyx_n = 1;
-      __pyx_t_5.strs = __pyx_v_strs;
+      __pyx_t_5.filters = __pyx_v_filters;
       __pyx_f_9pylibpcap_4pcap_py_pcap_rw(((PyObject*)__pyx_v_f), __pyx_v_pkt_header, __pyx_v_out_pcap, &__pyx_t_5); 
 
       /* "pylibpcap/pcap.pyx":203
- *         py_pcap_rw(file_obj, pkt_header, out_pcap, strs)
+ *         py_pcap_rw(file_obj, pkt_header, out_pcap, filters)
  *     else:
  *         for f in file_obj:             # <<<<<<<<<<<<<<
- *             py_pcap_rw(f, pkt_header, out_pcap, strs)
+ *             py_pcap_rw(f, pkt_header, out_pcap, filters)
  * 
  */
     }
@@ -3013,7 +3013,7 @@ static void __pyx_f_9pylibpcap_4pcap_mpcaps(PyObject *__pyx_v_file_obj, PyObject
   __pyx_L3:;
 
   /* "pylibpcap/pcap.pyx":206
- *             py_pcap_rw(f, pkt_header, out_pcap, strs)
+ *             py_pcap_rw(f, pkt_header, out_pcap, filters)
  * 
  *     pcap_dump_flush(out_pcap)             # <<<<<<<<<<<<<<
  *     pcap_dump_close(out_pcap)
@@ -3033,7 +3033,7 @@ static void __pyx_f_9pylibpcap_4pcap_mpcaps(PyObject *__pyx_v_file_obj, PyObject
   /* "pylibpcap/pcap.pyx":188
  * 
  * 
- * cpdef void mpcaps(object file_obj, str out_file, str strs=""):             # <<<<<<<<<<<<<<
+ * cpdef void mpcaps(object file_obj, str out_file, str filters=""):             # <<<<<<<<<<<<<<
  *     """
  *     pcap
  */
@@ -3051,16 +3051,16 @@ static void __pyx_f_9pylibpcap_4pcap_mpcaps(PyObject *__pyx_v_file_obj, PyObject
 
 /* Python wrapper */
 static PyObject *__pyx_pw_9pylibpcap_4pcap_10mpcaps(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_9pylibpcap_4pcap_9mpcaps[] = "\n    \346\217\220\345\217\226\346\226\207\344\273\266\345\205\261\345\220\214\345\206\205\345\256\271\345\271\266\345\255\230\345\205\245pcap\346\226\207\344\273\266\n\n    :param file_obj: \346\226\207\344\273\266\345\257\271\350\261\241.\n    :param out_file: \350\276\223\345\207\272\346\226\207\344\273\266.\n    :param strs: \350\277\207\346\273\244\350\247\204\345\210\231.\n    ";
+static char __pyx_doc_9pylibpcap_4pcap_9mpcaps[] = "\n    \346\217\220\345\217\226\346\226\207\344\273\266\345\205\261\345\220\214\345\206\205\345\256\271\345\271\266\345\255\230\345\205\245pcap\346\226\207\344\273\266\n\n    :param file_obj: \346\226\207\344\273\266\345\257\271\350\261\241.\n    :param out_file: \350\276\223\345\207\272\346\226\207\344\273\266.\n    :param filters: \350\277\207\346\273\244\350\247\204\345\210\231.\n    ";
 static PyObject *__pyx_pw_9pylibpcap_4pcap_10mpcaps(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_file_obj = 0;
   PyObject *__pyx_v_out_file = 0;
-  PyObject *__pyx_v_strs = 0;
+  PyObject *__pyx_v_filters = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("mpcaps (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_file_obj,&__pyx_n_s_out_file,&__pyx_n_s_strs,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_file_obj,&__pyx_n_s_out_file,&__pyx_n_s_filters,0};
     PyObject* values[3] = {0,0,0};
     values[2] = ((PyObject*)__pyx_kp_s_);
     if (unlikely(__pyx_kwds)) {
@@ -3090,7 +3090,7 @@ static PyObject *__pyx_pw_9pylibpcap_4pcap_10mpcaps(PyObject *__pyx_self, PyObje
         CYTHON_FALLTHROUGH;
         case  2:
         if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_strs);
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_filters);
           if (value) { values[2] = value; kw_args--; }
         }
       }
@@ -3109,7 +3109,7 @@ static PyObject *__pyx_pw_9pylibpcap_4pcap_10mpcaps(PyObject *__pyx_self, PyObje
     }
     __pyx_v_file_obj = values[0];
     __pyx_v_out_file = ((PyObject*)values[1]);
-    __pyx_v_strs = ((PyObject*)values[2]);
+    __pyx_v_filters = ((PyObject*)values[2]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
@@ -3120,8 +3120,8 @@ static PyObject *__pyx_pw_9pylibpcap_4pcap_10mpcaps(PyObject *__pyx_self, PyObje
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_out_file), (&PyString_Type), 1, "out_file", 1))) __PYX_ERR(0, 188, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_strs), (&PyString_Type), 1, "strs", 1))) __PYX_ERR(0, 188, __pyx_L1_error)
-  __pyx_r = __pyx_pf_9pylibpcap_4pcap_9mpcaps(__pyx_self, __pyx_v_file_obj, __pyx_v_out_file, __pyx_v_strs);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_filters), (&PyString_Type), 1, "filters", 1))) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_r = __pyx_pf_9pylibpcap_4pcap_9mpcaps(__pyx_self, __pyx_v_file_obj, __pyx_v_out_file, __pyx_v_filters);
 
   /* function exit code */
   goto __pyx_L0;
@@ -3132,7 +3132,7 @@ static PyObject *__pyx_pw_9pylibpcap_4pcap_10mpcaps(PyObject *__pyx_self, PyObje
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_9pylibpcap_4pcap_9mpcaps(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_file_obj, PyObject *__pyx_v_out_file, PyObject *__pyx_v_strs) {
+static PyObject *__pyx_pf_9pylibpcap_4pcap_9mpcaps(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_file_obj, PyObject *__pyx_v_out_file, PyObject *__pyx_v_filters) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   struct __pyx_opt_args_9pylibpcap_4pcap_mpcaps __pyx_t_1;
@@ -3140,7 +3140,7 @@ static PyObject *__pyx_pf_9pylibpcap_4pcap_9mpcaps(CYTHON_UNUSED PyObject *__pyx
   __Pyx_RefNannySetupContext("mpcaps", 0);
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1.__pyx_n = 1;
-  __pyx_t_1.strs = __pyx_v_strs;
+  __pyx_t_1.filters = __pyx_v_filters;
   __pyx_f_9pylibpcap_4pcap_mpcaps(__pyx_v_file_obj, __pyx_v_out_file, 0, &__pyx_t_1); 
   __pyx_t_2 = __Pyx_void_to_None(NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 188, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -3163,25 +3163,25 @@ static PyObject *__pyx_gb_9pylibpcap_4pcap_13generator1(__pyx_CoroutineObject *_
 /* "pylibpcap/pcap.pyx":219
  * 
  * 
- * def sniff(str iface, str strs="", int count=-1, str out_file=""):             # <<<<<<<<<<<<<<
+ * def sniff(str iface, str filters="", int count=-1, str out_file=""):             # <<<<<<<<<<<<<<
  *     """
  * 
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_9pylibpcap_4pcap_12sniff(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_9pylibpcap_4pcap_11sniff[] = "\n    \346\215\225\350\216\267\346\225\260\346\215\256\345\214\205\n\n    :param iface: \347\275\221\345\215\241\n    :param strs: BPF\350\277\207\346\273\244\350\247\204\345\210\231, \351\273\230\350\256\244 `strs`\n    :param count: \346\215\225\350\216\267\346\225\260\346\215\256\345\214\205\346\225\260\351\207\217, \351\273\230\350\256\244 `-1`\n    :param out_file: \350\276\223\345\207\272\346\226\207\344\273\266\357\274\214\351\273\230\350\256\244 `\"\"`\n    ";
+static char __pyx_doc_9pylibpcap_4pcap_11sniff[] = "\n    \346\215\225\350\216\267\346\225\260\346\215\256\345\214\205\n\n    :param iface: \347\275\221\345\215\241\n    :param filters: BPF\350\277\207\346\273\244\350\247\204\345\210\231, \351\273\230\350\256\244 `\"\"`\n    :param count: \346\215\225\350\216\267\346\225\260\346\215\256\345\214\205\346\225\260\351\207\217, \351\273\230\350\256\244 `-1`\n    :param out_file: \350\276\223\345\207\272\346\226\207\344\273\266\357\274\214\351\273\230\350\256\244 `\"\"`\n    ";
 static PyMethodDef __pyx_mdef_9pylibpcap_4pcap_12sniff = {"sniff", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_9pylibpcap_4pcap_12sniff, METH_VARARGS|METH_KEYWORDS, __pyx_doc_9pylibpcap_4pcap_11sniff};
 static PyObject *__pyx_pw_9pylibpcap_4pcap_12sniff(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_iface = 0;
-  PyObject *__pyx_v_strs = 0;
+  PyObject *__pyx_v_filters = 0;
   int __pyx_v_count;
   PyObject *__pyx_v_out_file = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("sniff (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_iface,&__pyx_n_s_strs,&__pyx_n_s_count,&__pyx_n_s_out_file,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_iface,&__pyx_n_s_filters,&__pyx_n_s_count,&__pyx_n_s_out_file,0};
     PyObject* values[4] = {0,0,0,0};
     values[1] = ((PyObject*)__pyx_kp_s_);
     values[3] = ((PyObject*)__pyx_kp_s_);
@@ -3208,7 +3208,7 @@ static PyObject *__pyx_pw_9pylibpcap_4pcap_12sniff(PyObject *__pyx_self, PyObjec
         CYTHON_FALLTHROUGH;
         case  1:
         if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_strs);
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_filters);
           if (value) { values[1] = value; kw_args--; }
         }
         CYTHON_FALLTHROUGH;
@@ -3241,7 +3241,7 @@ static PyObject *__pyx_pw_9pylibpcap_4pcap_12sniff(PyObject *__pyx_self, PyObjec
       }
     }
     __pyx_v_iface = ((PyObject*)values[0]);
-    __pyx_v_strs = ((PyObject*)values[1]);
+    __pyx_v_filters = ((PyObject*)values[1]);
     if (values[2]) {
       __pyx_v_count = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_count == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 219, __pyx_L3_error)
     } else {
@@ -3258,9 +3258,9 @@ static PyObject *__pyx_pw_9pylibpcap_4pcap_12sniff(PyObject *__pyx_self, PyObjec
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_iface), (&PyString_Type), 1, "iface", 1))) __PYX_ERR(0, 219, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_strs), (&PyString_Type), 1, "strs", 1))) __PYX_ERR(0, 219, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_filters), (&PyString_Type), 1, "filters", 1))) __PYX_ERR(0, 219, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_out_file), (&PyString_Type), 1, "out_file", 1))) __PYX_ERR(0, 219, __pyx_L1_error)
-  __pyx_r = __pyx_pf_9pylibpcap_4pcap_11sniff(__pyx_self, __pyx_v_iface, __pyx_v_strs, __pyx_v_count, __pyx_v_out_file);
+  __pyx_r = __pyx_pf_9pylibpcap_4pcap_11sniff(__pyx_self, __pyx_v_iface, __pyx_v_filters, __pyx_v_count, __pyx_v_out_file);
 
   /* function exit code */
   goto __pyx_L0;
@@ -3271,7 +3271,7 @@ static PyObject *__pyx_pw_9pylibpcap_4pcap_12sniff(PyObject *__pyx_self, PyObjec
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_9pylibpcap_4pcap_11sniff(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_iface, PyObject *__pyx_v_strs, int __pyx_v_count, PyObject *__pyx_v_out_file) {
+static PyObject *__pyx_pf_9pylibpcap_4pcap_11sniff(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_iface, PyObject *__pyx_v_filters, int __pyx_v_count, PyObject *__pyx_v_out_file) {
   struct __pyx_obj_9pylibpcap_4pcap___pyx_scope_struct_1_sniff *__pyx_cur_scope;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -3287,9 +3287,9 @@ static PyObject *__pyx_pf_9pylibpcap_4pcap_11sniff(CYTHON_UNUSED PyObject *__pyx
   __pyx_cur_scope->__pyx_v_iface = __pyx_v_iface;
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_iface);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_iface);
-  __pyx_cur_scope->__pyx_v_strs = __pyx_v_strs;
-  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_strs);
-  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_strs);
+  __pyx_cur_scope->__pyx_v_filters = __pyx_v_filters;
+  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_filters);
+  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_filters);
   __pyx_cur_scope->__pyx_v_count = __pyx_v_count;
   __pyx_cur_scope->__pyx_v_out_file = __pyx_v_out_file;
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_out_file);
@@ -3408,7 +3408,7 @@ static PyObject *__pyx_gb_9pylibpcap_4pcap_13generator1(__pyx_CoroutineObject *_
  *     if out_file:
  *         out_pcap = pcap_dump_open(handler, out_file.encode("utf-8"))             # <<<<<<<<<<<<<<
  * 
- *     if strs:
+ *     if filters:
  */
     __pyx_t_4 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_cur_scope->__pyx_v_out_file, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 238, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
@@ -3428,21 +3428,21 @@ static PyObject *__pyx_gb_9pylibpcap_4pcap_13generator1(__pyx_CoroutineObject *_
   /* "pylibpcap/pcap.pyx":240
  *         out_pcap = pcap_dump_open(handler, out_file.encode("utf-8"))
  * 
- *     if strs:             # <<<<<<<<<<<<<<
- *         set_filter(handler, strs.encode("utf-8"))
+ *     if filters:             # <<<<<<<<<<<<<<
+ *         set_filter(handler, filters.encode("utf-8"))
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_cur_scope->__pyx_v_strs); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 240, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_cur_scope->__pyx_v_filters); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 240, __pyx_L1_error)
   if (__pyx_t_3) {
 
     /* "pylibpcap/pcap.pyx":241
  * 
- *     if strs:
- *         set_filter(handler, strs.encode("utf-8"))             # <<<<<<<<<<<<<<
+ *     if filters:
+ *         set_filter(handler, filters.encode("utf-8"))             # <<<<<<<<<<<<<<
  * 
  *     # pcap_loop(handler, count, sniff_callback, <u_char*>out_pcap)
  */
-    __pyx_t_4 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_cur_scope->__pyx_v_strs, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 241, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_encode, __pyx_cur_scope->__pyx_v_filters, __pyx_kp_s_utf_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 241, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_6 = __Pyx_PyObject_AsWritableString(__pyx_t_4); if (unlikely((!__pyx_t_6) && PyErr_Occurred())) __PYX_ERR(0, 241, __pyx_L1_error)
     __pyx_f_9pylibpcap_4pcap_set_filter(__pyx_cur_scope->__pyx_v_handler, __pyx_t_6);
@@ -3451,8 +3451,8 @@ static PyObject *__pyx_gb_9pylibpcap_4pcap_13generator1(__pyx_CoroutineObject *_
     /* "pylibpcap/pcap.pyx":240
  *         out_pcap = pcap_dump_open(handler, out_file.encode("utf-8"))
  * 
- *     if strs:             # <<<<<<<<<<<<<<
- *         set_filter(handler, strs.encode("utf-8"))
+ *     if filters:             # <<<<<<<<<<<<<<
+ *         set_filter(handler, filters.encode("utf-8"))
  * 
  */
   }
@@ -3625,7 +3625,7 @@ static PyObject *__pyx_gb_9pylibpcap_4pcap_13generator1(__pyx_CoroutineObject *_
   /* "pylibpcap/pcap.pyx":219
  * 
  * 
- * def sniff(str iface, str strs="", int count=-1, str out_file=""):             # <<<<<<<<<<<<<<
+ * def sniff(str iface, str filters="", int count=-1, str out_file=""):             # <<<<<<<<<<<<<<
  *     """
  * 
  */
@@ -3669,7 +3669,7 @@ static PyObject *__pyx_tp_new_9pylibpcap_4pcap___pyx_scope_struct__rpcap(PyTypeO
 static void __pyx_tp_dealloc_9pylibpcap_4pcap___pyx_scope_struct__rpcap(PyObject *o) {
   struct __pyx_obj_9pylibpcap_4pcap___pyx_scope_struct__rpcap *p = (struct __pyx_obj_9pylibpcap_4pcap___pyx_scope_struct__rpcap *)o;
   Py_CLEAR(p->__pyx_v_file);
-  Py_CLEAR(p->__pyx_v_strs);
+  Py_CLEAR(p->__pyx_v_filters);
   if (CYTHON_COMPILING_IN_CPYTHON && ((__pyx_freecount_9pylibpcap_4pcap___pyx_scope_struct__rpcap < 8) & (Py_TYPE(o)->tp_basicsize == sizeof(struct __pyx_obj_9pylibpcap_4pcap___pyx_scope_struct__rpcap)))) {
     __pyx_freelist_9pylibpcap_4pcap___pyx_scope_struct__rpcap[__pyx_freecount_9pylibpcap_4pcap___pyx_scope_struct__rpcap++] = ((struct __pyx_obj_9pylibpcap_4pcap___pyx_scope_struct__rpcap *)o);
   } else {
@@ -3756,9 +3756,9 @@ static PyObject *__pyx_tp_new_9pylibpcap_4pcap___pyx_scope_struct_1_sniff(PyType
 
 static void __pyx_tp_dealloc_9pylibpcap_4pcap___pyx_scope_struct_1_sniff(PyObject *o) {
   struct __pyx_obj_9pylibpcap_4pcap___pyx_scope_struct_1_sniff *p = (struct __pyx_obj_9pylibpcap_4pcap___pyx_scope_struct_1_sniff *)o;
+  Py_CLEAR(p->__pyx_v_filters);
   Py_CLEAR(p->__pyx_v_iface);
   Py_CLEAR(p->__pyx_v_out_file);
-  Py_CLEAR(p->__pyx_v_strs);
   if (CYTHON_COMPILING_IN_CPYTHON && ((__pyx_freecount_9pylibpcap_4pcap___pyx_scope_struct_1_sniff < 8) & (Py_TYPE(o)->tp_basicsize == sizeof(struct __pyx_obj_9pylibpcap_4pcap___pyx_scope_struct_1_sniff)))) {
     __pyx_freelist_9pylibpcap_4pcap___pyx_scope_struct_1_sniff[__pyx_freecount_9pylibpcap_4pcap___pyx_scope_struct_1_sniff++] = ((struct __pyx_obj_9pylibpcap_4pcap___pyx_scope_struct_1_sniff *)o);
   } else {
@@ -3888,6 +3888,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_errbuf, __pyx_k_errbuf, sizeof(__pyx_k_errbuf), 0, 0, 1, 1},
   {&__pyx_n_s_file, __pyx_k_file, sizeof(__pyx_k_file), 0, 0, 1, 1},
   {&__pyx_n_s_file_obj, __pyx_k_file_obj, sizeof(__pyx_k_file_obj), 0, 0, 1, 1},
+  {&__pyx_n_s_filters, __pyx_k_filters, sizeof(__pyx_k_filters), 0, 0, 1, 1},
   {&__pyx_n_s_handler, __pyx_k_handler, sizeof(__pyx_k_handler), 0, 0, 1, 1},
   {&__pyx_n_s_iface, __pyx_k_iface, sizeof(__pyx_k_iface), 0, 0, 1, 1},
   {&__pyx_n_s_in_pcap, __pyx_k_in_pcap, sizeof(__pyx_k_in_pcap), 0, 0, 1, 1},
@@ -3903,7 +3904,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_send, __pyx_k_send, sizeof(__pyx_k_send), 0, 0, 1, 1},
   {&__pyx_n_s_sfile, __pyx_k_sfile, sizeof(__pyx_k_sfile), 0, 0, 1, 1},
   {&__pyx_n_s_sniff, __pyx_k_sniff, sizeof(__pyx_k_sniff), 0, 0, 1, 1},
-  {&__pyx_n_s_strs, __pyx_k_strs, sizeof(__pyx_k_strs), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_throw, __pyx_k_throw, sizeof(__pyx_k_throw), 0, 0, 1, 1},
   {&__pyx_kp_s_utf_8, __pyx_k_utf_8, sizeof(__pyx_k_utf_8), 0, 0, 1, 0},
@@ -3923,11 +3923,11 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "pylibpcap/pcap.pyx":89
  * 
  * 
- * def rpcap(str file, str strs=""):             # <<<<<<<<<<<<<<
+ * def rpcap(str file, str filters=""):             # <<<<<<<<<<<<<<
  *     """
  *     pcap
  */
-  __pyx_tuple__4 = PyTuple_Pack(6, __pyx_n_s_file, __pyx_n_s_strs, __pyx_n_s_errbuf, __pyx_n_s_pkt_header, __pyx_n_s_pkt, __pyx_n_s_in_pcap); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(6, __pyx_n_s_file, __pyx_n_s_filters, __pyx_n_s_errbuf, __pyx_n_s_pkt_header, __pyx_n_s_pkt, __pyx_n_s_in_pcap); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
   __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pylibpcap_pcap_pyx, __pyx_n_s_rpcap, 89, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 89, __pyx_L1_error)
@@ -3935,11 +3935,11 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "pylibpcap/pcap.pyx":219
  * 
  * 
- * def sniff(str iface, str strs="", int count=-1, str out_file=""):             # <<<<<<<<<<<<<<
+ * def sniff(str iface, str filters="", int count=-1, str out_file=""):             # <<<<<<<<<<<<<<
  *     """
  * 
  */
-  __pyx_tuple__5 = PyTuple_Pack(9, __pyx_n_s_iface, __pyx_n_s_strs, __pyx_n_s_count, __pyx_n_s_out_file, __pyx_n_s_errbuf, __pyx_n_s_pkt_header, __pyx_n_s_out_pcap, __pyx_n_s_handler, __pyx_n_s_pkt); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 219, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(9, __pyx_n_s_iface, __pyx_n_s_filters, __pyx_n_s_count, __pyx_n_s_out_file, __pyx_n_s_errbuf, __pyx_n_s_pkt_header, __pyx_n_s_out_pcap, __pyx_n_s_handler, __pyx_n_s_pkt); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 219, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
   __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(4, 0, 9, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_pylibpcap_pcap_pyx, __pyx_n_s_sniff, 219, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 219, __pyx_L1_error)
@@ -4241,7 +4241,7 @@ if (!__Pyx_RefNanny) {
   /* "pylibpcap/pcap.pyx":89
  * 
  * 
- * def rpcap(str file, str strs=""):             # <<<<<<<<<<<<<<
+ * def rpcap(str file, str filters=""):             # <<<<<<<<<<<<<<
  *     """
  *     pcap
  */
@@ -4253,7 +4253,7 @@ if (!__Pyx_RefNanny) {
   /* "pylibpcap/pcap.pyx":219
  * 
  * 
- * def sniff(str iface, str strs="", int count=-1, str out_file=""):             # <<<<<<<<<<<<<<
+ * def sniff(str iface, str filters="", int count=-1, str out_file=""):             # <<<<<<<<<<<<<<
  *     """
  * 
  */

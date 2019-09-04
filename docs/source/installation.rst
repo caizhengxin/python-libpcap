@@ -12,6 +12,7 @@ To install python-libpcap, run this command in your terminal:
 
 .. code-block:: console
 
+    $ sudo apt-get install libpcap-dev
     $ pip install python-libpcap
 
 This is the preferred method to install python-libpcap, as it will always install the most recent stable release.

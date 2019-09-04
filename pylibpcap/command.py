@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-09-03 09:50:27
 # @Last Modified by:   caizhengxin@bolean.com.cn
-# @Last Modified time: 2019-09-03 13:41:36
+# @Last Modified time: 2019-09-04 14:25:00
 import os
 import argparse
 
@@ -30,7 +30,7 @@ def main():
 
     parser = argparse.ArgumentParser(description="Merge pcap file.")
     parser.add_argument("filter", nargs="*", type=str, help="BPF filter rules.")
-    parser.add_argument("-i", "--input", type=str, help="Input file.", required=True)
+    parser.add_argument("-i", "--input", type=str, help="Input file/path.", required=True)
     parser.add_argument("-o", "--output", type=str, help="Output file.", required=True)
     args = parser.parse_args()
 

@@ -9,9 +9,6 @@ from Cython.Build import cythonize
 from Cython.Distutils import build_ext
 
 
-url = "https://github.com/caizhengxin/python-libpcap"
-
-
 ext_modules = [
     Extension(
         "*",
@@ -28,13 +25,13 @@ ext_modules = [
 
 setup(
     name="python-libpcap",
-    version="0.1.0",
+    version="0.1.1",
     author="JanKinCai",
     author_email="jankincai12@gmail.com",
     maintainer="JanKinCai",
     maintainer_email="jankincai12@gmail.com",
-    url=url,
-    download_url=url + ".git",
+    url="https://github.com/caizhengxin/python-libpcap",
+    download_url="https://github.com/caizhengxin/python-libpcap.git",
     license="BSD",
     description="Cython libpcap",
     long_description="Cython libpcap",
@@ -54,7 +51,6 @@ setup(
     ext_modules=cythonize(ext_modules),
 
     install_requires=[
-        "Cython",
     ],
 
     entry_points={
