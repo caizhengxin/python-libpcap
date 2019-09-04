@@ -14,7 +14,6 @@ python-libpcap
 
 Cython libpcap
 
-* Free software: BSD
 * Documentation: https://python-libpcap.readthedocs.io.
 
 Features
@@ -47,15 +46,15 @@ Console:
 
 Read pcap:
 
-.. literalinclude:: ../../demo/read_pcap.py
+.. include:: ../../demo/read_pcap.py
 
 Write pcap:
 
-.. literalinclude:: ../../demo/write_pcap.py
+.. include:: ../../demo/write_pcap.py
 
 Merge pcap:
 
-.. literalinclude:: ../../demo/merge_pcap.py
+.. include:: ../../demo/merge_pcap.py
 
 Get first iface:
 
@@ -67,7 +66,7 @@ Get first iface:
 
 Capture data:
 
-.. literalinclude:: ../../demo/sniff.py
+.. include:: ../../demo/sniff.py
 
 
 * TODO
