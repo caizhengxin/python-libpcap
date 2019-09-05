@@ -105,9 +105,6 @@ Capture data:
         print("捕获时间：", t)
         print("字节流：", buf)
 
-
-* TODO
-
 Credits
 -------
 

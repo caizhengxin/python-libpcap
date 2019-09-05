@@ -78,7 +78,7 @@ setup(
         "Cython",
     ],
 
-    project_urls = {
+    project_urls={
         "Documentation": "https://python-libpcap.readthedocs.io",
         "Source Code": "https://github.com/caizhengxin/python-libpcap",
     },
