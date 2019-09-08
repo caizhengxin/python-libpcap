@@ -2,7 +2,6 @@
 import os
 
 from setuptools import setup, find_packages
-# from pkg_resources import resource_string
 from setuptools import Extension
 
 from Cython.Build import cythonize
