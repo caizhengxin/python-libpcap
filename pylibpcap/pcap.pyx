@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: JanKinCai
 # @Date:   2019-05-10 11:46:33
-# @Last Modified by:   jankincai12@gmail.com
-# @Last Modified time: 2019-09-04 12:29:50
+# @Last Modified by:   caizhengxin@bolean.com.cn
+# @Last Modified time: 2019-09-10 16:45:02
 import os
 # from libc.stdlib cimport free
 # from libc.string cimport strdup, memcpy
@@ -137,11 +137,11 @@ cpdef void wpcap(object pkt, str out_file):
     cdef pcap_pkthdr pkt_header
 
     cdef pcap_t* in_pcap = pcap_open_dead(1, BUFSIZ)
-    cdef pcap_dumper_t *out_pcap = pcap_dump_open(in_pcap, out_file.encode("utf-8"))
+    cdef pcap_dumper_t *out_pcap = pcap_dump_open(in_pcap, to_c_name(out_file))
 
     if isinstance(pkt, bytes):
         py_pcap_dump(pkt_header, pkt, out_pcap)
-    elif isinstance(pkt, (list, tuple)):
+    else:
         for buf in pkt:
             if isinstance(buf, bytes):
                 py_pcap_dump(pkt_header, buf, out_pcap)

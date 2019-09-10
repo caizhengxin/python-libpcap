@@ -2,11 +2,20 @@
 # @Author: JanKinCai
 # @Date:   2019-05-10 11:19:43
 # @Last Modified by:   caizhengxin@bolean.com.cn
-# @Last Modified time: 2019-09-03 10:30:47
+# @Last Modified time: 2019-09-10 16:41:26
 
 
 ctypedef unsigned int u_int
 ctypedef unsigned char u_char
+
+
+DEF BUFSIZ = 65535
+DEF PCAP_VERSION_MAJOR = 2
+DEF PCAP_VERSION_MINOR = 4
+DEF PCAP_ERRBUF_SIZE = 256
+DEF PCAP_IF_LOOPBACK = 0x00000001
+DEF MODE_CAPT = 0  # 捕捉模式，在调用pcap_setmode()时被使用
+DEF MODE_STAT = 1  # 统计模式，在调用pcap_setmode()时被使用
 
 
 cdef extern from "stdio.h":
