@@ -9,6 +9,9 @@ from Cython.Build import cythonize
 from Cython.Distutils import build_ext
 
 
+with open('README.rst') as f:
+    long_description = f.read()
+
 ext_modules = [
     Extension(
         "*",
@@ -34,7 +37,7 @@ setup(
     download_url="https://github.com/caizhengxin/python-libpcap.git",
     license="BSD",
     description="Cython libpcap",
-    long_description="Cython libpcap",
+    long_description=long_description,
     keywords=[
         "python-libpcap",
         "pylibpcap",
@@ -44,49 +47,28 @@ setup(
     ],
     zip_safe=False,
     packages=find_packages(),
-
     cmdclass={
         "build_ext": build_ext
     },
     ext_modules=cythonize(ext_modules),
-
     install_requires=[
     ],
-
     entry_points={
         "console_scripts": [
             "pylibpcap = pylibpcap.command:main",
+            "pylibpcap_sniff = pylibpcap.command:pylibpcap_sniff",
         ],
-        # "gui_scripts": [
-        # ],
     },
-
-    # package_data={
-    #     "": ["*.txt"],
-    # },
     include_package_data=True,  # MANIFEST.in
-    # exclude_packet_data=[],
-    # data_files=[],
-    # scripts=["xxx.py"],
-
-    # package_dir=[],
-    # requires=[],
-    # provides=[],
-
     setup_requires=[
         "setuptools",
         "Cython",
     ],
-
     project_urls={
         "Documentation": "https://python-libpcap.readthedocs.io",
         "Source Code": "https://github.com/caizhengxin/python-libpcap",
     },
-
-    # dependency_links=[],
-    # extras_require=[],
-
-    platforms="any",
+    platforms="Linux",
     classifiers=[
         'Development Status :: 4 - Beta',
         'Operating System :: OS Independent',

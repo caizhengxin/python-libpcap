@@ -2,12 +2,13 @@
 # @Author: JanKinCai
 # @Date:   2019-05-10 11:46:33
 # @Last Modified by:   caizhengxin@bolean.com.cn
-# @Last Modified time: 2019-09-10 16:45:02
+# @Last Modified time: 2019-09-12 13:02:39
 import os
 # from libc.stdlib cimport free
 # from libc.string cimport strdup, memcpy
 
-from pylibpcap.utils import get_pcap_file, to_c_name
+from pylibpcap.utils import get_pcap_file, to_c_str
+from pylibpcap.base import Sniff, LibPcap
 
 
 # 宏定义
@@ -137,7 +138,7 @@ cpdef void wpcap(object pkt, str out_file):
     cdef pcap_pkthdr pkt_header
 
     cdef pcap_t* in_pcap = pcap_open_dead(1, BUFSIZ)
-    cdef pcap_dumper_t *out_pcap = pcap_dump_open(in_pcap, to_c_name(out_file))
+    cdef pcap_dumper_t *out_pcap = pcap_dump_open(in_pcap, to_c_str(out_file))
 
     if isinstance(pkt, bytes):
         py_pcap_dump(pkt_header, pkt, out_pcap)
@@ -151,64 +152,21 @@ cpdef void wpcap(object pkt, str out_file):
     pcap_close(in_pcap)
 
 
-cpdef void mpcap(str sfile, str dfile, str filters=""):
+cpdef void mpcap(str path, str out_file, str filters=""):
     """
-    合并pcap文件
+    Merge many pcap file.
 
-    :param sfile: 源文件
-    :param dfile: 目的文件
-    :param filters: BPF过滤规则
-    """
-
-    cdef char errbuf[PCAP_ERRBUF_SIZE]
-    cdef pcap_pkthdr pkt_header
-    cdef u_char *pkt
-    cdef pcap_dumper_t *out_pcap
-
-    cdef pcap_t *in_pcap = pcap_open_offline(dfile.encode("utf-8"), errbuf)
-
-    if in_pcap == NULL:
-        raise ValueError(errbuf.decode("utf-8"))
-
-    out_pcap = pcap_dump_open(in_pcap, dfile.encode("utf-8"))
-
-    while 1:
-        pkt = <u_char*>pcap_next(in_pcap, &pkt_header)
-
-        if pkt == NULL:
-            break
-
-        pcap_dump(<u_char*>out_pcap, &pkt_header, pkt)
-
-    pcap_close(in_pcap)
-
-    py_pcap_rw(sfile, pkt_header, out_pcap, filters)
-
-    pcap_dump_flush(out_pcap)
-    pcap_dump_close(out_pcap)
-
-
-cpdef void mpcaps(str path, str out_file, str filters=""):
-    """
-    根据BPF规则提取pcap内容并写入pcap文件
-
-    :param path: 目录或者文件.
-    :param out_file: 输出文件.
-    :param filters: 过滤规则，默认 ``""``.
+    :param path: Input dir/file
+    :param out_file: Output file
+    :param filters: BPF Filters, default ``""``
     """
 
-    cdef pcap_pkthdr pkt_header
-    cdef pcap_dumper_t *out_pcap = pcap_dump_open(pcap_open_dead(1, BUFSIZ), to_c_name(out_file))
+    lp = LibPcap(path=path, out_file=out_file, filters=filters)
 
-    if os.path.isfile(path):
-        py_pcap_rw(path, pkt_header, out_pcap, filters)
-    elif os.path.isdir(path):
-        for f in get_pcap_file(path):
-            py_pcap_rw(f, pkt_header, out_pcap, filters)
-
-    pcap_dump_flush(out_pcap)
-    pcap_dump_close(out_pcap)
-
+    if os.path.isdir(path):
+        lp.mpcaps()
+    else:
+        lp.mpcap()
 
 # cdef void sniff_callback(u_char *user, const pcap_pkthdr *pkt_header, const u_char *pkt_data):
 #     """
@@ -219,46 +177,16 @@ cpdef void mpcaps(str path, str out_file, str filters=""):
 #         pcap_dump(user, pkt_header, pkt_data)
 
 
-def sniff(str iface, str filters="", int count=-1, str out_file=""):
+def sniff(*args, **kwargs):
     """
-    捕获数据包
+    Capture packet
 
-    :param iface: 网卡
-    :param filters: BPF过滤规则, 默认 `""`
-    :param count: 捕获数据包数量, 默认 `-1`
-    :param out_file: 输出文件，默认 `""`
+    :param iface: Iface
+    :param count: Capture packet num, default ``-1``
+    :param promisc: Promiscuous mode, default ``0``
+    :param snaplen: Cut packet lenght, default ``65535``
+    :param filters: BPF filter rules, default ``""``
+    :param out_file: Output pcap file, default ``""``
     """
 
-    cdef char errbuf[PCAP_ERRBUF_SIZE]
-    cdef pcap_pkthdr pkt_header
-    cdef pcap_dumper_t *out_pcap = NULL
-    cdef pcap_t* handler = pcap_open_live(iface.encode("utf-8"), BUFSIZ, 1, 0, errbuf)
-
-    if handler == NULL:
-        raise ValueError(errbuf.decode("utf-8"))
-
-    if out_file:
-        out_pcap = pcap_dump_open(handler, out_file.encode("utf-8"))
-
-    if filters:
-        set_filter(handler, filters.encode("utf-8"))
-
-    # pcap_loop(handler, count, sniff_callback, <u_char*>out_pcap)
-
-    while count == -1 or count > 0:
-
-        pkt = <u_char*>pcap_next(handler, &pkt_header)
-
-        if out_pcap != NULL:
-            pcap_dump(<u_char*>out_pcap, &pkt_header, pkt)
-
-        yield pkt_header.caplen, pkt_header.ts.tv_sec, (<char*>pkt)[:pkt_header.caplen]
-
-        if count > 0:
-            count -= 1
-
-    if out_pcap != NULL:
-        pcap_dump_flush(out_pcap)
-        pcap_dump_close(out_pcap)
-
-    pcap_close(handler)
+    return Sniff(*args, **kwargs).capture()

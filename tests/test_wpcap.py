@@ -2,10 +2,10 @@
 # @Author: JanKinCai
 # @Date:   2019-09-10 17:22:46
 # @Last Modified by:   caizhengxin@bolean.com.cn
-# @Last Modified time: 2019-09-10 18:07:33
+# @Last Modified time: 2019-09-12 13:07:56
 from __future__ import print_function
 
-from pylibpcap.base import BasePcap
+from pylibpcap.open import OpenPcap
 
 
 buf = b'\x00\xc0\x9f2A\x8c\x00\xe0\x18\xb1\x0c\xad\x08\x00E\x00\x008' \
@@ -14,6 +14,6 @@ buf = b'\x00\xc0\x9f2A\x8c\x00\xe0\x18\xb1\x0c\xad\x08\x00E\x00\x008' \
       b'\x00\x06google\x03com\x00\x00\x10\x00\x01'
 
 
-a = BasePcap(in_file="tests/dns.pcap")
-for v in a.read():
-    print(v)
+with OpenPcap(in_file="tests/dns.pcap") as f:
+    for v in f.read():
+        print(v)

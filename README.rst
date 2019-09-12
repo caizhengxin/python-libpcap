@@ -101,9 +101,9 @@ Capture data:
 
 
     for lens, t, buf in sniff("enp2s0", strs="port 53", count=3, out_file="pcap.pcap"):
-        print("字节流长度：", lens)
-        print("捕获时间：", t)
-        print("字节流：", buf)
+        print("[+]: Payload len=", lens)
+        print("[+]: Time", t)
+        print("[+]: Payload", buf)
 
 Credits
 -------
