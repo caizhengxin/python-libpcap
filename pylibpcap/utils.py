@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Author: JanKinCai
 # @Date:   2019-09-04 23:19:03
-# @Last Modified by:   caizhengxin@bolean.com.cn
+# @Last Modified by:   jankincai12@gmail.com
 # @Last Modified time: 2019-09-12 12:45:02
 import os
 

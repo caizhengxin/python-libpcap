@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 # @Author: JanKinCai
 # @Date:   2019-09-11 17:43:19
-# @Last Modified by:   caizhengxin@bolean.com.cn
+# @Last Modified by:   jankincai12@gmail.com
 # @Last Modified time: 2019-09-12 09:27:39
-from pylibpcap.base import BasePcap
+from pylibpcap.base import LibPcap
 
 
 class OpenPcap(object):
@@ -19,16 +19,14 @@ class OpenPcap(object):
         :param mode: file model, default ``r``
         """
 
-        self.mode = mode
-        self.path = path
-        self.pcapobj = BasePcap(path, *args, **kwargs)
+        self._pcapobj = LibPcap(path, mode, *args, **kwargs)
 
     def read(self):
         """
         Read
         """
 
-        return self.pcapobj.read()
+        return self._pcapobj.read()
 
     def write(self, v):
         """
@@ -37,7 +35,7 @@ class OpenPcap(object):
         :param v: Payload
         """
 
-        return self.pcapobj.write(v)
+        return self._pcapobj.write(v)
 
     def __enter__(self):
         """
@@ -51,4 +49,4 @@ class OpenPcap(object):
         exit
         """
 
-        self.pcapobj.close()
+        self._pcapobj.close()

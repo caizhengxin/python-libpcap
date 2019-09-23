@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: JanKinCai
 # @Date:   2019-09-10 12:53:07
-# @Last Modified by:   caizhengxin@bolean.com.cn
-# @Last Modified time: 2019-09-12 12:51:01
+# @Last Modified by:   jankincai12@gmail.com
+# @Last Modified time: 2019-09-12 13:23:39
 import os
 
 from pylibpcap.utils import to_c_str, from_c_str, get_pcap_file
@@ -21,26 +21,28 @@ cdef class BasePcap(object):
     """
     BasePcap
 
-    :param path: Input dir/file, default ``""``
-    :param out_file: Output file, default ``""``
+    :param path: Input file
     :param filters: BPF Filters, default ``""``
+    :param mode: open model, default ``r``
+    :param snaplen: Cut packet lenght, default ``65535``
     """
 
-    def __cinit__(self, str path="", str out_file="", str filters="", int snaplen=65535, *args, **kwargs):
+    def __cinit__(self, str path, mode="r", str filters="", int snaplen=65535, *args, **kwargs):
         """
         init
         """
 
-        assert path or out_file, "path or out_file is not None."
-
         self.path = self._to_c_str(path)
-        self.out_file = self._to_c_str(out_file)
         self.filters = self._to_c_str(filters)
         self.snaplen = snaplen
+        self.mode = mode
 
-        self.in_pcap = pcap_open_offline(self.path, self.errbuf)
-        self.out_in_pcap = pcap_open_offline(self.out_file, self.errbuf)
-        self.out_pcap = pcap_dump_open(pcap_open_dead(1, self.snaplen), self.out_file)
+        self.in_pcap = pcap_open_offline(self.path, self.errbuf) if mode == "r" else NULL
+        self.out_in_pcap = pcap_open_offline(self.path, self.errbuf) if mode == "a" else NULL
+        self.out_pcap = pcap_dump_open(pcap_open_dead(1, self.snaplen), self.path) if mode == "a" or mode == "w" else NULL
+
+        if mode == "a":
+            self.pcap_next_dump(self.out_in_pcap, "")
 
     def _to_c_str(self, v):
         """
@@ -62,6 +64,22 @@ cdef class BasePcap(object):
         """
 
         return self._from_c_str(self.errbuf)
+
+    @property
+    def isr(self):
+        """
+        Is Read
+        """
+
+        return self.mode == "r"
+
+    @property
+    def isw(self):
+        """
+        Is Write
+        """
+
+        return self.mode == "a" or self.mode == "w"
 
     cdef void set_filter(self, pcap_t* p, char* filters):
         """
@@ -159,6 +177,9 @@ cdef class LibPcap(BasePcap):
 
         cdef pcap_pkthdr pkt_header
 
+        if not self.isw:
+            raise TypeError("Not Write.")
+
         if isinstance(v, bytes):
             self.pcap_write_dump(pkt_header, v)
         else:
@@ -175,6 +196,9 @@ cdef class LibPcap(BasePcap):
 
         cdef u_char *pkt
 
+        if not self.isr:
+            raise TypeError("Not Read.")
+
         if self.filters:
             self.set_filter(self.in_pcap, self.filters)
 
@@ -187,20 +211,12 @@ cdef class LibPcap(BasePcap):
 
             yield pkt_header.caplen, pkt_header.ts.tv_sec, (<char *>pkt)[:pkt_header.caplen]
 
-    def mpcap(self):
-        """
-        Merge two pcap file.
-        """
+    # def mpcaps(self):
+    #     """
+    #     Merge many pcap file.
+    #     """
 
-        self.pcap_next_dump(self.out_in_pcap, "")
-        self.pcap_next_dump(self.in_pcap, self.filters)
-
-    def mpcaps(self):
-        """
-        Merge many pcap file.
-        """
-
-        self.pcap_next_dumps()
+    #     self.pcap_next_dumps()
 
 
 cdef class Sniff(BasePcap):
