@@ -5,7 +5,7 @@
 # @Last Modified time: 2019-09-12 13:07:49
 import argparse
 
-from pylibpcap.pcap import mpcaps, sniff
+from pylibpcap.pcap import mpcap, sniff
 
 
 def main():
@@ -21,7 +21,7 @@ def main():
 
     print("[+]:", args)
 
-    mpcaps(args.input, args.output, " ".join(args.filter))
+    mpcap(args.input, args.output, " ".join(args.filter))
 
 
 def pylibpcap_sniff():

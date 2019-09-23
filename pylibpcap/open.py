@@ -37,6 +37,13 @@ class OpenPcap(object):
 
         return self._pcapobj.write(v)
 
+    def write_path(self, path):
+        """
+        write path
+        """
+
+        return self._pcapobj.write_path(path)
+
     def __enter__(self):
         """
         enter

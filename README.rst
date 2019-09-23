@@ -42,7 +42,7 @@ Console:
 
 .. code-block:: console
 
-    $ pylibpcap -i pcap/ -o pcap.pcap port 502
+    $ mpcap -i pcap/ -o pcap.pcap port 502
 
 Read pcap:
 
@@ -75,7 +75,7 @@ Merge pcap:
 
 .. code-block:: python
 
-    from pylibpcap.pcap import mpcaps, mpcap
+    from pylibpcap.pcap import mpcap
 
 
     # mpcap(file1，file2)
@@ -83,7 +83,7 @@ Merge pcap:
     mpcap("demo.pcap", "demo2.pcap")
 
     # 根据BPF规则提取数据，并输出到output.pcap
-    mpcaps("pcap/", "output.pcap", "port 502")
+    mpcap("pcap/", "output.pcap", "port 502")
 
 Get first iface:
 

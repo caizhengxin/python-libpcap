@@ -8,13 +8,13 @@ import os
 from pylibpcap.utils import to_c_str, from_c_str, get_pcap_file
 
 
-BUFSIZ = 65535
-PCAP_VERSION_MAJOR = 2
-PCAP_VERSION_MINOR = 4
-PCAP_ERRBUF_SIZE = 256
-PCAP_IF_LOOPBACK = 0x00000001
-MODE_CAPT = 0
-MODE_STAT = 1
+DEF BUFSIZ = 65535
+DEF PCAP_VERSION_MAJOR = 2
+DEF PCAP_VERSION_MINOR = 4
+DEF PCAP_ERRBUF_SIZE = 256
+DEF PCAP_IF_LOOPBACK = 0x00000001
+DEF MODE_CAPT = 0
+DEF MODE_STAT = 1
 
 
 cdef class BasePcap(object):
@@ -38,10 +38,10 @@ cdef class BasePcap(object):
         self.mode = mode
 
         self.in_pcap = pcap_open_offline(self.path, self.errbuf) if mode == "r" else NULL
-        self.out_in_pcap = pcap_open_offline(self.path, self.errbuf) if mode == "a" else NULL
+        self.out_in_pcap = pcap_open_offline(self.path, self.errbuf) if mode == "a" and os.path.exists(path) else NULL
         self.out_pcap = pcap_dump_open(pcap_open_dead(1, self.snaplen), self.path) if mode == "a" or mode == "w" else NULL
 
-        if mode == "a":
+        if mode == "a" and self.out_in_pcap != NULL:
             self.pcap_next_dump(self.out_in_pcap, "")
 
     def _to_c_str(self, v):
@@ -123,14 +123,14 @@ cdef class BasePcap(object):
 
             pcap_dump(<u_char*>self.out_pcap, &pkt_header, pkt)
 
-    cdef void pcap_next_dumps(self):
+    cdef void pcap_next_dumps(self, str path):
         """
         pcap_next_dumps
         """
 
         cdef pcap_t* in_pcap = NULL
 
-        for f in get_pcap_file(self.path):
+        for f in get_pcap_file(path):
             in_pcap = pcap_open_offline(self._to_c_str(f), self.errbuf)
 
             if in_pcap == NULL:
@@ -211,12 +211,12 @@ cdef class LibPcap(BasePcap):
 
             yield pkt_header.caplen, pkt_header.ts.tv_sec, (<char *>pkt)[:pkt_header.caplen]
 
-    # def mpcaps(self):
-    #     """
-    #     Merge many pcap file.
-    #     """
+    def write_path(self, path):
+        """
+        Write path
+        """
 
-    #     self.pcap_next_dumps()
+        return self.pcap_next_dumps(path)
 
 
 cdef class Sniff(BasePcap):
@@ -285,3 +285,24 @@ cdef class Sniff(BasePcap):
         if self.handler != NULL:
             pcap_close(self.handler)
             self.handler = NULL
+
+
+cpdef str get_first_iface():
+    """
+    Get first iface
+    """
+
+    cdef char errbuf[PCAP_ERRBUF_SIZE]
+    cdef char* iface
+
+    iface = pcap_lookupdev(errbuf)
+
+    return from_c_str(iface) if iface else ""
+
+
+# cdef void sniff_callback(u_char *user, const pcap_pkthdr *pkt_header, const u_char *pkt_data):
+#     """
+#     """
+
+#     if user != NULL:
+#         pcap_dump(user, pkt_header, pkt_data)

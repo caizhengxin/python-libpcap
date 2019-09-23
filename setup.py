@@ -55,8 +55,8 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "pylibpcap = pylibpcap.command:main",
-            "pylibpcap_sniff = pylibpcap.command:pylibpcap_sniff",
+            "mpcap = pylibpcap.command:main",
+            "capture = pylibpcap.command:pylibpcap_sniff",
         ],
     },
     include_package_data=True,  # MANIFEST.in

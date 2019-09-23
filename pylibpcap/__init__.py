@@ -12,7 +12,7 @@ __all__ = [
 
 
 try:
-    from pylibpcap.pcap import rpcap, wpcap, mpcap, mpcaps, sniff, get_first_iface
+    from pylibpcap.pcap import rpcap, wpcap, mpcap, sniff, get_first_iface
     from pylibpcap.open import OpenPcap
 except ImportError:
     pass

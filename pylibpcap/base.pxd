@@ -31,4 +31,4 @@ cdef class BasePcap(object):
 
     cdef void pcap_next_dump(self, pcap_t* in_pcap, char* filters)
 
-    cdef void pcap_next_dumps(self)
+    cdef void pcap_next_dumps(self, str path)
