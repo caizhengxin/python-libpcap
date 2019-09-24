@@ -71,6 +71,7 @@ Write pcap:
 
 
     wpcap(buf, "pcap.pcap")
+    wpcap([buf, buf], "pcap.pcap)
 
 Merge pcap:
 
@@ -98,8 +99,8 @@ Capture data:
     from pylibpcap.pcap import sniff
 
 
-    for lens, t, buf in sniff("enp2s0", strs="port 53", count=3, out_file="pcap.pcap"):
-        print("[+]: Payload len=", lens)
+    for plen, t, buf in sniff("enp2s0", filters="port 53", count=3, promisc=1, out_file="pcap.pcap"):
+        print("[+]: Payload len=", plen)
         print("[+]: Time", t)
         print("[+]: Payload", buf)
 
