@@ -44,6 +44,7 @@ setup(
         "libpcap",
         "pcap",
         "python",
+        "linpcap-python",
     ],
     zip_safe=False,
     packages=find_packages(),
