@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-09-04 23:19:03
 # @Last Modified by:   jankincai12@gmail.com
-# @Last Modified time: 2019-09-12 12:45:02
+# @Last Modified time: 2019-09-24 09:49:13
 import os
 
 
@@ -11,7 +11,12 @@ def to_c_str(v):
     Python str to C str
     """
 
-    return v.encode("utf-8")
+    try:
+        return v.encode("utf-8")
+    except Exception:
+        pass
+
+    return b""
 
 
 def from_c_str(v):
@@ -19,7 +24,12 @@ def from_c_str(v):
     C str to Python str
     """
 
-    return v.decode("utf-8")
+    try:
+        return v.decode("utf-8")
+    except Exception:
+        pass
+
+    return ""
 
 
 def get_pcap_file(path):

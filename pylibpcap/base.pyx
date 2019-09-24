@@ -27,7 +27,7 @@ cdef class BasePcap(object):
     :param snaplen: Cut packet lenght, default ``65535``
     """
 
-    def __cinit__(self, str path, mode="r", str filters="", int snaplen=65535, *args, **kwargs):
+    def __init__(self, str path, mode="r", str filters="", int snaplen=65535, *args, **kwargs):
         """
         init
         """
@@ -231,7 +231,7 @@ cdef class Sniff(BasePcap):
     :param out_file: Output pcap file, default ``""``
     """
 
-    def __cinit__(self, str iface, int count=-1, int promisc=0, int snaplen=65535,
+    def __init__(self, str iface, int count=-1, int promisc=0, int snaplen=65535,
                   str filters="", str out_file="", *args, **kwargs):
         """
         init

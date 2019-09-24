@@ -3,7 +3,7 @@
 # @Date:   2019-05-10 11:46:33
 # @Last Modified by:   jankincai12@gmail.com
 # @Last Modified time: 2019-09-12 13:28:50
-from pylibpcap.base import Sniff
+from pylibpcap.base import Sniff, LibPcap
 from pylibpcap.open import OpenPcap
 
 
@@ -17,8 +17,7 @@ def rpcap(path, filters=""):
     return tuple: (Buf length，Capture time，Buf)
     """
 
-    with OpenPcap(path, filters=filters) as f:
-        return f.read()
+    return LibPcap(path, filters=filters).read()
 
 
 def wpcap(v, path):
