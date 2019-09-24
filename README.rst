@@ -43,6 +43,7 @@ Console:
 .. code-block:: console
 
     $ mpcap -i pcap/ -o pcap.pcap port 502
+    $ sudo capture -i enp2s0 -v
 
 Read pcap:
 
@@ -52,9 +53,9 @@ Read pcap:
 
 
     for len, t, pkt in rpcap("tests/dns.pcap"):
-        print("字节流长度：", len)
-        print("捕获时间：", t)
-        print("字节流：", pkt)
+        print("Buf length：", len)
+        print("Time：", t)
+        print("Buf：", pkt)
 
 Write pcap:
 
@@ -78,11 +79,8 @@ Merge pcap:
     from pylibpcap.pcap import mpcap
 
 
-    # mpcap(file1，file2)
-    # file1合并到file2
     mpcap("demo.pcap", "demo2.pcap")
 
-    # 根据BPF规则提取数据，并输出到output.pcap
     mpcap("pcap/", "output.pcap", "port 502")
 
 Get first iface:
