@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Author: JanKinCai
 # @Date:   2019-09-03 13:48:13
-# @Last Modified by:   caizhengxin@bolean.com.cn
+# @Last Modified by:   jankincai12@gmail.com
 # @Last Modified time: 2019-09-04 12:22:59
 from __future__ import print_function
 
@@ -18,11 +18,11 @@ def test_rpcap():
     """
     """
 
-    for len, t, pkt in rpcap("tests/dns.pcap"):
-        print("字节流长度：", len)
-        print("捕获时间：", t)
-        print("字节流：", pkt)
-        assert pkt == rpcap_buf
+    for plen, t, buf in rpcap("tests/dns.pcap"):
+        print("[+]: Payload len=", plen)
+        print("[+]: Time", t)
+        print("[+]: Payload", buf)
+        assert buf == rpcap_buf
         break
 
 
