@@ -27,7 +27,7 @@ ext_modules = [
 
 setup(
     name="python-libpcap",
-    version="0.1.2",
+    version="0.1.3",
     author="JanKinCai",
     author_email="jankincai12@gmail.com",
     maintainer="JanKinCai",
