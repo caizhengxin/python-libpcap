@@ -53,9 +53,9 @@ Read pcap:
 
 
     for len, t, pkt in rpcap("tests/dns.pcap"):
-        print("Buf length：", len)
-        print("Time：", t)
-        print("Buf：", pkt)
+        print("Buf length:", len)
+        print("Time:", t)
+        print("Buf:", pkt)
 
 Write pcap:
 
