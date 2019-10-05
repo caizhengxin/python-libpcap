@@ -33,7 +33,8 @@ To install python-libpcap, run this command in your terminal:
 .. code-block:: console
 
     $ sudo apt-get install libpcap-dev
-    $ pip install python-libpcap
+    $ pip3 install Cython
+    $ pip3 install python-libpcap
 
 Demo
 ----
