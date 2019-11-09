@@ -5,12 +5,23 @@ python-libpcap
 .. image:: https://img.shields.io/pypi/v/python-libpcap.svg
         :target: https://pypi.python.org/pypi/python-libpcap
 
+.. image:: https://img.shields.io/pypi/pyversions/python-libpcap.svg
+        :target: https://pypi/python.org/pypi/python-libpcap
+
 .. image:: https://api.travis-ci.com/caizhengxin/python-libpcap.svg
         :target: https://travis-ci.org/JanKinCai/python-libpcap
+
+.. image:: https://img.shields.io/pypi/dm/python-libpcap.svg
+        :target: https://pypi/python.org/pypi/python-libpcap
 
 .. image:: https://readthedocs.org/projects/python-libpcap/badge/?version=latest
         :target: https://python-libpcap.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
+.. image:: https://img.shields.io/github/languages/code-size/caizhengxin/python-libpcap
+        :target: https://github.com/caizhengxin/python-libpcap
+
+.. image:: https://img.shields.io/pypi/l/python-libpcap
+        :target: https://github.com/caizhengxin/python-libpcap/blob/master/LICENSE
 
 Cython libpcap
 

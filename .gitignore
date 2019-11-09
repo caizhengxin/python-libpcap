@@ -1,6 +1,7 @@
 *.c
 *.pcap
 !dns.pcap
+*.html
 
 ### Python template
 # Byte-compiled / optimized / DLL files
