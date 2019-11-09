@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
+# @Author: JanKinCai
+# @Date:   2019-11-09 10:08:53
+# @Last Modified by:   JanKinCai
+# @Last Modified time: 2019-11-09 11:27:36
 import os
+import glob
 
 from setuptools import setup, find_packages
 from setuptools import Extension
-
 from Cython.Build import cythonize
 from Cython.Distutils import build_ext
 
@@ -11,9 +15,36 @@ from Cython.Distutils import build_ext
 with open('README.rst') as f:
     long_description = f.read()
 
+
+def read_requirements(path):
+    """
+    递归读取requirements
+
+    :param path: path
+    """
+
+    requires = []
+
+    with open(path) as f:
+        install_requires = f.read().split("\n")
+
+        for ir in install_requires:
+            if "-r" in ir:
+                path = os.path.join(os.path.split(path)[0], ir.split(" ")[1])
+                requires.extend(read_requirements(path))
+            else:
+                ir and requires.append(ir)
+
+    return requires
+
+
+# local or publish
+USE_CYTHON = False if glob.glob("pylibpcap/*.c") else True
+ext = '.pyx' if USE_CYTHON else '.c'
+
 ext_modules = [
     Extension(
-        "*",
+        "{}/{}".format(directory, file.split(".")[0]).replace("/", "."),
         sources=["{}/{}".format(directory, file)],
         libraries=["m"],
         # include_dirs=["src"],
@@ -21,8 +52,10 @@ ext_modules = [
         extra_link_args=["-lpcap"],
     )
     for directory, dirs, files in os.walk("pylibpcap")
-    for file in files if ".pyx" in file
+    for file in files if ext in file and ".pyc" not in file
 ]
+
+ext_modules = cythonize(ext_modules) if USE_CYTHON else ext_modules
 
 
 setup(
@@ -43,16 +76,15 @@ setup(
         "libpcap",
         "pcap",
         "python",
-        "linpcap-python",
+        "libpcap-python",
     ],
     zip_safe=False,
     packages=find_packages(),
     cmdclass={
         "build_ext": build_ext
     },
-    ext_modules=cythonize(ext_modules),
-    install_requires=[
-    ],
+    ext_modules=ext_modules,
+    install_requires=read_requirements("requirements/publish.txt"),
     entry_points={
         "console_scripts": [
             "mpcap = pylibpcap.command:main",
