@@ -17,13 +17,14 @@ python-libpcap
 .. image:: https://readthedocs.org/projects/python-libpcap/badge/?version=latest
         :target: https://python-libpcap.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
+
 .. image:: https://img.shields.io/github/languages/code-size/caizhengxin/python-libpcap
         :target: https://github.com/caizhengxin/python-libpcap
 
 .. image:: https://img.shields.io/pypi/l/python-libpcap
         :target: https://github.com/caizhengxin/python-libpcap/blob/master/LICENSE
 
-Cython libpcap
+* Cython libpcap, read/write/merge/capture
 
 * Documentation: https://python-libpcap.readthedocs.io
 
@@ -33,7 +34,10 @@ Features
 * Read pcap file
 * Write pcap file
 * Merge pcap file
+* Multi-file quick merge
 * Get first iface
+* Get iface list
+* Send raw packet
 * Capture data
 
 Installation
@@ -54,7 +58,10 @@ Console:
 
 .. code-block:: console
 
+    # Multi-file quick merge
     $ mpcap -i pcap/ -o pcap.pcap port 502
+
+    # Capture data packet
     $ sudo capture -i enp2s0 -v
 
 Read pcap:
@@ -103,6 +110,22 @@ Get first iface:
     from pylibpcap.pcap import get_first_iface
 
     print(get_first_iface())
+
+Get iface list:
+
+.. code:: python
+
+    from pylibpcap import get_iface_list
+
+    print(get_iface_list())
+
+Send raw packet:
+
+.. code:: python
+
+    from pylibpcap import send_packet
+
+    send_packet("enp2s0", b"")
 
 Capture data:
 

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: JanKinCai
 # @Date:   2019-09-10 12:53:07
-# @Last Modified by:   jankincai12@gmail.com
-# @Last Modified time: 2019-09-12 13:23:39
+# @Last Modified by:   JanKinCai
+# @Last Modified time: 2019-11-09 17:01:27
 import os
 
 from pylibpcap.utils import to_c_str, from_c_str, get_pcap_file
@@ -298,6 +298,45 @@ cpdef str get_first_iface():
     iface = pcap_lookupdev(errbuf)
 
     return from_c_str(iface) if iface else ""
+
+
+cpdef list get_iface_list():
+    """
+    Get iface list
+    """
+
+    cdef char errbuf[PCAP_ERRBUF_SIZE]
+    cdef pcap_if_t *interfaces, *temp
+    cdef list iface_list = []
+
+    if pcap_findalldevs(&interfaces, errbuf) == -1:
+        return []
+
+    while interfaces:
+        iface_list.append(interfaces.name.decode("utf-8"))
+        interfaces = interfaces.next
+
+    pcap_freealldevs(interfaces)
+
+    return iface_list
+
+
+cpdef bint send_packet(str iface, bytes buf):
+    """
+    Send raw packet
+    """
+
+    cdef char errbuf[PCAP_ERRBUF_SIZE]
+
+    cdef pcap_t* handler = pcap_open_live(to_c_str(iface), 65535, 0, 0, errbuf)
+
+    if handler == NULL:
+        raise from_c_str(errbuf)
+
+    if pcap_sendpacket(handler, buf, len(buf)) == -1:
+        return False
+
+    return True
 
 
 # cdef void sniff_callback(u_char *user, const pcap_pkthdr *pkt_header, const u_char *pkt_data):

@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-11-09 10:08:53
 # @Last Modified by:   JanKinCai
-# @Last Modified time: 2019-11-09 11:27:36
+# @Last Modified time: 2019-11-09 15:16:27
 import os
 import glob
 
@@ -39,7 +39,7 @@ def read_requirements(path):
 
 
 # local or publish
-USE_CYTHON = False if glob.glob("pylibpcap/*.c") else True
+USE_CYTHON = True if glob.glob("pylibpcap/*.pyx") else False
 ext = '.pyx' if USE_CYTHON else '.c'
 
 ext_modules = [
@@ -54,6 +54,9 @@ ext_modules = [
     for directory, dirs, files in os.walk("pylibpcap")
     for file in files if ext in file and ".pyc" not in file
 ]
+
+print(USE_CYTHON)
+print(ext_modules)
 
 ext_modules = cythonize(ext_modules) if USE_CYTHON else ext_modules
 
@@ -114,6 +117,7 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Topic :: Software Development :: Libraries'
     ],
 )

@@ -1,18 +1,26 @@
 # -*- coding: utf-8 -*-
 # @Author: JanKinCai
 # @Date:   2019-05-10 11:19:43
-# @Last Modified by:   jankincai12@gmail.com
-# @Last Modified time: 2019-09-12 13:27:37
+# @Last Modified by:   JanKinCai
+# @Last Modified time: 2019-11-09 15:50:51
 
 
 ctypedef unsigned int u_int
 ctypedef unsigned char u_char
+ctypedef unsigned int sa_family_t
 
 
 cdef extern from "stdio.h":
 
     ctypedef struct FILE:
         pass
+
+
+cdef extern from "sys/socket.h":
+
+    struct sockaddr:
+        sa_family_t sa_family
+        char sa_data[14]
 
 
 cdef extern from "pcap.h" nogil:
@@ -42,16 +50,16 @@ cdef extern from "pcap.h" nogil:
         u_int ps_netdrop
 
     struct pcap_pkthdr:
-        bpf_timeval ts 
+        bpf_timeval ts
         bpf_u_int32 caplen
         bpf_u_int32 len
 
-    # struct pcap_addr:
-    #     pcap_addr *next
-    #     sockaddr *addr
-    #     sockaddr *netmask
-    #     sockaddr *broadaddr
-    #     sockaddr *dstaddr
+    struct pcap_addr:
+        pcap_addr *next
+        sockaddr *addr
+        sockaddr *netmask
+        sockaddr *broadaddr
+        sockaddr *dstaddr
 
     ctypedef struct pcap_t:
         pass
@@ -60,7 +68,11 @@ cdef extern from "pcap.h" nogil:
         pass
 
     ctypedef struct pcap_if_t:
-        pass
+        pcap_if_t* next
+        char* name
+        char* description
+        pcap_addr* addresses
+        u_int flags
 
     ctypedef struct pcap_addr_t:
         pass
