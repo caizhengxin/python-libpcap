@@ -8,7 +8,7 @@ python-libpcap
 .. image:: https://img.shields.io/pypi/pyversions/python-libpcap.svg
         :target: https://pypi/python.org/pypi/python-libpcap
 
-.. image:: https://api.travis-ci.com/caizhengxin/python-libpcap.svg
+.. image:: https://api.travis-ci.com/caizhengxin/python-libpcap.svg?branch=master
         :target: https://travis-ci.org/JanKinCai/python-libpcap
 
 .. image:: https://img.shields.io/pypi/dm/python-libpcap.svg
@@ -24,7 +24,7 @@ python-libpcap
 .. image:: https://img.shields.io/pypi/l/python-libpcap
         :target: https://github.com/caizhengxin/python-libpcap/blob/master/LICENSE
 
-* Cython libpcap, read/write/merge/capture
+Cython libpcap, read/write/merge/capture
 
 * Documentation: https://python-libpcap.readthedocs.io
 

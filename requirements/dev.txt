@@ -8,3 +8,4 @@ sphinxcontrib.napoleon
 
 bumpversion
 pre-commit>=1.18.3
+Cython
