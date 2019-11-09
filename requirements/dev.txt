@@ -1,4 +1,5 @@
--r base.txt
+-r publish.txt
+-r test.txt
 
 sphinx
 sphinx_rtd_theme
@@ -6,3 +7,4 @@ mock
 sphinxcontrib.napoleon
 
 bumpversion
+pre-commit>=1.18.3
