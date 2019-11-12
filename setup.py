@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-11-09 10:08:53
 # @Last Modified by:   JanKinCai
-# @Last Modified time: 2019-11-09 15:16:27
+# @Last Modified time: 2019-11-12 21:34:25
 import os
 import glob
 
@@ -54,9 +54,6 @@ ext_modules = [
     for directory, dirs, files in os.walk("pylibpcap")
     for file in files if ext in file and ".pyc" not in file
 ]
-
-print(USE_CYTHON)
-print(ext_modules)
 
 ext_modules = cythonize(ext_modules) if USE_CYTHON else ext_modules
 
