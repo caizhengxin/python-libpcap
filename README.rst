@@ -26,7 +26,9 @@ python-libpcap
 
 Cython libpcap, read/write/merge/capture
 
+* GIthub repo: https://github.com/caizhengxin/python-libpcap
 * Documentation: https://python-libpcap.readthedocs.io
+* Free software: BSD lincense
 
 Features
 --------
