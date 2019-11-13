@@ -82,7 +82,7 @@ Write pcap:
 
 .. code-block:: python
 
-    from pylibpcap.pcap import wpcap
+    from pylibpcap import wpcap
 
 
     buf = b'\x00\xc0\x9f2A\x8c\x00\xe0\x18\xb1\x0c\xad\x08\x00E\x00\x008' \
@@ -93,6 +93,14 @@ Write pcap:
 
     wpcap(buf, "pcap.pcap")
     wpcap([buf, buf], "pcap.pcap)
+
+.. code-block:: python
+
+    from pylibpcap import OpenPcap
+
+
+    with OpenPcap("pcap.pcap", "a") as f:
+        f.write(buf)
 
 Merge pcap:
 
