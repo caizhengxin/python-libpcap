@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: JanKinCai
 # @Date:   2019-09-04 23:19:03
-# @Last Modified by:   jankincai12@gmail.com
-# @Last Modified time: 2019-09-24 09:49:13
+# @Last Modified by:   JanKinCai
+# @Last Modified time: 2019-11-20 10:04:12
 import os
 
 
@@ -41,6 +41,9 @@ def get_pcap_file(path):
 
     if isinstance(path, bytes):
         path = from_c_str(path)
+
+    if os.path.isfile(path):
+        return (path, )
 
     return (
         os.path.join(directory, file)
