@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-09-10 12:53:07
 # @Last Modified by:   JanKinCai
-# @Last Modified time: 2020-04-04 11:30:05
+# @Last Modified time: 2020-04-18 09:46:00
 import os
 
 from pylibpcap.utils import to_c_str, from_c_str, get_pcap_file
@@ -241,8 +241,14 @@ cdef class Sniff(BasePcap):
         self.filters = self._to_c_str(filters)
         self.iface = self._to_c_str(iface)
         self.count = count
-        self.handler = pcap_open_live(self.iface, snaplen, promisc, 0, self.errbuf)
+        self.handler = pcap_create(self.iface, self.errbuf)
+        pcap_set_snaplen(self.handler, snaplen)
+        pcap_set_promisc(self.handler, promisc)
+        pcap_set_timeout(self.handler, 0)
         pcap_set_immediate_mode(self.handler, 1)
+        pcap_activate(self.handler)
+        # self.handler = pcap_open_live(self.iface, snaplen, promisc, 0, self.errbuf)
+        # pcap_set_immediate_mode(self.handler, 1)
 
         if self.handler == NULL:
             raise ValueError(self.get_errbuf())
