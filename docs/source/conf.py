@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+# @Author: JanKinCai
+# @Date:   2020-04-04 11:59:28
+# @Last Modified by:   JanKinCai
+# @Last Modified time: 2020-04-04 11:59:28
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
@@ -24,8 +29,9 @@ copyright = "2019, JanKinCai"
 author = 'JanKinCai'
 
 # The full version, including alpha/beta/rc tags
-version = "0.2.1"
-release = "0.2.1"
+
+version = "0.2.3"
+release = "0.2.3"
 
 
 # -- General configuration ---------------------------------------------------

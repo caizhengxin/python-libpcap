@@ -2,9 +2,9 @@
 # @Author: JanKinCai
 # @Date:   2019-11-09 14:57:10
 # @Last Modified by:   JanKinCai
-# @Last Modified time: 2019-11-09 17:02:27
+# @Last Modified time: 2020-04-04 11:59:02
 
-__version__ = "0.2.1"
+__version__ = "0.2.3"
 __author__ = "JanKinCai"
 __all__ = [
     "rpcap",

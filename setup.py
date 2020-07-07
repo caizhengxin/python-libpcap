@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-11-09 10:08:53
 # @Last Modified by:   JanKinCai
-# @Last Modified time: 2020-01-13 15:18:12
+# @Last Modified time: 2020-07-07 09:35:38
 import os
 import glob
 
@@ -60,7 +60,7 @@ ext_modules = cythonize(ext_modules) if USE_CYTHON else ext_modules
 
 setup(
     name="python-libpcap",
-    version="0.2.1",
+    version="0.2.3",
     author="JanKinCai",
     author_email="jankincai12@gmail.com",
     maintainer="JanKinCai",
