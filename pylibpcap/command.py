@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 # @Author: JanKinCai
 # @Date:   2019-09-03 09:50:27
-# @Last Modified by:   jankincai12@gmail.com
-# @Last Modified time: 2019-09-12 13:07:49
+# @Last Modified by:   JanKinCai
+# @Last Modified time: 2020-01-13 15:38:43
 import argparse
 
 from pylibpcap.pcap import mpcap, sniff
+from pylibpcap.open import OpenPcap
 
 
 def main():
@@ -62,3 +63,18 @@ def pylibpcap_sniff():
         pass
 
     print("\nPacket Count:", num)
+
+
+def write_pcap_cli():
+    """Write pcap cli
+    """
+
+    parser = argparse.ArgumentParser(description="Write pcap")
+    parser.add_argument("-i", "--input", type=str, help="File path.")
+    parser.add_argument("payload", nargs=1, type=str, help="Payload")
+    args = parser.parse_args()
+
+    path = args.input or "pcap.pcap"
+
+    with OpenPcap(path, "a") as f:
+        f.write(bytes.fromhex(args.payload[0]))

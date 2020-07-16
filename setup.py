@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-11-09 10:08:53
 # @Last Modified by:   JanKinCai
-# @Last Modified time: 2020-04-04 11:58:38
+# @Last Modified time: 2020-07-07 09:35:38
 import os
 import glob
 
@@ -89,6 +89,7 @@ setup(
         "console_scripts": [
             "mpcap = pylibpcap.command:main",
             "capture = pylibpcap.command:pylibpcap_sniff",
+            "wpcap = pylibpcap.command:write_pcap_cli",
         ],
     },
     include_package_data=True,  # MANIFEST.in
@@ -108,11 +109,7 @@ setup(
         'License :: OSI Approved :: BSD License',
         'Programming Language :: Python',
         'Programming Language :: Python :: Implementation',
-        # 'Programming Language :: Python :: 2',
-        # 'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Topic :: Software Development :: Libraries'
