@@ -6,6 +6,13 @@ All notable changes to the "python-ctf" will be documented in this file.
 
 Check `Keep a Changelog`_ for recommendations on how to structure this file.
 
+0.2.5_ - 2020-10-12
+
+Fixed
+*****
+
+* Fix Sniff class don't create the pcap file (#7)
+
 0.2.4_ - 2020-07-16
 
 Fixed
@@ -21,7 +28,8 @@ Fixed
 
 * Large delay with sniff() function after updating to Ubuntu 19.10 (#2)
 
-.. _Unreleased: https://github.com/caizhengxin/python-ctf/compare/v0.2.4...HEAD
+.. _Unreleased: https://github.com/caizhengxin/python-ctf/compare/v0.2.5...HEAD
+.. _0.2.5: https://github.com/caizhengxin/python-ctf/compare/v0.2.4...v0.2.5
 .. _0.2.4: https://github.com/caizhengxin/python-ctf/compare/v0.2.3...v0.2.4
 .. _0.2.3: https://github.com/caizhengxin/python-ctf/compare/v0.2.2...v0.2.3
 .. _0.2.2: https://github.com/caizhengxin/python-ctf/compare/v0.2.1...v0.2.2

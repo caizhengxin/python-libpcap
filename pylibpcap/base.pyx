@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-09-10 12:53:07
 # @Last Modified by:   JanKinCai
-# @Last Modified time: 2020-07-16 21:45:34
+# @Last Modified time: 2020-10-12 09:41:50
 import os
 
 from pylibpcap.utils import to_c_str, from_c_str, get_pcap_file
@@ -237,7 +237,7 @@ cdef class Sniff(BasePcap):
         init
         """
 
-        self.out_file = self._to_c_str(self._to_c_str(out_file))
+        self.out_file = os.path.expanduser(self._to_c_str(out_file))
         self.filters = self._to_c_str(filters)
         self.iface = self._to_c_str(iface)
         self.count = count
