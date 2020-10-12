@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-09-10 12:53:07
 # @Last Modified by:   JanKinCai
-# @Last Modified time: 2020-07-07 09:35:12
+# @Last Modified time: 2020-07-16 21:45:34
 import os
 
 from pylibpcap.utils import to_c_str, from_c_str, get_pcap_file
@@ -334,16 +334,19 @@ cpdef bint send_packet(str iface, bytes buf):
     """
 
     cdef char errbuf[PCAP_ERRBUF_SIZE]
+    cdef bint status = False
 
     cdef pcap_t* handler = pcap_open_live(to_c_str(iface), 65535, 0, 0, errbuf)
 
     if handler == NULL:
         raise from_c_str(errbuf)
 
-    if pcap_sendpacket(handler, buf, len(buf)) == -1:
-        return False
+    if pcap_sendpacket(handler, buf, len(buf)) != -1:
+        status = True
 
-    return True
+    pcap_close(handler)
+
+    return status
 
 
 # cdef void sniff_callback(u_char *user, const pcap_pkthdr *pkt_header, const u_char *pkt_data):
