@@ -1,4 +1,5 @@
 
+import datetime
 import socket
 
 
@@ -41,6 +42,30 @@ def parse_ipv6(addr: bytes) -> str:
     return socket.inet_ntop(socket.AF_INET6, addr)
 
 
+def parse_tcp_flags(val: int) -> str:
+    """TCP Flags
+    """
+
+    flagslist = []
+
+    if val & 0x0002:
+        flagslist.append("SYN")
+
+    if val & 0x0010:
+        flagslist.append("ACK")
+
+    if val & 0x0008:
+        flagslist.append("PUSH")
+
+    if val & 0x0004:
+        flagslist.append("RST")
+
+    if val & 0x0001:
+        flagslist.append("FIN")
+
+    return ",".join(flagslist)
+
+
 def parse_int(val: bytes) -> int:
     """Bytes to int
     """
@@ -60,7 +85,7 @@ def to_hex_string(buf: bytes) -> str:
             hexstrlist.append("  ")
             hexstrlist.extend(strlist)
             strlist.clear()
-            hexstrlist.append("\n")
+            hexstrlist.append("\n" + " " * 5)
 
         if 0x21 <= v <= 0x7E:
             strlist.append(chr(v))
@@ -96,6 +121,7 @@ class Packet(object):
         self.dport = None
         self.proto = None
         self.protoid = None
+        self.tcp_flags = None
 
         self.parse()
 
@@ -199,6 +225,8 @@ class Packet(object):
 
         tcplen = buf[12] >> 2
 
+        self.tcp_flags = parse_tcp_flags(parse_int(buf[12:14]) & 0x0fff)
+
         self.buf = self.buf[tcplen:]
         self.buflen -= tcplen
 
@@ -220,11 +248,11 @@ class Packet(object):
         self.buf = self.buf[udplen:]
         self.buflen -= udplen
 
-    def to_string(self) -> None:
+    def to_string(self, show_payload: bool = False) -> str:
         """To string
         """
 
-        pktinfolist = []
+        pktinfolist = [datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")]
 
         if self.smac is not None:
             pktinfolist.append(self.smac)
@@ -249,7 +277,13 @@ class Packet(object):
         if self.proto is not None:
             pktinfolist.append(str(self.proto))
 
-        pktinfolist.append(to_hex_string(self.buf))
+        if self.tcp_flags is not None:
+            pktinfolist.append(self.tcp_flags)
+
+        if show_payload:
+            pktinfolist.append("\n")
+            pktinfolist.append(to_hex_string(self.buf))
+            pktinfolist.append("\n")
 
         return " ".join(pktinfolist)
 
@@ -257,42 +291,10 @@ class Packet(object):
         """repr
         """
 
-        return self.to_string()
+        return self.to_string(True)
 
     def __str__(self) -> None:
         """str
         """
 
-        return self.to_string()
-
-
-if __name__ == "__main__":
-    buf = b"\xac\x64\x17\x5f\xfa\x41\x00\x0e\xc6\xc9\x15\x7e\x08\x00\x45\x00" \
-          b"\x00\x4b\x8a\x58\x40\x00\x80\x06\x00\x00\xc0\xa8\x00\x02\xc0\xa8" \
-          b"\x00\x01\xc7\x99\x00\x66\x2f\xfd\xf7\x65\xb7\x0c\x4e\xef\x50\x18" \
-          b"\xfa\xf0\x81\x91\x00\x00\x03\x00\x00\x23\x1e\xe0\x00\x00\x00\x1e" \
-          b"\x00\xc1\x02\x06\x00\xc2\x0f\x53\x49\x4d\x41\x54\x49\x43\x2d\x52" \
-          b"\x4f\x4f\x54\x2d\x45\x53\xc0\x01\x0a"
-
-    obj = Packet(buf, len(buf))
-    print(obj)
-
-    buf = b"\x00\xd0\x03\xb3\xa7\xfc\x00\x13\x72\x97\xa2\xd4\x08\x00\x45\x00" \
-          b"\x00\x2e\x82\x2b\x40\x00\x40\x11\x13\x26\x0a\x04\x0e\x66\x0a\x82" \
-          b"\x82\x82\xe5\x62\x25\x80\x00\x1a\xfe\x53\x80\x00\x02\x00\x00\x00" \
-          b"\x00\x00\x00\x7a\x01\x01\x00\xcc\xcc\xcc\x00\x01"
-
-    obj = Packet(buf, len(buf))
-    print(obj)
-
-    buf = b"\xc2\x01\x51\xfa\x00\x00\xc2\x00\x51\xfa\x00\x00\x86\xdd\x60\x00" \
-          b"\x00\x00\x00\x3c\x3a\x40\x20\x01\x0d\xb8\x00\x00\x00\x12\x00\x00" \
-          b"\x00\x00\x00\x00\x00\x01\x20\x01\x0d\xb8\x00\x00\x00\x12\x00\x00" \
-          b"\x00\x00\x00\x00\x00\x02\x80\x00\x86\x3c\x11\x0d\x00\x00\x00\x01" \
-          b"\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11" \
-          b"\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f\x20\x21" \
-          b"\x22\x23\x24\x25\x26\x27\x28\x29\x2a\x2b\x2c\x2d\x2e\x2f\x30\x31" \
-          b"\x32\x33"
-
-    obj = Packet(buf, len(buf))
-    print(obj)
+        return self.to_string(True)
