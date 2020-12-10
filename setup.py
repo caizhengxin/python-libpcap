@@ -87,9 +87,10 @@ setup(
     install_requires=read_requirements("requirements/publish.txt"),
     entry_points={
         "console_scripts": [
-            "mpcap = pylibpcap.command:main",
-            "capture = pylibpcap.command:pylibpcap_sniff",
-            "wpcap = pylibpcap.command:write_pcap_cli",
+            "libpcap-merge = pylibpcap.cli:pylibpcap_merge",
+            "libpcap-capture = pylibpcap.cli:pylibpcap_sniff",
+            "libpcap-write = pylibpcap.cli:pylibpcap_write",
+            "libpcap-read = pylibpcap.cli:pylibpcap_read",
         ],
     },
     include_package_data=True,  # MANIFEST.in

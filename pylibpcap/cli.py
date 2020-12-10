@@ -7,9 +7,10 @@ import argparse
 
 from pylibpcap.pcap import mpcap, sniff
 from pylibpcap.open import OpenPcap
+from pylibpcap.parse import Packet
 
 
-def main():
+def pylibpcap_merge():
     """
     merge pcap file.
     """
@@ -43,7 +44,8 @@ def pylibpcap_sniff():
     parser.add_argument("-m", "--promisc", type=int, default=0, help="Promiscuous mode")
     parser.add_argument("filter", nargs="*", type=str, help="BPF filter rules")
     parser.add_argument("-o", "--output", type=str, help="Output pcap file")
-    parser.add_argument("-v", "--view", action="store_true", help="是否显示")
+    parser.add_argument("-v", "--view", action="store_true", help="Show Packet Info")
+    parser.add_argument("-p", "--view-payload", action="store_true", help="Show Payload")
     args = parser.parse_args()
 
     print("[+]:", args)
@@ -56,25 +58,54 @@ def pylibpcap_sniff():
             num += 1
 
             if args.view:
-                print("[+]: Payload len=", plen)
-                print("[+]: Time", t)
-                print("[+]: Payload", buf)
+                print(Packet(buf, plen).to_string(args.view_payload))
+                # print("[+]: Payload len=", plen)
+                # print("[+]: Time", t)
+                # print("[+]: Payload", buf)
     except KeyboardInterrupt:
         pass
 
     print("\nPacket Count:", num)
 
 
-def write_pcap_cli():
+def pylibpcap_write():
     """Write pcap cli
     """
 
     parser = argparse.ArgumentParser(description="Write pcap")
-    parser.add_argument("-i", "--input", type=str, help="File path.")
+    parser.add_argument("-o", "--output", type=str, help="File path.")
     parser.add_argument("payload", nargs=1, type=str, help="Payload")
     args = parser.parse_args()
 
-    path = args.input or "pcap.pcap"
+    path = args.output or "pcap.pcap"
 
     with OpenPcap(path, "a") as f:
         f.write(bytes.fromhex(args.payload[0]))
+
+
+def pylibpcap_read():
+    """Read pcap cli
+    """
+
+    parser = argparse.ArgumentParser(description="Read pcap")
+    parser.add_argument("-i", "--input", type=str, help="File path.")
+    parser.add_argument("filter", nargs="*", type=str, help="BPF filter rules")
+    parser.add_argument("-v", "--view", action="store_true", help="Show Packet Info")
+    parser.add_argument("-p", "--view-payload", action="store_true", help="Show Payload")
+    args = parser.parse_args()
+
+    num = 0
+
+    with OpenPcap(args.input, "r", filters=" ".join(args.filter)) as f:
+        for plen, t, buf in f.read():
+
+            try:
+                num += 1
+
+                if args.view:
+                    print(Packet(buf, plen).to_string(args.view_payload))
+
+            except KeyboardInterrupt:
+                pass
+
+    print("\nPacket Count:", num)
