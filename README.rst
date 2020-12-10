@@ -61,6 +61,7 @@ Console:
 .. code-block:: console
 
     # Multi-file quick merge
+    $ libpcap-merge -i test.pcap -o pcap.pcap port 502
     $ libpcap-merge -i pcap/ -o pcap.pcap port 502
 
     # Capture data packet
@@ -69,6 +70,9 @@ Console:
 
     # Write packet
     $ libpcap-write --output pcap.pcap ac64175ffa41000ec6c9157e08004500004b8a1e400080060000c0a80002c0a80001c794006618e119b56ef0831d5018faf081910000030000231ee00000001d00c1020600c20f53494d415449432d524f4f542d4553c0010a
+
+    # Read packet
+    $ libpcap-read -i test.pcap -v -p port 502
 
 Read pcap:
 
