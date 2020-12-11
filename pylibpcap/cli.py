@@ -58,7 +58,7 @@ def pylibpcap_sniff():
             num += 1
 
             if args.view and plen:
-                print(Packet(buf, plen).to_string(args.view_payload))
+                print(num, Packet(buf, plen).to_string(args.view_payload))
                 # print("[+]: Payload len=", plen)
                 # print("[+]: Time", t)
                 # print("[+]: Payload", buf)
