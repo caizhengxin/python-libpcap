@@ -6,6 +6,18 @@ All notable changes to the "python-libpcap" will be documented in this file.
 
 Check `Keep a Changelog`_ for recommendations on how to structure this file.
 
+0.3.0_ - 2020-12-12
+Added
+*****
+
+* Add packet simple parse
+* Replace command line commands
+  * libpcap-merge
+  * libpcap-capture
+* Add commands
+  * libpcap-write
+  * libpcap-read
+
 0.2.5_ - 2020-10-12
 
 Fixed
@@ -28,7 +40,8 @@ Fixed
 
 * Large delay with sniff() function after updating to Ubuntu 19.10 (#2)
 
-.. _Unreleased: https://github.com/caizhengxin/python-libpcap/compare/v0.2.5...HEAD
+.. _Unreleased: https://github.com/caizhengxin/python-libpcap/compare/v0.3.0...HEAD
+.. _0.3.0: https://github.com/caizhengxin/python-libpcap/compare/v0.2.5...v0.3.0
 .. _0.2.5: https://github.com/caizhengxin/python-libpcap/compare/v0.2.4...v0.2.5
 .. _0.2.4: https://github.com/caizhengxin/python-libpcap/compare/v0.2.3...v0.2.4
 .. _0.2.3: https://github.com/caizhengxin/python-libpcap/compare/v0.2.2...v0.2.3

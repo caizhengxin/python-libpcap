@@ -75,8 +75,10 @@ setup(
         "pylibpcap",
         "libpcap",
         "pcap",
+        "pcapng"
         "python",
         "libpcap-python",
+        "python-pcapng",
     ],
     zip_safe=False,
     packages=find_packages(),
