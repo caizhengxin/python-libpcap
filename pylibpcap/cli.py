@@ -57,7 +57,7 @@ def pylibpcap_sniff():
                                   filters=" ".join(args.filter), out_file=args.output):
             num += 1
 
-            if args.view:
+            if args.view and plen:
                 print(Packet(buf, plen).to_string(args.view_payload))
                 # print("[+]: Payload len=", plen)
                 # print("[+]: Time", t)
