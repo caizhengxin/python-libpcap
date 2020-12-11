@@ -53,10 +53,10 @@ To install python-libpcap, run this command in your terminal:
     $ pip3 install Cython
     $ pip3 install python-libpcap
 
-Demo
-----
+Usage
+-----
 
-Console:
+Command:
 
 .. code-block:: console
 
