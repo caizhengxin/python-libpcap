@@ -21,6 +21,50 @@ ip_type_map = {
 }
 
 
+# https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
+port_type_map = {
+    21: "FTP",
+    22: "SSH",
+    23: "Telnet",
+    25: "SMTP",
+    53: "DNS",
+    69: "TFTP",
+    80: "HTTP",
+    110: "POP3",
+    179: "BGP",
+    443: "HTTPS",
+    445: "NBSS",
+
+    3478: "STUN",
+    3868: "DIAMETER",
+    5060: "SIP",
+
+    # IoT
+    1883: "MQTT",
+
+    # ICS
+    102: "TPKT",
+    502: "Modbus",
+    1089: "FF",
+    1090: "FF",
+    1091: "FF",
+    1911: "Fox",
+    2222: "Ethernet/IP",
+    2404: "IEC104",
+    3622: "FF",
+    4001: "H1",
+    5094: "HART",
+    7937: "EGD",
+    9600: "FINS",
+    18245: "GE-SRTP",
+    18246: "EGD",
+    20000: "DNP3",
+    44818: "Ethernet/IP",
+    47808: "BACnet",
+    48898: "AMS",
+}
+
+
 def parse_mac(mac: bytes) -> str:
     """MAC
     """
@@ -210,6 +254,11 @@ class Packet(object):
         elif self.protoid == 17:
             self.parse_udp()
 
+        proto = port_type_map.get(self.sport) or port_type_map.get(self.dport)
+
+        if proto is not None:
+            self.proto = proto
+
     def parse_tcp(self) -> None:
         """TCP
         """
@@ -273,6 +322,8 @@ class Packet(object):
 
         if self.dport is not None:
             pktinfolist.append(str(self.dport))
+
+        pktinfolist.append("    ")
 
         if self.proto is not None:
             pktinfolist.append(str(self.proto))
