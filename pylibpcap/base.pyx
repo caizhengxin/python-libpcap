@@ -229,29 +229,36 @@ cdef class Sniff(BasePcap):
     :param snaplen: Cut packet lenght, default ``65535``
     :param filters: BPF filter rules, default ``""``
     :param out_file: Output pcap file, default ``""``
+    :param timeout Timeout in seconds, default ``0``
     """
 
     def __init__(self, str iface, int count=-1, int promisc=0, int snaplen=65535,
-                  str filters="", str out_file="", *args, **kwargs):
+                  str filters="", str out_file="", double timeout=0, *args, **kwargs):
         """
         init
         """
-
         self.out_file = os.path.expanduser(self._to_c_str(out_file))
         self.filters = self._to_c_str(filters)
         self.iface = self._to_c_str(iface)
         self.count = count
         self.handler = pcap_create(self.iface, self.errbuf)
-        pcap_set_snaplen(self.handler, snaplen)
-        pcap_set_promisc(self.handler, promisc)
-        pcap_set_timeout(self.handler, 0)
-        pcap_set_immediate_mode(self.handler, 1)
-        pcap_activate(self.handler)
-        # self.handler = pcap_open_live(self.iface, snaplen, promisc, 0, self.errbuf)
-        # pcap_set_immediate_mode(self.handler, 1)
-
-        if self.handler == NULL:
-            raise ValueError(self.get_errbuf())
+        if not self.handler:
+            raise Exception("Failed to create PCAP handle: {}".format(self.get_errbuf()))
+        if pcap_set_snaplen(self.handler, snaplen):
+            self.close()
+            raise Exception("Failed to set PCAP snaplen: {}".format(self.get_errbuf()))
+        if pcap_set_promisc(self.handler, promisc):
+            self.close()
+            raise Exception("Failed to set PCAP promiscuous mode: {}".format(self.get_errbuf()))
+        if pcap_set_timeout(self.handler, int(timeout*1000)):
+            self.close()
+            raise Exception("Failed to set PCAP timeout: {}".format(self.get_errbuf()))
+        if pcap_set_immediate_mode(self.handler, 1):
+            self.close()
+            raise Exception("Failed to set PCAP immediate mode: {}".format(self.get_errbuf()))
+        if pcap_activate(self.handler):
+            self.close()
+            raise Exception("Failed to activate PCAP capture: {}".format(self.get_errbuf()))
 
         # Set BPF filter
         if self.filters:
@@ -274,10 +281,12 @@ cdef class Sniff(BasePcap):
             if self.out_pcap != NULL:
                 pcap_dump(<u_char*>self.out_pcap, &pkt_header, pkt)
 
-            yield pkt_header.caplen, pkt_header.ts.tv_sec, (<char*>pkt)[:pkt_header.caplen]
-
-            if count > 0:
-                count -= 1
+            if pkt:
+                yield pkt_header.caplen, pkt_header.ts.tv_sec, (<char*>pkt)[:pkt_header.caplen]
+                if count > 0:
+                    count -= 1
+            else:
+                yield 0, 0, []
 
     def close(self):
         """
