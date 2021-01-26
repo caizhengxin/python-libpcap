@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: JanKinCai
 # @Date:   2019-09-10 16:30:22
-# @Last Modified by:   jankincai12@gmail.com
-# @Last Modified time: 2019-09-12 12:34:38
+# @Last Modified by:   jankincai
+# @Last Modified time: 2021-01-27 00:14:14
 from pylibpcap.pcap cimport *
 
 
@@ -18,6 +18,7 @@ cdef class BasePcap(object):
     cdef int snaplen
     cdef str mode
     cdef int count
+    cdef int capture_cnt
     cdef char errbuf[256]
 
     cdef pcap_dumper_t *out_pcap

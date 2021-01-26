@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 # @Author: JanKinCai
 # @Date:   2019-09-10 12:53:07
-# @Last Modified by:   JanKinCai
-# @Last Modified time: 2020-10-12 09:41:50
+# @Last Modified by:   jankincai
+# @Last Modified time: 2021-01-27 00:40:06
 import os
 
 from pylibpcap.utils import to_c_str, from_c_str, get_pcap_file
+from pylibpcap.exception import LibpcapError
 
 
 DEF BUFSIZ = 65535
@@ -219,6 +220,14 @@ cdef class LibPcap(BasePcap):
         return self.pcap_next_dumps(path)
 
 
+class StatsObject(object):
+    def __init__(self, capture_cnt, ps_recv, ps_drop, ps_ifdrop):
+        self.capture_cnt = capture_cnt
+        self.ps_recv = ps_recv
+        self.ps_drop = ps_drop
+        self.ps_ifdrop = ps_ifdrop
+
+
 cdef class Sniff(BasePcap):
     """
     Capture packet
@@ -242,16 +251,17 @@ cdef class Sniff(BasePcap):
         self.iface = self._to_c_str(iface)
         self.count = count
         self.handler = pcap_create(self.iface, self.errbuf)
+        self.capture_cnt = 0
+
+        # self.handler = pcap_open_live(self.iface, snaplen, promisc, 0, self.errbuf)
+
         pcap_set_snaplen(self.handler, snaplen)
         pcap_set_promisc(self.handler, promisc)
         pcap_set_timeout(self.handler, 0)
         pcap_set_immediate_mode(self.handler, 1)
-        pcap_activate(self.handler)
-        # self.handler = pcap_open_live(self.iface, snaplen, promisc, 0, self.errbuf)
-        # pcap_set_immediate_mode(self.handler, 1)
 
-        if self.handler == NULL:
-            raise ValueError(self.get_errbuf())
+        if pcap_activate(self.handler) != 0:
+            raise LibpcapError("pcap_create(): {}".format(pcap_geterr(self.handler)))
 
         # Set BPF filter
         if self.filters:
@@ -260,8 +270,7 @@ cdef class Sniff(BasePcap):
         self.out_pcap = pcap_dump_open(self.handler, self.out_file) if out_file else NULL
 
     def capture(self):
-        """
-        Run capture packet
+        """Run capture packet
         """
 
         cdef pcap_pkthdr pkt_header
@@ -271,13 +280,30 @@ cdef class Sniff(BasePcap):
         while count == -1 or count > 0:
             pkt = <u_char*>pcap_next(self.handler, &pkt_header)
 
+            if not pkt:
+                # timeout
+                yield 0, 0, b""
+
             if self.out_pcap != NULL:
                 pcap_dump(<u_char*>self.out_pcap, &pkt_header, pkt)
+
+            self.capture_cnt += 1
 
             yield pkt_header.caplen, pkt_header.ts.tv_sec, (<char*>pkt)[:pkt_header.caplen]
 
             if count > 0:
                 count -= 1
+
+    def stats(self):
+        """stats
+        """
+
+        cdef pcap_stat ps
+
+        if pcap_stats(self.handler, &ps) != 0:
+            raise LibpcapError("pcap_stats(): {}".format(pcap_geterr(self.handler)))
+
+        return StatsObject(self.capture_cnt, ps.ps_recv, ps.ps_drop, ps.ps_ifdrop)
 
     def close(self):
         """

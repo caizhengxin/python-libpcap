@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 # @Author: JanKinCai
 # @Date:   2019-09-03 09:50:27
-# @Last Modified by:   JanKinCai
-# @Last Modified time: 2020-01-13 15:38:43
+# @Last Modified by:   jankincai
+# @Last Modified time: 2021-01-27 00:12:54
 import argparse
 
+from pylibpcap.base import Sniff
 from pylibpcap.pcap import mpcap, sniff
 from pylibpcap.open import OpenPcap
 from pylibpcap.parse import Packet
@@ -48,24 +49,29 @@ def pylibpcap_sniff():
     parser.add_argument("-p", "--view-payload", action="store_true", help="Show Payload")
     args = parser.parse_args()
 
-    print("[+]:", args)
-
     num = 0
 
+    sniffobj = None
+
     try:
-        for plen, t, buf in sniff(iface=args.iface, count=args.count, promisc=args.promisc,
-                                  filters=" ".join(args.filter), out_file=args.output):
+        sniffobj = Sniff(iface=args.iface, count=args.count, promisc=args.promisc,
+                         filters=" ".join(args.filter), out_file=args.output)
+
+        for plen, t, buf in sniffobj.capture():
             num += 1
 
             if args.view and plen:
                 print(num, Packet(buf, plen).to_string(args.view_payload))
-                # print("[+]: Payload len=", plen)
-                # print("[+]: Time", t)
-                # print("[+]: Payload", buf)
     except KeyboardInterrupt:
         pass
 
-    print("\nPacket Count:", num)
+    if sniffobj is not None:
+        stats = sniffobj.stats()
+        print("\n")
+        print(stats.capture_cnt, " packets captured")
+        print(stats.ps_recv, " packets received by filter")
+        print(stats.ps_drop, "  packets dropped by kernel")
+        print(stats.ps_ifdrop, "  packets dropped by iface")
 
 
 def pylibpcap_write():
