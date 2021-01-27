@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-09-03 09:50:27
 # @Last Modified by:   jankincai
-# @Last Modified time: 2021-01-27 00:12:54
+# @Last Modified time: 2021-01-27 23:53:00
 import argparse
 
 from pylibpcap.base import Sniff
@@ -55,12 +55,12 @@ def pylibpcap_sniff():
 
     try:
         sniffobj = Sniff(iface=args.iface, count=args.count, promisc=args.promisc,
-                         filters=" ".join(args.filter), out_file=args.output)
+                         filters=" ".join(args.filter), timeout=1000, out_file=args.output)
 
         for plen, t, buf in sniffobj.capture():
-            num += 1
 
             if args.view and plen:
+                num += 1
                 print(num, Packet(buf, plen).to_string(args.view_payload))
     except KeyboardInterrupt:
         pass
@@ -68,7 +68,7 @@ def pylibpcap_sniff():
     if sniffobj is not None:
         stats = sniffobj.stats()
         print("\n")
-        print(stats.capture_cnt, " packets captured")
+        print(stats.ps_recv, " packets captured")
         print(stats.ps_recv, " packets received by filter")
         print(stats.ps_drop, "  packets dropped by kernel")
         print(stats.ps_ifdrop, "  packets dropped by iface")

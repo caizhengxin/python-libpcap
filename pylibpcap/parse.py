@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+# @Author: jankincai
+# @Date:   2021-01-27 23:55:35
+# @Last Modified by:   jankincai
+# @Last Modified time: 2021-01-28 00:19:08
 
 import datetime
 import socket
@@ -301,42 +306,20 @@ class Packet(object):
         """To string
         """
 
-        pktinfolist = [datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")]
+        fmt = "{:>19} {:>17} {:>15} {:>5}  -->  {:>17} {:>15} {:>5} {} {} {}".format(
+            datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            self.smac or '',
+            self.src or '',
+            self.sport or '',
+            self.dmac or '',
+            self.dst or '',
+            self.dport or '',
+            self.proto or '',
+            self.tcp_flags or '',
+            "\n{}\n".format(to_hex_string(self.buf)) if show_payload else '',
+        )
 
-        if self.smac is not None:
-            pktinfolist.append(self.smac)
-
-        if self.src is not None:
-            pktinfolist.append(self.src)
-
-        if self.sport is not None:
-            pktinfolist.append(str(self.sport))
-
-        pktinfolist.append("->")
-
-        if self.dmac is not None:
-            pktinfolist.append(self.dmac)
-
-        if self.dst is not None:
-            pktinfolist.append(self.dst)
-
-        if self.dport is not None:
-            pktinfolist.append(str(self.dport))
-
-        pktinfolist.append("    ")
-
-        if self.proto is not None:
-            pktinfolist.append(str(self.proto))
-
-        if self.tcp_flags is not None:
-            pktinfolist.append(self.tcp_flags)
-
-        if show_payload:
-            pktinfolist.append("\n")
-            pktinfolist.append(to_hex_string(self.buf))
-            pktinfolist.append("\n")
-
-        return " ".join(pktinfolist)
+        return fmt
 
     def __repr__(self) -> None:
         """repr

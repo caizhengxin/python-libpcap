@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-09-10 12:53:07
 # @Last Modified by:   jankincai
-# @Last Modified time: 2021-01-27 00:40:06
+# @Last Modified time: 2021-01-27 23:50:12
 import os
 
 from pylibpcap.utils import to_c_str, from_c_str, get_pcap_file
@@ -236,12 +236,13 @@ cdef class Sniff(BasePcap):
     :param count: Capture packet num, default ``-1``
     :param promisc: Promiscuous mode, default ``0``
     :param snaplen: Cut packet lenght, default ``65535``
+    :param timeout: capture timeout, default ``0``
     :param filters: BPF filter rules, default ``""``
     :param out_file: Output pcap file, default ``""``
     """
 
     def __init__(self, str iface, int count=-1, int promisc=0, int snaplen=65535,
-                  str filters="", str out_file="", *args, **kwargs):
+                 int timeout=0, str filters="", str out_file="", *args, **kwargs):
         """
         init
         """
@@ -257,7 +258,7 @@ cdef class Sniff(BasePcap):
 
         pcap_set_snaplen(self.handler, snaplen)
         pcap_set_promisc(self.handler, promisc)
-        pcap_set_timeout(self.handler, 0)
+        pcap_set_timeout(self.handler, timeout)
         pcap_set_immediate_mode(self.handler, 1)
 
         if pcap_activate(self.handler) != 0:
@@ -279,20 +280,18 @@ cdef class Sniff(BasePcap):
 
         while count == -1 or count > 0:
             pkt = <u_char*>pcap_next(self.handler, &pkt_header)
-
-            if not pkt:
+            if pkt == NULL:
                 # timeout
                 yield 0, 0, b""
+            else:
+                if self.out_pcap != NULL:
+                    pcap_dump(<u_char*>self.out_pcap, &pkt_header, pkt)
 
-            if self.out_pcap != NULL:
-                pcap_dump(<u_char*>self.out_pcap, &pkt_header, pkt)
+                self.capture_cnt += 1
+                if count > 0:
+                    count -= 1
 
-            self.capture_cnt += 1
-
-            yield pkt_header.caplen, pkt_header.ts.tv_sec, (<char*>pkt)[:pkt_header.caplen]
-
-            if count > 0:
-                count -= 1
+                yield pkt_header.caplen, pkt_header.ts.tv_sec, (<char*>pkt)[:pkt_header.caplen]
 
     def stats(self):
         """stats
