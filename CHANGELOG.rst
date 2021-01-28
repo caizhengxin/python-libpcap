@@ -7,8 +7,12 @@ All notable changes to the "python-libpcap" will be documented in this file.
 Check `Keep a Changelog`_ for recommendations on how to structure this file.
 
 Unreleased_ - 2021-01-28
+------------------------
+
 
 0.4.0_ - 2021-01-28
+-------------------
+
 Added
 *****
 
@@ -27,6 +31,8 @@ Changed
 * Update show of capture 
 
 0.3.0_ - 2020-12-12
+-------------------
+
 Added
 *****
 
@@ -39,6 +45,7 @@ Added
   * libpcap-read
 
 0.2.5_ - 2020-10-12
+-------------------
 
 Fixed
 *****
@@ -46,6 +53,7 @@ Fixed
 * Fix Sniff class don't create the pcap file (#7)
 
 0.2.4_ - 2020-07-16
+-------------------
 
 Fixed
 *****
