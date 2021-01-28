@@ -158,7 +158,9 @@ Capture data:
         print("[+]: Payload", buf)
 
 .. code-block:: python
+
     from pylibpcap.base import Sniff
+
 
     sniffobj = Sniff("enp2s0", filters="port 53", count=-1, promisc=1, out_file="pcap.pcap")
 
