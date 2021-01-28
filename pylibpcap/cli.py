@@ -2,13 +2,14 @@
 # @Author: JanKinCai
 # @Date:   2019-09-03 09:50:27
 # @Last Modified by:   jankincai
-# @Last Modified time: 2021-01-27 23:53:00
+# @Last Modified time: 2021-01-28 22:08:49
 import argparse
 
 from pylibpcap.base import Sniff
-from pylibpcap.pcap import mpcap, sniff
+from pylibpcap.pcap import mpcap
 from pylibpcap.open import OpenPcap
 from pylibpcap.parse import Packet
+from pylibpcap.exception import LibpcapError
 
 
 def pylibpcap_merge():
@@ -21,8 +22,6 @@ def pylibpcap_merge():
     parser.add_argument("-i", "--input", type=str, help="Input file/path.", required=True)
     parser.add_argument("-o", "--output", type=str, help="Output file.", required=True)
     args = parser.parse_args()
-
-    print("[+]:", args)
 
     mpcap(args.input, args.output, " ".join(args.filter))
 
@@ -64,6 +63,9 @@ def pylibpcap_sniff():
                 print(num, Packet(buf, plen).to_string(args.view_payload))
     except KeyboardInterrupt:
         pass
+    except LibpcapError as e:
+        print(e)
+        exit(1)
 
     if sniffobj is not None:
         stats = sniffobj.stats()
@@ -79,13 +81,11 @@ def pylibpcap_write():
     """
 
     parser = argparse.ArgumentParser(description="Write pcap")
-    parser.add_argument("-o", "--output", type=str, help="File path.")
+    parser.add_argument("-o", "--output", type=str, required=True, help="File path.")
     parser.add_argument("payload", nargs=1, type=str, help="Payload")
     args = parser.parse_args()
 
-    path = args.output or "pcap.pcap"
-
-    with OpenPcap(path, "a") as f:
+    with OpenPcap(args.output, "a") as f:
         f.write(bytes.fromhex(args.payload[0]))
 
 
@@ -94,7 +94,7 @@ def pylibpcap_read():
     """
 
     parser = argparse.ArgumentParser(description="Read pcap")
-    parser.add_argument("-i", "--input", type=str, help="File path.")
+    parser.add_argument("-i", "--input", type=str, required=True, help="File path.")
     parser.add_argument("filter", nargs="*", type=str, help="BPF filter rules")
     parser.add_argument("-v", "--view", action="store_true", help="Show Packet Info")
     parser.add_argument("-p", "--view-payload", action="store_true", help="Show Payload")
