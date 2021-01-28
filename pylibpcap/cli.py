@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-09-03 09:50:27
 # @Last Modified by:   jankincai
-# @Last Modified time: 2021-01-28 22:08:49
+# @Last Modified time: 2021-01-28 22:43:00
 import argparse
 
 from pylibpcap.base import Sniff
@@ -70,7 +70,7 @@ def pylibpcap_sniff():
     if sniffobj is not None:
         stats = sniffobj.stats()
         print("\n")
-        print(stats.ps_recv, " packets captured")
+        print(stats.capture_cnt, " packets captured")
         print(stats.ps_recv, " packets received by filter")
         print(stats.ps_drop, "  packets dropped by kernel")
         print(stats.ps_ifdrop, "  packets dropped by iface")

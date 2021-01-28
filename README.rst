@@ -157,6 +157,22 @@ Capture data:
         print("[+]: Time", t)
         print("[+]: Payload", buf)
 
+.. code-block:: python
+    from pylibpcap.base import Sniff
+
+    sniffobj = Sniff("enp2s0", filters="port 53", count=-1, promisc=1, out_file="pcap.pcap")
+
+    for plen, t, buf in sniffobj.capture():
+        print("[+]: Payload len=", plen)
+        print("[+]: Time", t)
+        print("[+]: Payload", buf)
+
+    stats = sniffobj.stats()
+    print(stats.capture_cnt, " packets captured")
+    print(stats.ps_recv, " packets received by filter")
+    print(stats.ps_drop, "  packets dropped by kernel")
+    print(stats.ps_ifdrop, "  packets dropped by iface")
+
 Credits
 -------
 
