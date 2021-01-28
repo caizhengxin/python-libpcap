@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-09-10 12:53:07
 # @Last Modified by:   jankincai
-# @Last Modified time: 2021-01-27 23:50:12
+# @Last Modified time: 2021-01-28 22:04:07
 import os
 
 from pylibpcap.utils import to_c_str, from_c_str, get_pcap_file
@@ -19,8 +19,7 @@ DEF MODE_STAT = 1
 
 
 cdef class BasePcap(object):
-    """
-    BasePcap
+    """BasePcap
 
     :param path: Input file
     :param filters: BPF Filters, default ``""``
@@ -46,30 +45,26 @@ cdef class BasePcap(object):
             self.pcap_next_dump(self.out_in_pcap, "")
 
     def _to_c_str(self, v):
-        """
-        Python str to C str
+        """Python str to C str
         """
 
         return to_c_str(v)
 
     def _from_c_str(self, v):
-        """
-        C str to Python str
+        """C str to Python str
         """
 
         return from_c_str(v)
 
     def get_errbuf(self):
-        """
-        Get errbuf
+        """Get errbuf
         """
 
         return self._from_c_str(self.errbuf)
 
     @property
     def isr(self):
-        """
-        Is Read
+        """Is Read
         """
 
         return self.mode == "r"
@@ -135,7 +130,7 @@ cdef class BasePcap(object):
             in_pcap = pcap_open_offline(self._to_c_str(f), self.errbuf)
 
             if in_pcap == NULL:
-                raise ValueError(self.get_errbuf())
+                raise LibpcapError(self.get_errbuf())
 
             self.pcap_next_dump(in_pcap, self.filters)
             pcap_close(in_pcap)
@@ -179,7 +174,7 @@ cdef class LibPcap(BasePcap):
         cdef pcap_pkthdr pkt_header
 
         if not self.isw:
-            raise TypeError("Not Write.")
+            raise LibpcapError("Not write.")
 
         if isinstance(v, bytes):
             self.pcap_write_dump(pkt_header, v)
@@ -198,7 +193,7 @@ cdef class LibPcap(BasePcap):
         cdef u_char *pkt
 
         if not self.isr:
-            raise TypeError("Not Read.")
+            raise LibpcapError("Not Read.")
 
         if self.filters:
             self.set_filter(self.in_pcap, self.filters)
@@ -243,8 +238,7 @@ cdef class Sniff(BasePcap):
 
     def __init__(self, str iface, int count=-1, int promisc=0, int snaplen=65535,
                  int timeout=0, str filters="", str out_file="", *args, **kwargs):
-        """
-        init
+        """init
         """
 
         self.out_file = os.path.expanduser(self._to_c_str(out_file))
@@ -262,13 +256,19 @@ cdef class Sniff(BasePcap):
         pcap_set_immediate_mode(self.handler, 1)
 
         if pcap_activate(self.handler) != 0:
-            raise LibpcapError("pcap_create(): {}".format(pcap_geterr(self.handler)))
+            raise LibpcapError(self.get_handler_error())
 
         # Set BPF filter
         if self.filters:
             self.set_filter(self.handler, self.filters)
 
         self.out_pcap = pcap_dump_open(self.handler, self.out_file) if out_file else NULL
+
+    def get_handler_error(self):
+        """handler error
+        """
+
+        return self._from_c_str(pcap_geterr(self.handler))
 
     def capture(self):
         """Run capture packet
@@ -300,7 +300,7 @@ cdef class Sniff(BasePcap):
         cdef pcap_stat ps
 
         if pcap_stats(self.handler, &ps) != 0:
-            raise LibpcapError("pcap_stats(): {}".format(pcap_geterr(self.handler)))
+            raise LibpcapError(self.get_handler_error())
 
         return StatsObject(self.capture_cnt, ps.ps_recv, ps.ps_drop, ps.ps_ifdrop)
 
@@ -320,8 +320,7 @@ cdef class Sniff(BasePcap):
 
 
 cpdef str get_first_iface():
-    """
-    Get first iface
+    """Get first iface
     """
 
     cdef char errbuf[PCAP_ERRBUF_SIZE]
