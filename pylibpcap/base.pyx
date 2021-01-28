@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-09-10 12:53:07
 # @Last Modified by:   jankincai
-# @Last Modified time: 2021-01-28 22:04:07
+# @Last Modified time: 2021-01-28 22:19:29
 import os
 
 from pylibpcap.utils import to_c_str, from_c_str, get_pcap_file
@@ -332,8 +332,7 @@ cpdef str get_first_iface():
 
 
 cpdef list get_iface_list():
-    """
-    Get iface list
+    """Get iface list
     """
 
     cdef char errbuf[PCAP_ERRBUF_SIZE]
@@ -343,9 +342,11 @@ cpdef list get_iface_list():
     if pcap_findalldevs(&interfaces, errbuf) == -1:
         return []
 
-    while interfaces:
-        iface_list.append(interfaces.name.decode("utf-8"))
-        interfaces = interfaces.next
+    temp = interfaces
+
+    while temp:
+        iface_list.append(temp.name.decode("utf-8"))
+        temp = temp.next
 
     pcap_freealldevs(interfaces)
 
