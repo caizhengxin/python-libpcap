@@ -125,7 +125,7 @@ Get first iface:
 
 .. code-block:: python
 
-    from pylibpcap.pcap import get_first_iface
+    from pylibpcap import get_first_iface
 
     print(get_first_iface())
 
