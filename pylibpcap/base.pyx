@@ -4,6 +4,7 @@
 # @Last Modified by:   jankincai
 # @Last Modified time: 2021-01-28 22:19:29
 import os
+import time
 
 from pylibpcap.utils import to_c_str, from_c_str, get_pcap_file
 from pylibpcap.exception import LibpcapError
@@ -98,6 +99,7 @@ cdef class BasePcap(object):
 
         pkt_header.caplen = len(buf)
         pkt_header.len = pkt_header.caplen
+        pkt_header.ts.tv_sec = int(time.time());
         pcap_dump(<u_char*>self.out_pcap, &pkt_header, buf)
 
     cdef void pcap_next_dump(self, pcap_t* in_pcap, char* filters):
