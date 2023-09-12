@@ -85,8 +85,10 @@ cdef class BasePcap(object):
 
         cdef bpf_program fp
 
-        pcap_compile(p, &fp, filters, 1, 0)
-        pcap_setfilter(p, &fp)
+        if pcap_compile(p, &fp, filters, 1, 0) == -1:
+            raise LibpcapError("compile bpf_filter error.")
+        if pcap_setfilter(p, &fp) == -1:
+            raise LibpcapError("set bpf_filter error.")
         pcap_freecode(&fp)
 
     cdef void pcap_write_dump(self, pcap_pkthdr pkt_header, bytes buf):
