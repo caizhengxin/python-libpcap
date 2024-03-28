@@ -18,6 +18,11 @@ DEF PCAP_IF_LOOPBACK = 0x00000001
 DEF MODE_CAPT = 0
 DEF MODE_STAT = 1
 
+DEF PCAP_ERROR = -1
+DEF PCAP_ERROR_NOT_ACTIVATED = -3
+DEF PCAP_ERROR_ACTIVATED = -4
+DEF PCAP_ERROR_NO_SUCH_DEVICE = -5
+
 
 cdef class BasePcap(object):
     """BasePcap
@@ -241,7 +246,7 @@ cdef class Sniff(BasePcap):
     """
 
     def __init__(self, str iface, int count=-1, int promisc=0, int snaplen=65535,
-                 int timeout=0, str filters="", str out_file="", *args, **kwargs):
+                 int timeout=0, str filters="", str out_file="", int monitor=-1, *args, **kwargs):
         """init
         """
 
@@ -258,6 +263,28 @@ cdef class Sniff(BasePcap):
         pcap_set_promisc(self.handler, promisc)
         pcap_set_timeout(self.handler, timeout)
         pcap_set_immediate_mode(self.handler, 1)
+
+        #check and set monitor mode if available
+        if monitor > 0:
+            rfmon_available = pcap_can_set_rfmon(self.handler)
+
+            if rfmon_available == 1:
+                #monitor mode can be set, set it now
+                rfmon_set = pcap_set_rfmon(self.handler, 1)
+                if rfmon_set == PCAP_ERROR_ACTIVATED:
+                    raise LibpcapError("Monitor Mode Unavailable, capture handle already activated")
+                elif rfmon_set != 0:
+                    raise LibpcapError("Monitor Mode Unavailable, A Unknown Error has occurred")
+
+            #see pcap_can_set_rfmon(3) Man Page
+            elif rfmon_available == 0:
+                raise LibpcapError("Monitor Mode unavailable")
+            elif rfmon_available == PCAP_ERROR_NO_SUCH_DEVICE:
+                raise LibpcapError("Monitor Mode Is unavailable, Device specified when handle created does not exist. [PCAP_ERROR_NO_SUCH_DEVICE]")
+            elif rfmon_available == PCAP_ERROR_ACTIVATED:
+                raise LibpcapError("Error enabling Monitor Mode, capture handle already activated")
+            elif rfmon_available == PCAP_ERROR:
+                raise LibpcapError(self.get_handler_error())
 
         if pcap_activate(self.handler) != 0:
             raise LibpcapError(self.get_handler_error())
