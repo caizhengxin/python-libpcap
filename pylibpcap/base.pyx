@@ -4,6 +4,7 @@
 # @Last Modified by:   jankincai
 # @Last Modified time: 2021-01-28 22:19:29
 import os
+import time
 
 from pylibpcap.utils import to_c_str, from_c_str, get_pcap_file
 from pylibpcap.exception import LibpcapError
@@ -84,8 +85,10 @@ cdef class BasePcap(object):
 
         cdef bpf_program fp
 
-        pcap_compile(p, &fp, filters, 1, 0)
-        pcap_setfilter(p, &fp)
+        if pcap_compile(p, &fp, filters, 1, 0) == -1:
+            raise LibpcapError("compile bpf_filter error.")
+        if pcap_setfilter(p, &fp) == -1:
+            raise LibpcapError("set bpf_filter error.")
         pcap_freecode(&fp)
 
     cdef void pcap_write_dump(self, pcap_pkthdr pkt_header, bytes buf):
@@ -98,6 +101,7 @@ cdef class BasePcap(object):
 
         pkt_header.caplen = len(buf)
         pkt_header.len = pkt_header.caplen
+        pkt_header.ts.tv_sec = int(time.time());
         pcap_dump(<u_char*>self.out_pcap, &pkt_header, buf)
 
     cdef void pcap_next_dump(self, pcap_t* in_pcap, char* filters):

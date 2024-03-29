@@ -160,19 +160,26 @@ Capture data:
 
     from pylibpcap.base import Sniff
 
+    sniffobj = None
 
-    sniffobj = Sniff("enp2s0", filters="port 53", count=-1, promisc=1, out_file="pcap.pcap")
+    try:
+        sniffobj = Sniff("enp2s0", filters="port 53", count=-1, promisc=1, out_file="pcap.pcap")
 
-    for plen, t, buf in sniffobj.capture():
-        print("[+]: Payload len=", plen)
-        print("[+]: Time", t)
-        print("[+]: Payload", buf)
+        for plen, t, buf in sniffobj.capture():
+            print("[+]: Payload len=", plen)
+            print("[+]: Time", t)
+            print("[+]: Payload", buf)
+    except KeyboardInterrupt:
+        pass
+    except LibpcapError as e:
+        print(e)
 
-    stats = sniffobj.stats()
-    print(stats.capture_cnt, " packets captured")
-    print(stats.ps_recv, " packets received by filter")
-    print(stats.ps_drop, "  packets dropped by kernel")
-    print(stats.ps_ifdrop, "  packets dropped by iface")
+    if sniffobj is not None:
+        stats = sniffobj.stats()
+        print(stats.capture_cnt, " packets captured")
+        print(stats.ps_recv, " packets received by filter")
+        print(stats.ps_drop, "  packets dropped by kernel")
+        print(stats.ps_ifdrop, "  packets dropped by iface")
 
 Credits
 -------
