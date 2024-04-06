@@ -12,7 +12,7 @@ from Cython.Build import cythonize
 from Cython.Distutils import build_ext
 
 
-with open('README.rst') as f:
+with open('README.md') as f:
     long_description = f.read()
 
 
