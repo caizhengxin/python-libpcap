@@ -173,4 +173,4 @@ if sniffobj is not None:
 
 ## Credits
 
-This package was created with Cookiecutter_ and the [caizhengxin/cookiecutter-package](https://github.com/caizhengxin/cookiecutter-package) project template.
+This package was created with [Cookiecutter](https://github.com/cookiecutter/cookiecutter) and the [caizhengxin/cookiecutter-package](https://github.com/caizhengxin/cookiecutter-package) project template.

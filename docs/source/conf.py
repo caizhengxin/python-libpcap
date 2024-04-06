@@ -41,11 +41,21 @@ release = "0.5.0"
 # ones.
 extensions = [
     "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
     "sphinx.ext.viewcode",
     "sphinx.ext.coverage",
     "sphinx.ext.githubpages",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.todo",
+    "sphinx.ext.imgmath",
+    # "sphinx.ext.linkcode",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.doctest",
     "sphinx.ext.inheritance_diagram",
+    "sphinx_mdinclude",
 ]
+
+source_suffix = ['.rst', '.md']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
