@@ -5,6 +5,7 @@
 # @Last Modified time: 2021-01-28 22:19:29
 import os
 import time
+from threading import Thread
 
 from pylibpcap.utils import to_c_str, from_c_str, get_pcap_file
 from pylibpcap.exception import LibpcapError
@@ -17,6 +18,12 @@ DEF PCAP_ERRBUF_SIZE = 256
 DEF PCAP_IF_LOOPBACK = 0x00000001
 DEF MODE_CAPT = 0
 DEF MODE_STAT = 1
+
+DEF PCAP_ERROR = -1
+DEF PCAP_ERROR_BREAK = -2
+DEF PCAP_ERROR_NOT_ACTIVATED = -3
+DEF PCAP_ERROR_ACTIVATED = -4
+DEF PCAP_ERROR_NO_SUCH_DEVICE = -5
 
 
 cdef class BasePcap(object):
@@ -240,8 +247,10 @@ cdef class Sniff(BasePcap):
     :param out_file: Output pcap file, default ``""``
     """
 
+    cdef object nonblocking_thread
+
     def __init__(self, str iface, int count=-1, int promisc=0, int snaplen=65535,
-                 int timeout=0, str filters="", str out_file="", *args, **kwargs):
+                 int timeout=0, str filters="", str out_file="", int monitor=-1, *args, **kwargs):
         """init
         """
 
@@ -251,6 +260,7 @@ cdef class Sniff(BasePcap):
         self.count = count
         self.handler = pcap_create(self.iface, self.errbuf)
         self.capture_cnt = 0
+        self.nonblocking_thread = 0
 
         # self.handler = pcap_open_live(self.iface, snaplen, promisc, 0, self.errbuf)
 
@@ -258,6 +268,28 @@ cdef class Sniff(BasePcap):
         pcap_set_promisc(self.handler, promisc)
         pcap_set_timeout(self.handler, timeout)
         pcap_set_immediate_mode(self.handler, 1)
+
+        #check and set monitor mode if available
+        if monitor > 0:
+            rfmon_available = pcap_can_set_rfmon(self.handler)
+
+            if rfmon_available == 1:
+                #monitor mode can be set, set it now
+                rfmon_set = pcap_set_rfmon(self.handler, 1)
+                if rfmon_set == PCAP_ERROR_ACTIVATED:
+                    raise LibpcapError("Monitor Mode Unavailable, capture handle already activated")
+                elif rfmon_set != 0:
+                    raise LibpcapError("Monitor Mode Unavailable, A Unknown Error has occurred")
+
+            #see pcap_can_set_rfmon(3) Man Page
+            elif rfmon_available == 0:
+                raise LibpcapError("Monitor Mode unavailable")
+            elif rfmon_available == PCAP_ERROR_NO_SUCH_DEVICE:
+                raise LibpcapError("Monitor Mode Is unavailable, Device specified when handle created does not exist. [PCAP_ERROR_NO_SUCH_DEVICE]")
+            elif rfmon_available == PCAP_ERROR_ACTIVATED:
+                raise LibpcapError("Error enabling Monitor Mode, capture handle already activated")
+            elif rfmon_available == PCAP_ERROR:
+                raise LibpcapError(self.get_handler_error())
 
         if pcap_activate(self.handler) != 0:
             raise LibpcapError(self.get_handler_error())
@@ -273,6 +305,38 @@ cdef class Sniff(BasePcap):
         """
 
         return self._from_c_str(pcap_geterr(self.handler))
+    
+    def capture_nonblocking_thread(self):
+        """Code that runs in the thread
+        """
+
+        captured_packets = pcap_loop(self.handler, self.count, sniff_callback, <u_char*>self.out_pcap)
+        if captured_packets != PCAP_ERROR_BREAK and captured_packets > 0:
+            self.capture_cnt += captured_packets
+        self.nonblocking_thread = 0
+
+    def capture_nonblocking(self):
+        """Start capturing packets in another thread
+        """
+
+        if not self.nonblocking_thread:
+            self.nonblocking_thread = Thread(target = self.capture_nonblocking_thread)
+            self.nonblocking_thread.start()
+
+    def is_running_nonblocking(self):
+        """Return whether there is a nonblocking capture thread is_running_nonblocking
+        """
+        return self.nonblocking_thread and self.nonblocking_thread.is_alive()
+
+    
+    def stop_capture_nonblocking(self):
+        """Stop capturing packets in another thread (capture_nonblocking)
+        """
+
+        if self.nonblocking_thread:
+            pcap_breakloop(self.handler)
+            self.nonblocking_thread.join()
+            self.nonblocking_thread = 0
 
     def capture(self):
         """Run capture packet
@@ -378,9 +442,9 @@ cpdef bint send_packet(str iface, bytes buf):
     return status
 
 
-# cdef void sniff_callback(u_char *user, const pcap_pkthdr *pkt_header, const u_char *pkt_data):
-#     """
-#     """
+cdef void sniff_callback(u_char *user, const pcap_pkthdr *pkt_header, const u_char *pkt_data):
+    """
+    """
 
-#     if user != NULL:
-#         pcap_dump(user, pkt_header, pkt_data)
+    if user != NULL:
+        pcap_dump(user, pkt_header, pkt_data)

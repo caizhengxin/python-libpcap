@@ -193,6 +193,8 @@ cdef extern from "pcap.h":
 
     int pcap_set_immediate_mode(pcap_t *p, int immediate_mode)
 
+    int pcap_can_set_rfmon(pcap_t *)
+
     int pcap_set_rfmon(pcap_t *p, int rfmon)
 
     int pcap_activate(pcap_t *p)
