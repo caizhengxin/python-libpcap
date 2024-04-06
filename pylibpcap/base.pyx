@@ -404,7 +404,8 @@ cpdef list get_iface_list():
     """
 
     cdef char errbuf[PCAP_ERRBUF_SIZE]
-    cdef pcap_if_t *interfaces, *temp
+    cdef pcap_if_t *interfaces
+    cdef pcap_if_t *temp
     cdef list iface_list = []
 
     if pcap_findalldevs(&interfaces, errbuf) == -1:
