@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: JanKinCai
 # @Date:   2019-11-09 10:08:53
-# @Last Modified by:   JanKinCai
-# @Last Modified time: 2020-07-07 09:35:38
+# @Last Modified by:   jankincai
+# @Last Modified time: 2024-09-12 10:31:22
 import os
 import glob
 
@@ -17,8 +17,7 @@ with open('README.md') as f:
 
 
 def read_requirements(path):
-    """
-    递归读取requirements
+    """read requirements
 
     :param path: path
     """
@@ -55,7 +54,7 @@ ext_modules = [
     for file in files if ext in file and ".pyc" not in file
 ]
 
-ext_modules = cythonize(ext_modules) if USE_CYTHON else ext_modules
+ext_modules = cythonize(ext_modules, language_level="3") if USE_CYTHON else ext_modules
 
 
 setup(
@@ -115,6 +114,9 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
         'Topic :: Software Development :: Libraries'
     ],
 )

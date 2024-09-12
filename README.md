@@ -34,6 +34,14 @@ $ sudo apt-get install libpcap-dev
 $ pip3 install python-libpcap
 ```
 
+Or
+
+```bash
+$ git clone https://github.com/caizhengxin/python-libpcap.git
+$ cd python-libpcap
+$ pip3 install -e .
+```
+
 ## Usage
 
 ### Command
