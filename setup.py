@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-11-09 10:08:53
 # @Last Modified by:   jankincai
-# @Last Modified time: 2024-09-12 10:31:22
+# @Last Modified time: 2024-09-14 10:04:08
 import os
 import glob
 
@@ -10,10 +10,6 @@ from setuptools import setup, find_packages
 from setuptools import Extension
 from Cython.Build import cythonize
 from Cython.Distutils import build_ext
-
-
-with open('README.md') as f:
-    long_description = f.read()
 
 
 def read_requirements(path):
@@ -59,7 +55,7 @@ ext_modules = cythonize(ext_modules, language_level="3") if USE_CYTHON else ext_
 
 setup(
     name="python-libpcap",
-    version="0.5.0",
+    version="0.5.1",
     author="JanKinCai",
     author_email="jankincai12@gmail.com",
     maintainer="JanKinCai",
@@ -68,7 +64,8 @@ setup(
     download_url="https://github.com/caizhengxin/python-libpcap.git",
     license="BSD",
     description="Cython libpcap",
-    long_description=long_description,
+    long_description=open('README.md').read(),
+    long_description_content_type="text/markdown",
     keywords=[
         "python-libpcap",
         "pylibpcap",

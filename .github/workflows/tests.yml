@@ -1,0 +1,43 @@
+# @Author: jankincai
+# @Date:   2024-09-12 10:45:37
+# @Last Modified by:   jankincai
+# @Last Modified time: 2024-09-12 17:18:27
+
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Tests
+
+on:
+  push:
+    branches: [ "master", "develop" ]
+  pull_request:
+    branches: [ "master", "develop" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install flake8 pytest tox
+        sudo apt install libpcap-dev
+    - name: Lint with flake8
+      run: flake8 pylibpcap
+    - name: Run tox targets for ${{ matrix.python-version }}
+      run: python -m tox
+    # - name: Test with pytest
+    #   run: |
+    #     pytest .
