@@ -55,7 +55,7 @@ ext_modules = cythonize(ext_modules, language_level="3") if USE_CYTHON else ext_
 
 setup(
     name="python-libpcap",
-    version="0.5.0",
+    version="0.5.1",
     author="JanKinCai",
     author_email="jankincai12@gmail.com",
     maintainer="JanKinCai",
