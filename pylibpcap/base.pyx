@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-09-10 12:53:07
 # @Last Modified by:   jankincai
-# @Last Modified time: 2021-01-28 22:19:29
+# @Last Modified time: 2024-09-26 11:21:31
 import os
 import time
 from threading import Thread
@@ -46,11 +46,13 @@ cdef class BasePcap(object):
         self.mode = mode
 
         self.in_pcap = pcap_open_offline(self.path, self.errbuf) if mode == "r" else NULL
-        self.out_in_pcap = pcap_open_offline(self.path, self.errbuf) if mode == "a" and os.path.exists(path) else NULL
-        self.out_pcap = pcap_dump_open(pcap_open_dead(1, self.snaplen), self.path) if mode == "a" or mode == "w" else NULL
+        self.out_pcap = NULL
+        self.handler = pcap_open_dead(1, self.snaplen);
 
-        if mode == "a" and self.out_in_pcap != NULL:
-            self.pcap_next_dump(self.out_in_pcap, "")
+        if mode == "a":
+            self.out_pcap = pcap_dump_open_append(self.handler, self.path)
+        elif mode == "w":
+            self.out_pcap = pcap_dump_open(self.handler, self.path)            
 
     def _to_c_str(self, v):
         """Python str to C str
@@ -151,6 +153,8 @@ cdef class BasePcap(object):
         close
         """
 
+        pcap_close(self.handler)
+
         if self.out_pcap:
             pcap_dump_flush(self.out_pcap)
             pcap_dump_close(self.out_pcap)
@@ -159,10 +163,6 @@ cdef class BasePcap(object):
         if self.in_pcap:
             pcap_close(self.in_pcap)
             self.in_pcap = NULL
-
-        if self.out_in_pcap:
-            pcap_close(self.out_in_pcap)
-            self.out_in_pcap = NULL
 
     def __dealloc__(self):
         """

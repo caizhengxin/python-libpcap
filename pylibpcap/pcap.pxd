@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: JanKinCai
 # @Date:   2019-05-10 11:19:43
-# @Last Modified by:   JanKinCai
-# @Last Modified time: 2019-11-09 15:50:51
+# @Last Modified by:   jankincai
+# @Last Modified time: 2024-09-26 11:07:42
 
 # https://docs.oracle.com/cd/E88353_01/html/E37845/pcap-3pcap.html
 
@@ -93,6 +93,8 @@ cdef extern from "pcap.h":
     pcap_t *pcap_open_offline(const char *fname, char *errbuf)
 
     pcap_dumper_t *pcap_dump_open(pcap_t *p, const char *fname)
+
+    pcap_dumper_t *pcap_dump_open_append(pcap_t *p, const char *fname)
 
     int pcap_setnonblock(pcap_t *p, int nonblock, char *errbuf)
 

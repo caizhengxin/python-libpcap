@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-09-10 16:30:22
 # @Last Modified by:   jankincai
-# @Last Modified time: 2021-01-27 00:14:14
+# @Last Modified time: 2024-09-26 11:20:22
 from pylibpcap.pcap cimport *
 
 
@@ -23,7 +23,6 @@ cdef class BasePcap(object):
 
     cdef pcap_dumper_t *out_pcap
     cdef pcap_t* in_pcap
-    cdef pcap_t* out_in_pcap
     cdef pcap_t* handler
 
     cdef void set_filter(self, pcap_t* p, char* filters)
