@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-11-09 10:08:53
 # @Last Modified by:   jankincai
-# @Last Modified time: 2024-09-14 11:26:59
+# @Last Modified time: 2024-09-26 11:24:50
 import os
 import glob
 
@@ -114,6 +114,8 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
         'Topic :: Software Development :: Libraries'
     ],
 )
