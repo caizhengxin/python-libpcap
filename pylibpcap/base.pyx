@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-09-10 12:53:07
 # @Last Modified by:   jankincai
-# @Last Modified time: 2024-09-26 11:21:31
+# @Last Modified time: 2024-09-26 14:17:31
 import os
 import time
 from threading import Thread
@@ -44,15 +44,30 @@ cdef class BasePcap(object):
         self.filters = self._to_c_str(filters)
         self.snaplen = snaplen
         self.mode = mode
-
-        self.in_pcap = pcap_open_offline(self.path, self.errbuf) if mode == "r" else NULL
-        self.out_pcap = NULL
         self.handler = pcap_open_dead(1, self.snaplen);
 
-        if mode == "a":
+        if mode == "r":
+            self.in_pcap = pcap_open_offline(self.path, self.errbuf)
+
+            if self.in_pcap == NULL:
+                raise LibpcapError(self._from_c_str(self.errbuf))
+        elif mode == "a":
+            if not os.path.exists(path):
+                # create file
+                open(self.path, 'w').close()
+
             self.out_pcap = pcap_dump_open_append(self.handler, self.path)
+
+            if self.out_pcap == NULL:
+                raise LibpcapError(self.get_handler_error())
         elif mode == "w":
-            self.out_pcap = pcap_dump_open(self.handler, self.path)            
+            # create file
+            open(self.path, 'w').close()
+
+            self.out_pcap = pcap_dump_open(self.handler, self.path)    
+
+            if self.out_pcap == NULL:
+                raise LibpcapError(self.get_handler_error())        
 
     def _to_c_str(self, v):
         """Python str to C str
@@ -86,6 +101,12 @@ cdef class BasePcap(object):
         """
 
         return self.mode == "a" or self.mode == "w"
+
+    def get_handler_error(self):
+        """handler error
+        """
+
+        return self._from_c_str(pcap_geterr(self.handler)) if self.handler != NULL else ""
 
     cdef void set_filter(self, pcap_t* p, char* filters):
         """
@@ -152,8 +173,6 @@ cdef class BasePcap(object):
         """
         close
         """
-
-        pcap_close(self.handler)
 
         if self.out_pcap:
             pcap_dump_flush(self.out_pcap)
@@ -299,12 +318,6 @@ cdef class Sniff(BasePcap):
             self.set_filter(self.handler, self.filters)
 
         self.out_pcap = pcap_dump_open(self.handler, self.out_file) if out_file else NULL
-
-    def get_handler_error(self):
-        """handler error
-        """
-
-        return self._from_c_str(pcap_geterr(self.handler))
     
     def capture_nonblocking_thread(self):
         """Code that runs in the thread

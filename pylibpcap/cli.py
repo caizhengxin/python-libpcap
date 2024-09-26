@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-09-03 09:50:27
 # @Last Modified by:   jankincai
-# @Last Modified time: 2021-01-28 22:43:00
+# @Last Modified time: 2024-09-26 11:50:36
 import argparse
 
 from pylibpcap.base import Sniff
@@ -23,7 +23,12 @@ def pylibpcap_merge():
     parser.add_argument("-o", "--output", type=str, help="Output file.", required=True)
     args = parser.parse_args()
 
-    mpcap(args.input, args.output, " ".join(args.filter))
+    try:
+        mpcap(args.input, args.output, " ".join(args.filter))
+    except KeyboardInterrupt:
+        pass
+    except LibpcapError as e:
+        print(e)
 
 
 def pylibpcap_sniff():
@@ -85,8 +90,13 @@ def pylibpcap_write():
     parser.add_argument("payload", nargs=1, type=str, help="Payload")
     args = parser.parse_args()
 
-    with OpenPcap(args.output, "a") as f:
-        f.write(bytes.fromhex(args.payload[0]))
+    try:
+        with OpenPcap(args.output, "a") as f:
+            f.write(bytes.fromhex(args.payload[0]))
+    except KeyboardInterrupt:
+        pass
+    except LibpcapError as e:
+        print(e)
 
 
 def pylibpcap_read():
@@ -102,16 +112,17 @@ def pylibpcap_read():
 
     num = 0
 
-    with OpenPcap(args.input, "r", filters=" ".join(args.filter)) as f:
-        for plen, t, buf in f.read():
-
-            try:
+    try:
+        with OpenPcap(args.input, "r", filters=" ".join(args.filter)) as f:
+            for plen, t, buf in f.read():
                 num += 1
 
                 if args.view:
                     print(Packet(buf, plen).to_string(args.view_payload))
-
-            except KeyboardInterrupt:
-                pass
+    except KeyboardInterrupt:
+        pass
+    except LibpcapError as e:
+        print(e)
+        exit(1)
 
     print("\nPacket Count:", num)
