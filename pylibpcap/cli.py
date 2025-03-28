@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-09-03 09:50:27
 # @Last Modified by:   jankincai
-# @Last Modified time: 2024-09-26 11:50:36
+# @Last Modified time: 2025-01-08 11:12:08
 import argparse
 
 from pylibpcap.base import Sniff
@@ -47,6 +47,7 @@ def pylibpcap_sniff():
     parser.add_argument("-i", "--iface", type=str, help="Iface", required=True)
     parser.add_argument("-c", "--count", type=int, default=-1, help="Capture packet num")
     parser.add_argument("-m", "--promisc", type=int, default=0, help="Promiscuous mode")
+    parser.add_argument("-t", "--timeout", type=int, default=0, help="Set pcap handler timeout.")
     parser.add_argument("filter", nargs="*", type=str, help="BPF filter rules")
     parser.add_argument("-o", "--output", type=str, help="Output pcap file")
     parser.add_argument("-v", "--view", action="store_true", help="Show Packet Info")
@@ -59,11 +60,12 @@ def pylibpcap_sniff():
 
     try:
         sniffobj = Sniff(iface=args.iface, count=args.count, promisc=args.promisc,
-                         filters=" ".join(args.filter), timeout=1000, out_file=args.output)
+                         filters=" ".join(args.filter), timeout=args.timeout, out_file=args.output)
 
         for plen, t, buf in sniffobj.capture():
-
-            if args.view and plen:
+            if plen == 0:
+                raise Exception(f"Capture timeout ({args.timeout})")
+            elif args.view:
                 num += 1
                 print(num, Packet(buf, plen).to_string(args.view_payload))
     except KeyboardInterrupt:
