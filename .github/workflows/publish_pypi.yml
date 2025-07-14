@@ -1,7 +1,7 @@
 # @Author: jankincai
 # @Date:   2024-09-13 10:48:33
 # @Last Modified by:   jankincai
-# @Last Modified time: 2024-09-14 11:21:11
+# @Last Modified time: 2025-07-14 11:31:38
 
 # This workflow will upload a Python Package using Twine when a release is created
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
@@ -15,10 +15,12 @@ name: Upload Python Package
 
 on:
   push:
-    branches: [ "master" ]
+    # branches: [ "master" ]
+    # release:
+    #   types: [published]
 
-  release:
-    types: [published]
+    tags:
+      - 'v*'
 
 permissions:
   contents: read
