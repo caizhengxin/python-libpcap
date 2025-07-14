@@ -1,7 +1,7 @@
 # @Author: jankincai
 # @Date:   2024-09-12 10:45:37
 # @Last Modified by:   jankincai
-# @Last Modified time: 2025-07-14 11:54:11
+# @Last Modified time: 2025-07-14 14:10:43
 
 # This workflow will install Python dependencies, run tests and lint with a variety of Python versions
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
@@ -17,7 +17,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-24.04
+    runs-on: macos-13
     strategy:
       fail-fast: false
       matrix:
