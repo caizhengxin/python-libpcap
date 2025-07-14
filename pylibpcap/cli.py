@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-09-03 09:50:27
 # @Last Modified by:   jankincai
-# @Last Modified time: 2025-01-08 11:12:08
+# @Last Modified time: 2025-07-14 15:00:40
 import argparse
 
 from pylibpcap.base import Sniff
@@ -44,14 +44,16 @@ def pylibpcap_sniff():
     """
 
     parser = argparse.ArgumentParser(description="Sniff")
-    parser.add_argument("-i", "--iface", type=str, help="Iface", required=True)
-    parser.add_argument("-c", "--count", type=int, default=-1, help="Capture packet num")
-    parser.add_argument("-m", "--promisc", type=int, default=0, help="Promiscuous mode")
-    parser.add_argument("-t", "--timeout", type=int, default=0, help="Set pcap handler timeout.")
-    parser.add_argument("filter", nargs="*", type=str, help="BPF filter rules")
-    parser.add_argument("-o", "--output", type=str, help="Output pcap file")
-    parser.add_argument("-v", "--view", action="store_true", help="Show Packet Info")
-    parser.add_argument("-p", "--view-payload", action="store_true", help="Show Payload")
+    parser.add_argument("-i", "--iface", type=str, help="Specify the name of the network device.", required=True)
+    parser.add_argument("-c", "--count", type=int, default=-1, help="Set the number of data packets to capture, "
+                                                                    "-1 indicates continuous capture.")
+    parser.add_argument("-t", "--timeout", type=int, default=0, help="Set timeout (ms).")
+    parser.add_argument("--promisc", type=int, default=0, help="Set promiscuous mode.")
+    parser.add_argument("--immediate-mode", type=int, default=0, help="Set immediate mode.")
+    parser.add_argument("-o", "--output", type=str, help="Specify output pcap file.")
+    parser.add_argument("-v", "--view", action="store_true", help="Show Packet Info.")
+    parser.add_argument("-vp", "--view-payload", action="store_true", help="Show Packet Payload.")
+    parser.add_argument("filter", nargs="*", type=str, help="Set BPF filter rules.")
     args = parser.parse_args()
 
     num = 0
@@ -60,7 +62,8 @@ def pylibpcap_sniff():
 
     try:
         sniffobj = Sniff(iface=args.iface, count=args.count, promisc=args.promisc,
-                         filters=" ".join(args.filter), timeout=args.timeout, out_file=args.output)
+                         filters=" ".join(args.filter), timeout=args.timeout, out_file=args.output,
+                         immediate_mode=args.immediate_mode)
 
         for plen, t, buf in sniffobj.capture():
             if plen == 0:

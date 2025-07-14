@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-09-10 12:53:07
 # @Last Modified by:   jankincai
-# @Last Modified time: 2025-07-14 11:24:57
+# @Last Modified time: 2025-07-14 14:48:04
 import os
 import time
 from threading import Thread
@@ -269,7 +269,8 @@ cdef class Sniff(BasePcap):
     cdef object nonblocking_thread
 
     def __init__(self, str iface, int count=-1, int promisc=0, int snaplen=65535,
-                 int timeout=0, str filters="", str out_file="", int monitor=-1, *args, **kwargs):
+                 int timeout=0, str filters="", str out_file="", int monitor=-1, 
+                 immediate_mode=0, *args, **kwargs):
         """init
         """
 
@@ -286,7 +287,7 @@ cdef class Sniff(BasePcap):
         pcap_set_snaplen(self.handler, snaplen)
         pcap_set_promisc(self.handler, promisc)
         pcap_set_timeout(self.handler, timeout)
-        pcap_set_immediate_mode(self.handler, 1)
+        pcap_set_immediate_mode(self.handler, immediate_mode)
 
         #check and set monitor mode if available
         if monitor > 0:
