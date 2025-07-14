@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: JanKinCai
 # @Date:   2019-11-09 14:57:10
-# @Last Modified by:   JanKinCai
-# @Last Modified time: 2020-04-04 11:59:02
+# @Last Modified by:   jankincai
+# @Last Modified time: 2025-07-14 10:13:28
 
 __version__ = "0.5.2"
 __author__ = "JanKinCai"
@@ -13,13 +13,17 @@ __all__ = [
     "sniff",
     "get_first_iface",
     "get_iface_list",
-    "send_packet"
+    "send_packet",
+    "LibPcap",
+    "Sniff",
+    "OpenPcap",
 ]
 
 
 try:
     from pylibpcap.pcap import rpcap, wpcap, mpcap, sniff
     from pylibpcap.base import get_first_iface, get_iface_list, send_packet
+    from pylibpcap.base import LibPcap, Sniff
     from pylibpcap.open import OpenPcap
 except ImportError:
     pass

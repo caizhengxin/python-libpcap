@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-05-10 11:19:43
 # @Last Modified by:   jankincai
-# @Last Modified time: 2024-09-26 11:07:42
+# @Last Modified time: 2025-07-14 11:25:16
 
 # https://docs.oracle.com/cd/E88353_01/html/E37845/pcap-3pcap.html
 
@@ -112,7 +112,7 @@ cdef extern from "pcap.h":
 
     int pcap_loop(pcap_t *p, int cnt, pcap_handler callback, u_char *user)
 
-    u_char *pcap_next(pcap_t *p, pcap_pkthdr *hdr)
+    u_char *pcap_next(pcap_t *p, pcap_pkthdr *hdr) nogil
 
     int pcap_next_ex(pcap_t *p, pcap_pkthdr **pkt_header, const u_char **pkt_data)
 

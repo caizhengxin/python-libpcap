@@ -2,7 +2,7 @@
 # @Author: JanKinCai
 # @Date:   2019-09-10 12:53:07
 # @Last Modified by:   jankincai
-# @Last Modified time: 2024-09-26 14:17:31
+# @Last Modified time: 2025-07-14 11:24:57
 import os
 import time
 from threading import Thread
@@ -360,7 +360,9 @@ cdef class Sniff(BasePcap):
         count = self.count
 
         while count == -1 or count > 0:
-            pkt = <u_char*>pcap_next(self.handler, &pkt_header)
+            with nogil:
+                pkt = <u_char*>pcap_next(self.handler, &pkt_header)
+
             if pkt == NULL:
                 # timeout
                 yield 0, 0, b""
@@ -446,7 +448,7 @@ cpdef bint send_packet(str iface, bytes buf):
     cdef pcap_t* handler = pcap_open_live(to_c_str(iface), 65535, 0, 0, errbuf)
 
     if handler == NULL:
-        raise from_c_str(errbuf)
+        raise LibpcapError(from_c_str(errbuf))
 
     if pcap_sendpacket(handler, buf, len(buf)) != -1:
         status = True
