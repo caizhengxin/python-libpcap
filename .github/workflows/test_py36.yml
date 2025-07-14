@@ -1,7 +1,7 @@
 # @Author: jankincai
 # @Date:   2024-09-12 10:45:37
 # @Last Modified by:   jankincai
-# @Last Modified time: 2025-07-14 14:10:43
+# @Last Modified time: 2025-07-14 14:21:17
 
 # This workflow will install Python dependencies, run tests and lint with a variety of Python versions
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
@@ -17,6 +17,7 @@ on:
 jobs:
   build:
 
+    # Python3.6 (ubuntu-20.04) has stopped maintenance, https://github.com/actions/runner-images/issues/11101
     runs-on: macos-13
     strategy:
       fail-fast: false
@@ -33,7 +34,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install flake8 pytest tox
-        sudo apt install libpcap-dev
+        sudo brew install libpcap
     - name: Lint with flake8
       run: flake8 pylibpcap
     - name: Test with pytest
