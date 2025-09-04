@@ -4,7 +4,7 @@
 # @Last Modified by:   jankincai
 # @Last Modified time: 2025-07-14 10:13:28
 
-__version__ = "0.5.3"
+__version__ = "0.5.4"
 __author__ = "JanKinCai"
 __all__ = [
     "rpcap",
