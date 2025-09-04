@@ -1,7 +1,7 @@
 # @Author: jankincai
 # @Date:   2024-09-13 10:48:33
 # @Last Modified by:   jankincai
-# @Last Modified time: 2025-09-04 14:06:30
+# @Last Modified time: 2025-09-04 15:15:40
 
 # This workflow will upload a Python Package using Twine when a release is created
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
@@ -15,9 +15,12 @@ name: Upload Python Package
 
 on:
   push:
-    branches: [ "master" ]
-    release:
-      types: [published]
+    # branches: [ "master" ]
+    # release:
+    #   types: [published]
+
+    tags:
+      - 'v*'
 
 permissions:
   contents: read
@@ -45,16 +48,17 @@ jobs:
     - name: Build package
       run: python -m build -s
 
-    - name: Publish package to Test PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        user: __token__
-        password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-        repository_url: https://test.pypi.org/legacy/
+    # - name: Publish package to Test PyPI
+    #   uses: pypa/gh-action-pypi-publish@release/v1
+    #   with:
+    #     user: __token__
+    #     password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+    #     repository-url: https://test.pypi.org/legacy/
 
     - name: Publish package to PyPI
-      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+      # if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
+        verbose: true
