@@ -64,10 +64,10 @@ cdef class BasePcap(object):
             # create file
             open(self.path, 'w').close()
 
-            self.out_pcap = pcap_dump_open(self.handler, self.path)    
+            self.out_pcap = pcap_dump_open(self.handler, self.path)
 
             if self.out_pcap == NULL:
-                raise LibpcapError(self.get_handler_error())        
+                raise LibpcapError(self.get_handler_error())
 
     def _to_c_str(self, v):
         """Python str to C str
@@ -269,7 +269,7 @@ cdef class Sniff(BasePcap):
     cdef object nonblocking_thread
 
     def __init__(self, str iface, int count=-1, int promisc=0, int snaplen=65535,
-                 int timeout=0, str filters="", str out_file="", int monitor=-1, 
+                 int timeout=0, str filters="", str out_file="", int monitor=-1,
                  immediate_mode=0, *args, **kwargs):
         """init
         """
@@ -319,7 +319,7 @@ cdef class Sniff(BasePcap):
             self.set_filter(self.handler, self.filters)
 
         self.out_pcap = pcap_dump_open(self.handler, self.out_file) if out_file else NULL
-    
+
     def capture_nonblocking_thread(self):
         """Code that runs in the thread
         """
@@ -342,7 +342,6 @@ cdef class Sniff(BasePcap):
         """
         return self.nonblocking_thread and self.nonblocking_thread.is_alive()
 
-    
     def stop_capture_nonblocking(self):
         """Stop capturing packets in another thread (capture_nonblocking)
         """
@@ -375,7 +374,9 @@ cdef class Sniff(BasePcap):
                 if count > 0:
                     count -= 1
 
-                yield pkt_header.caplen, pkt_header.ts.tv_sec, (<char*>pkt)[:pkt_header.caplen]
+                timestamp = pkt_header.ts.tv_sec + (pkt_header.ts.tv_usec / 1000000.0)
+
+                yield pkt_header.caplen, timestamp, (<char*>pkt)[:pkt_header.caplen]
 
     def stats(self):
         """stats
